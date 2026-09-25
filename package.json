@@ -1,0 +1,12 @@
+{
+  "name": "eventhub-wireframe",
+  "version": "0.1.0",
+  "private": true,
+  "description": "EventHub Jabodetabek — situs wireframe yang bisa diklik",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
