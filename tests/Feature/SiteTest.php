@@ -91,6 +91,21 @@ class SiteTest extends TestCase
         $this->assertStringNotContainsString('?', $share['url']);
     }
 
+    public function test_bundle_page_has_share_button_and_link_preview(): void
+    {
+        $url = url('/wedding/bundle/paket-intimate-wedding-150-pax');
+        $this->get('/wedding/bundle/paket-intimate-wedding-150-pax')
+            ->assertOk()
+            ->assertSee('↗ Bagikan')
+            ->assertSee('value="'.$url.'"', false)
+            ->assertSee('https://wa.me/?text=Paket%20Intimate%20Wedding%20150%20pax', false)
+            ->assertSee('<meta property="og:url" content="'.$url.'">', false);
+
+        $share = Pages::bundle(\App\Catalog\Catalog::bundle('paket-intimate-wedding-150-pax'))['share'];
+        $this->assertStringContainsString('Venue + Catering + Dekorasi, Jakarta Selatan, 85–110 jt, oleh ', $share['text']);
+        $this->assertStringNotContainsString('BDL-', $share['wa']);
+    }
+
     public function test_go_redirects_only_to_whatsapp(): void
     {
         $this->get('/go/VNU-0104?t=wedding')->assertRedirectContains('https://wa.me/')->assertRedirectContains('VNU-0104');

@@ -195,6 +195,7 @@ final class Copy
             'Atribusi EO di atas lipatan: yang membalas WhatsApp adalah EO, bukan tiga vendor.',
             'Kartu anggota tidak punya tombol WhatsApp sendiri. Satu halaman, satu kontak.',
             '"Harga dari [EO], berlaku per [bulan]" membuat harga basi jadi urusan EO.',
+            'Bagikan paket ke pasangan atau keluarga lewat tautan bersih tanpa kode; kodenya ikut saat mereka menghubungi EO dari halaman ini.',
         ],
         'bundles' => ['Bundle adalah format penempatan premium: pengunjung berniat tinggi, satu kontak EO.'],
         'collection' => [

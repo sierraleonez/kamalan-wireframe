@@ -346,11 +346,9 @@ final class Pages
             ? ($v['cateringBebas'] ? 'Sewa venue, catering bebas' : 'Sewa venue, belum termasuk catering')
             : ($cat['unit'] === 'pax' ? 'per pax, menu standar' : 'harga dasar, belum transport');
 
-        $share = self::share($v, $type);
+        $share = self::share(P::vendorPath($v, $type), $v['name'], implode(', ', array_filter([$v['hood'], P::capText($v, $type), 'mulai '.P::priceFrom($v)])));
 
-        return self::base($v['name'], 'detail', [
-            'share' => $share,
-            'og' => ['title' => $v['name'].' · EventHub', 'description' => $share['text'], 'url' => $share['url']],
+        return self::base($v['name'], 'detail', $share + [
             'type' => $type,
             'saveKey' => P::savedKey('v', $type, $v['slug']),
             'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($type)['name'], '/'.$type], [$cat['name'], '/'.$type.'/'.$v['cat']], [$area['name'], P::listingPath($type, $v['cat'], $v['area'])], [$v['name']]]),
@@ -383,18 +381,19 @@ final class Pages
 
     /**
      * Tautan untuk dibagikan ke teman: URL kanonik bersih tanpa kode referral.
-     * Kode referral hanya ikut di tombol hubungi vendor.
+     * Kode referral hanya ikut di tombol hubungi vendor/EO. Ikut membentuk meta
+     * Open Graph supaya pratinjau tautan di WhatsApp rapi.
+     *
+     * @return array{share: array, og: array}
      */
-    public static function share(array $v, string $type): array
+    public static function share(string $path, string $title, string $summary): array
     {
-        $url = url(P::vendorPath($v, $type));
-        $text = $v['name'].' — '.implode(', ', array_filter([$v['hood'], P::capText($v, $type), 'mulai '.P::priceFrom($v)])).'. Lihat di EventHub:';
+        $url = url($path);
+        $text = $title.' — '.$summary.'. Lihat di EventHub:';
 
         return [
-            'url' => $url,
-            'title' => $v['name'],
-            'text' => $text,
-            'wa' => 'https://wa.me/?text='.rawurlencode($text.' '.$url),
+            'share' => ['url' => $url, 'title' => $title, 'text' => $text, 'wa' => 'https://wa.me/?text='.rawurlencode($text.' '.$url)],
+            'og' => ['title' => $title.' · EventHub', 'description' => $text, 'url' => $url],
         ];
     }
 
@@ -420,7 +419,14 @@ final class Pages
         }
         $catList = implode(', ', array_map(fn ($m) => mb_strtolower(Catalog::category($m[0])['name']), $b['members']));
 
-        return self::base($b['title'], 'bundle', [
+        $share = self::share(P::bundlePath($b), $b['title'], implode(', ', array_filter([
+            implode(' + ', array_map(fn ($m) => Catalog::category($m[0])['name'], $b['members'])),
+            Catalog::area($b['area'])['name'],
+            P::bundlePrice($b),
+            $eo ? 'oleh '.$eo['name'] : null,
+        ])));
+
+        return self::base($b['title'], 'bundle', $share + [
             'type' => $b['type'],
             'saveKey' => P::savedKey('b', $b['type'], $b['slug']),
             'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($b['type'])['name'], '/'.$b['type']], ['Bundle', '/'.$b['type'].'/bundle'], [$b['title']]]),

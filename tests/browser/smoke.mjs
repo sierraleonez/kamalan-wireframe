@@ -90,6 +90,11 @@ await p.keyboard.press('Escape');
 await p.locator('.share-pop').waitFor({ state: 'hidden' });
 ok(!(await p.locator('.share-pop').isVisible()), 'Escape menutup popover');
 
+await p.goto(BASE + '/wedding/bundle/paket-intimate-wedding-150-pax');
+await p.locator('.share-btn').click();
+await p.locator('.share-pop').waitFor({ state: 'visible' });
+ok((await p.locator('.share-url').inputValue()) === BASE + '/wedding/bundle/paket-intimate-wedding-150-pax', 'bagikan di halaman bundle');
+
 // 4c. HP dengan sheet bawaan: navigator.share dipakai, popover tidak muncul
 const ns = await browser.newPage();
 await track(ns);

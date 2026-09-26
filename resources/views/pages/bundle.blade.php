@@ -5,7 +5,10 @@
 <div class="split">
   <div class="main-col">
     @if ($p['promo'])<span class="tag paid">Promoted</span>@endif
-    <h1 class="h1">{{ $p['name'] }}</h1>
+    <div class="title-row">
+      <h1 class="h1">{{ $p['name'] }}</h1>
+      <x-share :share="$p['share']" />
+    </div>
     <p class="body">Disusun oleh @if ($p['eo'])<a href="{{ $p['eo']['href'] }}" wire:navigate><b>{{ $p['eo']['name'] }}</b></a>@else<b>EO</b>@endif. {{ $p['lead'] }}</p>
     <h2 class="h2">Isi paket</h2>
     <div class="grid g-3">
