@@ -108,4 +108,33 @@ Alpine.data('savedPage', () => ({
     },
 }));
 
+// Bagikan halaman: sheet bawaan HP (navigator.share) bila ada, selain itu popover
+// dengan WhatsApp, salin tautan, dan kolom tautan untuk disalin manual.
+Alpine.data('shareButton', (share) => ({
+    share,
+    open: false,
+    copied: false,
+    async start() {
+        if (navigator.share) {
+            try {
+                await navigator.share({ title: share.title, text: share.text, url: share.url });
+                return;
+            } catch (e) {
+                if (e && e.name === 'AbortError') return;
+            }
+        }
+        this.open = !this.open;
+    },
+    async copy() {
+        try {
+            await navigator.clipboard.writeText(share.url);
+            this.copied = true;
+            setTimeout(() => (this.copied = false), 2000);
+        } catch (e) {
+            this.$refs.url.focus();
+            this.$refs.url.select();
+        }
+    },
+}));
+
 Livewire.start();

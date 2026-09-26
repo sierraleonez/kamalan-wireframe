@@ -74,6 +74,23 @@ class SiteTest extends TestCase
         $this->assertSame(['area'], array_column($p['chips'], 'key'));
     }
 
+    public function test_detail_page_has_share_button_and_link_preview(): void
+    {
+        $url = url('/wedding/venue/ballroom-kebayoran');
+        $this->get('/wedding/venue/ballroom-kebayoran')
+            ->assertOk()
+            ->assertSee('↗ Bagikan')
+            ->assertSee('value="'.$url.'"', false)
+            ->assertSee('https://wa.me/?text=Ballroom%20Kebayoran', false)
+            ->assertSee('<meta property="og:title" content="Ballroom Kebayoran · EventHub">', false)
+            ->assertSee('<meta property="og:url" content="'.$url.'">', false);
+
+        // Tautan bagikan tidak membawa kode referral; hanya tombol hubungi vendor yang membawanya.
+        $share = Pages::detail('wedding', \App\Catalog\Catalog::vendor('ballroom-kebayoran'))['share'];
+        $this->assertStringNotContainsString('VNU-', $share['wa']);
+        $this->assertStringNotContainsString('?', $share['url']);
+    }
+
     public function test_go_redirects_only_to_whatsapp(): void
     {
         $this->get('/go/VNU-0104?t=wedding')->assertRedirectContains('https://wa.me/')->assertRedirectContains('VNU-0104');

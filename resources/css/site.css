@@ -245,6 +245,12 @@ ul.dash.no li::before{content:"✕"}
   .has-mcta .pen-toggle{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 }
 
+/* ---- bagikan ---- */
+.title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.share{position:relative;flex:0 0 auto;margin-top:8px}
+.popover.share-pop{display:flex;left:auto;right:0;min-width:240px;max-width:calc(100vw - 40px)}
+.share-url{width:100%;border:1.5px dashed var(--ink-3);background:var(--paper);padding:6px 8px;font-size:12px;color:var(--ink-2)}
+
 /* ---- koleksi ---- */
 .locks{margin:6px 0 16px;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
 .ranked{list-style:none;padding:0;margin:0 0 20px}

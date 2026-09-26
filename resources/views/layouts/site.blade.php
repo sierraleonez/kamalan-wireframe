@@ -6,6 +6,15 @@
 <title>{{ $p['title'] }} · EventHub</title>
 <meta name="description" content="Katalog vendor acara Jabodetabek yang dikurasi tim. Langsung hubungi vendor lewat WhatsApp.">
 @if (!empty($p['noindex']))<meta name="robots" content="noindex,follow">@endif
+@if (!empty($p['og']))
+<link rel="canonical" href="{{ $p['og']['url'] }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EventHub">
+<meta property="og:title" content="{{ $p['og']['title'] }}">
+<meta property="og:description" content="{{ $p['og']['description'] }}">
+<meta property="og:url" content="{{ $p['og']['url'] }}">
+<meta name="twitter:card" content="summary">
+@endif
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">

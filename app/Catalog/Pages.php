@@ -346,7 +346,11 @@ final class Pages
             ? ($v['cateringBebas'] ? 'Sewa venue, catering bebas' : 'Sewa venue, belum termasuk catering')
             : ($cat['unit'] === 'pax' ? 'per pax, menu standar' : 'harga dasar, belum transport');
 
+        $share = self::share($v, $type);
+
         return self::base($v['name'], 'detail', [
+            'share' => $share,
+            'og' => ['title' => $v['name'].' · EventHub', 'description' => $share['text'], 'url' => $share['url']],
             'type' => $type,
             'saveKey' => P::savedKey('v', $type, $v['slug']),
             'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($type)['name'], '/'.$type], [$cat['name'], '/'.$type.'/'.$v['cat']], [$area['name'], P::listingPath($type, $v['cat'], $v['area'])], [$v['name']]]),
@@ -375,6 +379,23 @@ final class Pages
             'similarTitle' => $cat['name'].' lain yang mirip',
             'similar' => array_map(fn ($x) => P::vendorCard($x, $type), array_slice($similar, 0, 4)),
         ]);
+    }
+
+    /**
+     * Tautan untuk dibagikan ke teman: URL kanonik bersih tanpa kode referral.
+     * Kode referral hanya ikut di tombol hubungi vendor.
+     */
+    public static function share(array $v, string $type): array
+    {
+        $url = url(P::vendorPath($v, $type));
+        $text = $v['name'].' — '.implode(', ', array_filter([$v['hood'], P::capText($v, $type), 'mulai '.P::priceFrom($v)])).'. Lihat di EventHub:';
+
+        return [
+            'url' => $url,
+            'title' => $v['name'],
+            'text' => $text,
+            'wa' => 'https://wa.me/?text='.rawurlencode($text.' '.$url),
+        ];
     }
 
     /* ---------------- bundle ---------------- */

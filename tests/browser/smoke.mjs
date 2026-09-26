@@ -75,6 +75,33 @@ await p.reload();
 await p.waitForSelector('table.cmp textarea');
 ok((await p.locator('table.cmp textarea').first().inputValue()) === 'tanya DP', 'catatan tersimpan');
 
+// 4b. bagikan (Chromium headless tanpa navigator.share → popover)
+await p.context().grantPermissions(['clipboard-read', 'clipboard-write'], { origin: BASE });
+await p.goto(BASE + '/wedding/venue/ballroom-kebayoran');
+await p.locator('.share-btn').click();
+await p.locator('.share-pop').waitFor({ state: 'visible' });
+ok(await p.locator('.share-pop').isVisible(), 'popover bagikan terbuka');
+ok(/^https:\/\/wa\.me\/\?text=/.test(await p.locator('.share-pop a', { hasText: 'WhatsApp' }).getAttribute('href')), 'bagikan ke WhatsApp');
+await p.locator('.share-pop button', { hasText: 'Salin tautan' }).click();
+await p.locator('.share-pop button', { hasText: 'Tersalin' }).waitFor();
+const copied = await p.evaluate(() => navigator.clipboard.readText());
+ok(copied === BASE + '/wedding/venue/ballroom-kebayoran', 'salin tautan', copied);
+await p.keyboard.press('Escape');
+await p.locator('.share-pop').waitFor({ state: 'hidden' });
+ok(!(await p.locator('.share-pop').isVisible()), 'Escape menutup popover');
+
+// 4c. HP dengan sheet bawaan: navigator.share dipakai, popover tidak muncul
+const ns = await browser.newPage();
+await track(ns);
+await ns.addInitScript(() => { navigator.share = async (d) => { window.__shared = d; }; });
+await ns.goto(BASE + '/wedding/venue/ballroom-kebayoran');
+await ns.locator('.share-btn').click();
+await ns.waitForFunction(() => window.__shared);
+const shared = await ns.evaluate(() => window.__shared);
+ok(shared.url === BASE + '/wedding/venue/ballroom-kebayoran' && shared.title === 'Ballroom Kebayoran', 'navigator.share menerima judul dan URL');
+ok(!(await ns.locator('.share-pop').isVisible()), 'popover tidak muncul bila ada sheet bawaan');
+await ns.close();
+
 // 5. popover kategori
 await p.goto(BASE + '/');
 await p.locator('.cat-pop button').first().click();
@@ -112,6 +139,10 @@ await m.waitForURL(/tipe=outdoor/);
 ok(/tipe=outdoor/.test(m.url()), 'sheet menerapkan filter');
 await m.goto(BASE + '/wedding/venue/ballroom-kebayoran');
 ok(await m.locator('.m-cta').isVisible(), 'bar CTA bawah di detail');
+await m.locator('.share-btn').click();
+await m.locator('.share-pop').waitFor({ state: 'visible' });
+const box = await m.locator('.share-pop').boundingBox();
+ok(box.x >= 0 && box.x + box.width <= 390, 'popover bagikan muat di layar HP', `${Math.round(box.x)}–${Math.round(box.x + box.width)}px`);
 ok((await m.evaluate(() => document.documentElement.scrollWidth)) <= 390, 'tanpa scroll samping di 390px');
 
 ok(errors.length === 0, 'tanpa error JS', errors.join(' | '));

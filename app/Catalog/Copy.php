@@ -188,6 +188,7 @@ final class Copy
             'Kotak harga menempel saat scroll. Pesan WhatsApp ditampilkan apa adanya, termasuk kode referral.',
             'Setiap klik WhatsApp lewat /go supaya nanti bisa dicatat di server sebelum redirect ke wa.me.',
             'Link sosial vendor kecil dan di bawah FAQ. Di sana orang bisa menghubungi vendor tanpa kode.',
+            'Bagikan mengirim tautan bersih tanpa kode referral: ini promosi dari mulut ke mulut. Penerima menghubungi vendor dari halaman ini, dengan kodenya.',
             'Di HP, kotak harga menjadi bar bawah yang selalu terlihat.',
         ],
         'bundle' => [

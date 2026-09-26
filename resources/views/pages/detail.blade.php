@@ -13,7 +13,10 @@
 </div>
 <div class="split">
   <div class="main-col">
-    <h1 class="h1">{{ $p['name'] }}</h1>
+    <div class="title-row">
+      <h1 class="h1">{{ $p['name'] }}</h1>
+      <x-share :share="$p['share']" />
+    </div>
     <div class="tags">
       @foreach ($p['tags'] as $t)
         @if ($t['href'])<a class="tag type" href="{{ $t['href'] }}" wire:navigate>{{ $t['label'] }}</a>
