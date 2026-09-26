@@ -1,0 +1,143 @@
+{
+  "meta": {
+    "date": "2026-09-26T14:23:02.777Z",
+    "runs": 10,
+    "device": "412×823 @2.625x, CPU 4× lebih lambat",
+    "network": "RTT 150 ms, turun 1638 Kbps, naik 675 Kbps",
+    "server": "php -S (4 worker) + opcache, config/route/view cache, di belakang proxy brotli q5; React + node SSR",
+    "fonts": "font Google diblokir untuk kedua frontend"
+  },
+  "frontend": "blade",
+  "server": {
+    "listingMs": 15,
+    "detailMs": 11
+  },
+  "coldListing": {
+    "ttfb": {
+      "median": 19,
+      "p75": 20
+    },
+    "fcp": {
+      "median": 574,
+      "p75": 588
+    },
+    "lcp": {
+      "median": 574,
+      "p75": 588
+    },
+    "tbt": {
+      "median": 130,
+      "p75": 169
+    },
+    "domContentLoaded": {
+      "median": 863,
+      "p75": 898
+    },
+    "load": {
+      "median": 871,
+      "p75": 907
+    },
+    "kbHtml": {
+      "median": 7,
+      "p75": 7
+    },
+    "kbJs": {
+      "median": 61,
+      "p75": 61
+    },
+    "kbCss": {
+      "median": 5,
+      "p75": 5
+    },
+    "kbTotal": {
+      "median": 73,
+      "p75": 73
+    }
+  },
+  "coldDetail": {
+    "ttfb": {
+      "median": 15,
+      "p75": 15
+    },
+    "fcp": {
+      "median": 560,
+      "p75": 568
+    },
+    "lcp": {
+      "median": 560,
+      "p75": 568
+    },
+    "tbt": {
+      "median": 39,
+      "p75": 43
+    },
+    "domContentLoaded": {
+      "median": 775,
+      "p75": 778
+    },
+    "load": {
+      "median": 784,
+      "p75": 787
+    },
+    "kbHtml": {
+      "median": 5,
+      "p75": 5
+    },
+    "kbJs": {
+      "median": 61,
+      "p75": 61
+    },
+    "kbCss": {
+      "median": 5,
+      "p75": 5
+    },
+    "kbTotal": {
+      "median": 71,
+      "p75": 71
+    }
+  },
+  "saveListing": {
+    "saveInteractive": {
+      "median": 899,
+      "p75": 931
+    }
+  },
+  "navigation": {
+    "navDetail": {
+      "median": 443,
+      "p75": 454
+    },
+    "navBack": {
+      "median": 110,
+      "p75": 129
+    },
+    "kbNav": {
+      "median": 10,
+      "p75": 10
+    }
+  },
+  "mobileFilter": {
+    "sheetOpen": {
+      "median": 458,
+      "p75": 534
+    },
+    "sheetCount": {
+      "median": 294,
+      "p75": 305
+    },
+    "sheetApply": {
+      "median": 584,
+      "p75": 599
+    },
+    "sortChange": {
+      "median": 284,
+      "p75": 296
+    }
+  },
+  "saveAndCompare": {
+    "openSaved": {
+      "median": 951,
+      "p75": 954
+    }
+  }
+}
