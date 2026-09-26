@@ -18,9 +18,9 @@
     <h2 class="h2">Belum termasuk</h2>
     <ul class="dash no">@foreach ($p['excluded'] as $x)<li>{{ $x }}</li>@endforeach</ul>
   </div>
-  <x-sticky-box :box="$p['box']" :k="$p['key']" :name="$p['name']" />
+  <x-sticky-box :box="$p['box']" :k="$p['saveKey']" :name="$p['name']" />
 </div>
 @endsection
 @section('mcta')
-<x-m-cta :mcta="$p['mcta']" :wa="$p['box']['wa']" :k="$p['key']" :name="$p['name']" />
+<x-m-cta :mcta="$p['mcta']" :wa="$p['box']['wa']" :k="$p['saveKey']" :name="$p['name']" />
 @endsection

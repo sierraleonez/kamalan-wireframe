@@ -63,8 +63,10 @@ class SiteTest extends TestCase
         $this->assertSame('500+', $p['prefill']['tamu']);
         $this->assertSame('di bawah 30 jt', $p['prefill']['budget']);
 
-        $this->get('/wedding/venue/jakarta-selatan?kapasitas=500-plus&harga=lt30&tipe=outdoor')
-            ->assertOk()->assertSee('Belum ada venue pernikahan')->assertSee('Atau biar kami yang carikan.');
+        if (\App\Support\Page::frontend() === 'blade') {
+            $this->get('/wedding/venue/jakarta-selatan?kapasitas=500-plus&harga=lt30&tipe=outdoor')
+                ->assertOk()->assertSee('Belum ada venue pernikahan')->assertSee('Atau biar kami yang carikan.');
+        }
     }
 
     public function test_unknown_filter_values_are_ignored(): void

@@ -83,7 +83,7 @@
     <section class="band open">
       <h2 class="band-title">Atau biar kami yang carikan.</h2>
       <p>Isian di bawah sudah terisi dari filtermu. Tambahkan tanggal dan nomor WhatsApp, kami kabari dalam 2 hari kerja.</p>
-      <x-demand-form :pre="$p['prefill']" id="zf" :asal="\App\Catalog\Present::listingPath($p['type'], $p['cat'], $p['area'], $p['query'])" />
+      <x-demand-form :pre="$p['prefill']" id="zf" :asal="$p['asal']" :options="$p['formOptions']" />
     </section>
   @endif
 

@@ -191,6 +191,8 @@ final class Pages
             ] : null,
             'relaxations' => ($zero || $thin) ? self::relaxations($type, $cat, $area, $defs, $filterQ, $total, $q['urut'] ?? null) : [],
             'prefill' => ($zero || $thin) ? self::prefill($type, $cat, $area, $defs, $q) : null,
+            'formOptions' => ($zero || $thin) ? self::formOptions() : null,
+            'asal' => P::listingPath($type, $cat, $area, $q),
             'sideLinks' => $zero ? [] : self::sideLinks($type, $cat, $area, $defs),
             'bandHref' => '/kasih-tau-kami?'.http_build_query(array_filter(['jenis' => $type, 'kategori' => $cat, 'area' => $area])),
         ]);
@@ -347,7 +349,7 @@ final class Pages
 
         return self::base($v['name'], 'detail', [
             'type' => $type,
-            'key' => P::savedKey('v', $type, $v['slug']),
+            'saveKey' => P::savedKey('v', $type, $v['slug']),
             'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($type)['name'], '/'.$type], [$cat['name'], '/'.$type.'/'.$v['cat']], [$area['name'], P::listingPath($type, $v['cat'], $v['area'])], [$v['name']]]),
             'name' => $v['name'],
             'photos' => $v['photos'],
@@ -400,7 +402,7 @@ final class Pages
 
         return self::base($b['title'], 'bundle', [
             'type' => $b['type'],
-            'key' => P::savedKey('b', $b['type'], $b['slug']),
+            'saveKey' => P::savedKey('b', $b['type'], $b['slug']),
             'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($b['type'])['name'], '/'.$b['type']], ['Bundle', '/'.$b['type'].'/bundle'], [$b['title']]]),
             'name' => $b['title'],
             'promo' => ! empty($b['promoted']),

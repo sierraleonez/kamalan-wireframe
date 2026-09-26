@@ -19,6 +19,10 @@ final class Page
     public static function render(string $component, array $props, int $status = 200): Response
     {
         if (self::frontend() === 'react') {
+            // Halaman 404 tanpa rute tidak melewati middleware web, jadi atur di sini juga.
+            \Inertia\Inertia::setRootView('react');
+            \Inertia\Inertia::share(\App\Http\Middleware\HandleInertiaRequests::siteProps(request()));
+
             return \Inertia\Inertia::render($component, $props)->toResponse(request())->setStatusCode($status);
         }
 

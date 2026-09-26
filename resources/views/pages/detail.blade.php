@@ -29,7 +29,7 @@
     <div class="faqs">@foreach ($p['faqs'] as $f)<details><summary>{{ $f['q'] }}</summary><p>{{ $f['a'] }}</p></details>@endforeach</div>
     <p class="social">Portofolio lain: <a href="{{ $p['social']['igHref'] }}" target="_blank" rel="noopener nofollow">Instagram {{ $p['social']['ig'] }}</a> · <a href="{{ $p['social']['webHref'] }}" target="_blank" rel="noopener nofollow">{{ $p['social']['web'] }}</a></p>
   </div>
-  <x-sticky-box :box="$p['box']" :k="$p['key']" :name="$p['name']" />
+  <x-sticky-box :box="$p['box']" :k="$p['saveKey']" :name="$p['name']" />
 </div>
 @if ($p['bundles'])
   <x-sec :title="$p['bundlesTitle']"><x-cards :items="$p['bundles']" cols="g-2" cta="Hubungi EO" /></x-sec>
@@ -37,5 +37,5 @@
 <x-sec :title="$p['similarTitle']"><x-cards :items="$p['similar']" cols="g-4" /></x-sec>
 @endsection
 @section('mcta')
-<x-m-cta :mcta="$p['mcta']" :wa="$p['box']['wa']" :k="$p['key']" :name="$p['name']" />
+<x-m-cta :mcta="$p['mcta']" :wa="$p['box']['wa']" :k="$p['saveKey']" :name="$p['name']" />
 @endsection
