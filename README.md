@@ -1,68 +1,62 @@
-# EventHub Jabodetabek — situs wireframe
+# EventHub Jabodetabek — bake-off frontend
 
-Katalog vendor acara Jabodetabek yang dikurasi tim, dibangun sebagai wireframe yang bisa diklik:
-gaya pensil di kertas, placeholder putus-putus, dan satu lapis catatan pena biru (tombol **✎ Catatan**).
+Katalog vendor acara Jabodetabek. Repo ini sedang dipakai untuk **memilih stack frontend**:
+situs publik yang sama dibangun dua kali di atas satu aplikasi Laravel, lalu dibandingkan.
 
-Tanpa akun, tanpa dashboard vendor, tanpa pembayaran. Satu-satunya konversi adalah klik ke WhatsApp.
+| Frontend | Status | Isi |
+| --- | --- | --- |
+| `blade` | selesai | Blade + Livewire 3 (listing, filter, sheet) + Alpine (♡ tersimpan, popover, catatan) + `wire:navigate` |
+| `react` | berikutnya | Inertia 2 + React + SSR |
+
+Backend (database, Filament, cache, pencatatan klik) sengaja belum dibuat. Data dibaca dari
+`resources/data/catalog.json`, hasil ekspor prototipe.
 
 ## Menjalankan
 
 ```sh
-npm start            # atau: node server.js
-# buka http://localhost:3000
+composer install
+npm install
+cp .env.example .env && php artisan key:generate
+npm run build
+php artisan serve          # http://127.0.0.1:8000
 ```
 
-Butuh Node 18+. Tidak ada dependensi dan tidak ada langkah build. `PORT=8080 npm start` untuk port lain.
+Pilih frontend lewat `FRONTEND=blade|react` di `.env`. Tidak perlu database.
 
 ## Rute
 
-| Rute | Halaman |
-| --- | --- |
-| `/` | Beranda |
-| `/wedding`, `/corporate` | Beranda cabang |
-| `/:jenis/:kategori` | Listing seluruh Jabodetabek, mis. `/wedding/venue` |
-| `/:jenis/:kategori/:area` | Listing per area, mis. `/wedding/venue/jakarta-selatan`, `/corporate/eo/tangerang` |
-| `/:jenis/:kategori/:vendor` | Detail vendor, mis. `/wedding/venue/ballroom-kebayoran` |
-| `/:jenis/bundle` | Daftar bundle satu cabang |
-| `/:jenis/bundle/:paket` | Detail bundle, mis. `/wedding/bundle/paket-intimate-wedding-150-pax` |
-| `/bundle` | Semua bundle |
-| `/koleksi`, `/koleksi/:slug` | Koleksi editorial, mis. `/koleksi/rooftop-jaksel-dibawah-50jt` |
-| `/tersimpan` | Perbandingan item yang disimpan (localStorage) |
-| `/kasih-tau-kami` | Form "ngga nemu" |
+Sama dengan prototipe: `/`, `/wedding`, `/corporate`, `/{jenis}/{kategori}[/{area}]`,
+`/{jenis}/{kategori}/{vendor}`, `/{jenis}/bundle[/{paket}]`, `/bundle`, `/koleksi[/{slug}]`,
+`/tersimpan`, `/kasih-tau-kami`. Filter listing ada di query string, mis.
+`/wedding/venue/jakarta-selatan?kapasitas=500-plus&harga=lt30&tipe=outdoor` (hasil kosong).
 
-Filter listing ada di query string, jadi setiap keadaan bisa dibagikan, termasuk hasil kosong:
-`/wedding/venue/jakarta-selatan?kapasitas=500-plus&harga=lt30&tipe=outdoor`.
-
-Kategori wedding: venue, catering, eo, hiburan, dekorasi, dokumentasi.
-Kategori corporate: venue, catering, eo, av-produksi, hiburan.
-Area: jakarta-selatan, jakarta-pusat, jakarta-barat, jakarta-timur, tangerang, tangerang-selatan, bekasi, depok, bogor.
-
-## Server
-
-`server.js` adalah server statis kecil:
-
-- `/assets/*` dan `/docs/*` dilayani sebagai file.
-- `/go?ref=…&to=…` mencatat klik WhatsApp ke `data/clicks.jsonl` lalu redirect. Tujuan hanya boleh `https://wa.me/…`.
-- `POST /api/kebutuhan` menyimpan isian form ke `data/kebutuhan.jsonl`.
-- Rute lain mengembalikan `index.html`; routing terjadi di browser.
-
-Di hosting statis (Netlify, Vercel, dan sejenisnya), atur semua rute agar kembali ke `index.html`.
-Pencatatan klik dan form hanya jalan dengan `server.js`; tanpanya, klik langsung ke wa.me
-dan form hanya tersimpan di browser.
-
-Dibuka dari `file://` atau di dalam iframe, situs memakai routing di memori dan menampilkan bilah alamat kecil di atas.
+Pendukung: `/go/{ref}` meneruskan ke wa.me, `/tersimpan/data?keys=` (JSON tabel banding),
+`/{jenis}/{kategori}/hitung` (JSON jumlah hasil).
 
 ## Struktur
 
 ```
-index.html          kerangka halaman
-assets/data.js      data contoh: area, kategori, vendor, bundle, koleksi, definisi filter
-assets/app.js       router, tampilan, interaksi
-assets/styles.css   gaya wireframe
-server.js           server statis + pencatat klik
-docs/wireframes.html  lembar sketsa asli, satu halaman per rute
+app/Catalog/          data + logika bersama kedua frontend
+  Catalog.php         baca catalog.json (di-cache sebagai PHP di bootstrap/cache)
+  Filters.php         definisi filter per jenis × kategori
+  Pages.php           props siap-tampil per halaman (dipakai Blade dan React)
+  Present.php, Copy.php  format, kartu, tulisan, catatan pena
+app/Support/Page.php  render Blade atau Inertia sesuai FRONTEND
+app/Livewire/Listing.php + resources/views/livewire/listing.blade.php
+resources/views/      layout, komponen, halaman Blade
+resources/css/site.css  gaya wireframe, dipakai kedua frontend
+resources/js/blade.js   Livewire + Alpine store (tersimpan, catatan)
+prototype/            prototipe JS asli + export.js (sumber catalog.json)
+docs/wireframes.html  lembar sketsa
 ```
 
-Data vendor adalah contoh. Venue wedding Jakarta Selatan ditulis tangan; sisanya dibangkitkan
-deterministik dari `data.js`, jadi slug dan jumlahnya stabil di setiap muat ulang.
-Nomor WhatsApp vendor adalah nomor palsu.
+Data diperbarui dengan `node prototype/export.js`.
+
+## Tes
+
+```sh
+php artisan test                                   # rute, filter, hasil kosong, form, komponen Livewire
+BASE=http://127.0.0.1:8000 node tests/browser/smoke.mjs   # alur di browser, desktop + mobile
+```
+
+Smoke test browser memakai selektor yang sama untuk kedua frontend.
