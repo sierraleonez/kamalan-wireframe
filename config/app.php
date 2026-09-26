@@ -28,12 +28,6 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
-    /*
-    | Frontend publik yang dirender: 'blade' (Blade + Livewire + Alpine)
-    | atau 'react' (Inertia + React). Backend dan data sama persis.
-    */
-
-    'frontend' => env('FRONTEND', 'blade'),
 
     /*
     |--------------------------------------------------------------------------

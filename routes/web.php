@@ -20,6 +20,5 @@ Route::get('/go/{ref}', [S::class, 'go'])->where('ref', '[A-Z]{3}-[0-9]{4}');
 Route::get('/{type}', [S::class, 'branch'])->where('type', $type);
 Route::get('/{type}/bundle', [S::class, 'bundles'])->where('type', $type);
 Route::get('/{type}/bundle/{slug}', [S::class, 'bundle'])->where(['type' => $type, 'slug' => $slug]);
-Route::get('/{type}/{cat}/hitung', [S::class, 'count'])->where(['type' => $type, 'cat' => $slug]);
 Route::get('/{type}/{cat}', [S::class, 'listing'])->where(['type' => $type, 'cat' => $slug]);
 Route::get('/{type}/{cat}/{slug}', [S::class, 'areaOrVendor'])->where(['type' => $type, 'cat' => $slug, 'slug' => $slug]);

@@ -3,8 +3,8 @@
 namespace App\Catalog;
 
 /**
- * Format tampilan dan model kartu. Semua teks siap-tampil dibentuk di sini supaya
- * frontend Blade dan React menerima data yang identik.
+ * Format tampilan dan model kartu. Semua teks siap-tampil dibentuk di sini,
+ * view Blade hanya merender.
  */
 final class Present
 {

@@ -63,10 +63,8 @@ class SiteTest extends TestCase
         $this->assertSame('500+', $p['prefill']['tamu']);
         $this->assertSame('di bawah 30 jt', $p['prefill']['budget']);
 
-        if (\App\Support\Page::frontend() === 'blade') {
-            $this->get('/wedding/venue/jakarta-selatan?kapasitas=500-plus&harga=lt30&tipe=outdoor')
-                ->assertOk()->assertSee('Belum ada venue pernikahan')->assertSee('Atau biar kami yang carikan.');
-        }
+        $this->get('/wedding/venue/jakarta-selatan?kapasitas=500-plus&harga=lt30&tipe=outdoor')
+            ->assertOk()->assertSee('Belum ada venue pernikahan')->assertSee('Atau biar kami yang carikan.');
     }
 
     public function test_unknown_filter_values_are_ignored(): void
@@ -82,9 +80,9 @@ class SiteTest extends TestCase
         $this->get('/go/XXX-0000')->assertNotFound();
     }
 
-    public function test_count_endpoint(): void
+    public function test_unknown_listing_subpath_is_404(): void
     {
-        $this->getJson('/wedding/venue/hitung?area=jakarta-selatan&tipe=outdoor')->assertOk()->assertJson(['count' => 10]);
+        $this->get('/wedding/venue/hitung')->assertNotFound();
     }
 
     public function test_saved_data_returns_cards_for_valid_keys_only(): void

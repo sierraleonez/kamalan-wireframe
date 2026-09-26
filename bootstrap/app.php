@@ -11,15 +11,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [App\Http\Middleware\HandleInertiaRequests::class]);
+        //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        // 404 memakai tata letak situs di kedua frontend.
+        // 404 memakai tata letak situs.
         $exceptions->render(function (Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, Illuminate\Http\Request $request) {
             if ($request->expectsJson() || $request->is('livewire/*')) {
                 return null;
             }
 
-            return App\Support\Page::render('NotFound', App\Catalog\Pages::notFound(), 404);
+            return response()->view('pages.not-found', ['p' => App\Catalog\Pages::notFound()], 404);
         });
     })->create();

@@ -1,12 +1,13 @@
-// Benchmark frontend: Blade (Livewire + Alpine) vs React (Inertia + SSR).
+// Benchmark performa situs publik (Blade + Livewire + Alpine).
 //
 //   npm run build                       # sekali, sebelum benchmark
-//   node bench/run.mjs                  # kedua frontend, 10 run per skenario
-//   node bench/run.mjs --frontend=react --runs=5
+//   node bench/run.mjs                  # 10 run per skenario
+//   node bench/run.mjs --runs=5
 //
-// Tiap frontend dijalankan bergantian dalam mode produksi (config/route/view cache,
-// opcache) di server PHP yang sama, lalu diukur dengan Chromium yang meniru HP kelas
-// menengah: CPU 4× lebih lambat dan jaringan "slow 4G" gaya Lighthouse.
+// Situs dijalankan dalam mode produksi (config/route/view cache, opcache), lalu diukur
+// dengan Chromium yang meniru HP kelas menengah: CPU 4× lebih lambat dan jaringan
+// "slow 4G" gaya Lighthouse. Perbandingan Blade vs React yang dulu memakai harness ini:
+// docs/decisions/2026-09-frontend-bench/.
 import { execSync, spawn } from 'node:child_process';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import http from 'node:http';
@@ -22,7 +23,6 @@ const BASE = `http://127.0.0.1:${PORT}`;
 const ORIGIN = `http://127.0.0.1:${PHP_PORT}`;
 const args = Object.fromEntries(process.argv.slice(2).map((a) => a.replace(/^--/, '').split('=')));
 const RUNS = Number(args.runs || 10);
-const FRONTENDS = args.frontend && args.frontend !== 'both' ? [args.frontend] : ['blade', 'react'];
 
 const LISTING = '/wedding/venue/jakarta-selatan';
 const DETAIL = '/wedding/venue/ballroom-kebayoran';
@@ -74,7 +74,7 @@ async function waitFor(url, tries = 100) {
 /* ---------------- server ---------------- */
 
 // php -S tidak mengompres respons. Produksi selalu memakai gzip/brotli (nginx atau CDN),
-// jadi proxy kecil ini mengompres teks dengan brotli q5 untuk kedua frontend secara sama.
+// jadi proxy kecil ini mengompres teks dengan brotli q5.
 function startProxy() {
     const server = http.createServer((req, res) => {
         const up = http.request({ host: '127.0.0.1', port: PHP_PORT, path: req.url, method: req.method, headers: req.headers }, (ur) => {
@@ -100,15 +100,11 @@ function startProxy() {
     return new Promise((r) => server.listen(PORT, '127.0.0.1', () => r(server)));
 }
 
-async function startServers(frontend) {
-    const env = { ...process.env, APP_ENV: 'production', APP_DEBUG: 'false', LOG_LEVEL: 'error', FRONTEND: frontend, PHP_CLI_SERVER_WORKERS: '4' };
+async function startServers() {
+    const env = { ...process.env, APP_ENV: 'production', APP_DEBUG: 'false', LOG_LEVEL: 'error', PHP_CLI_SERVER_WORKERS: '4' };
     sh('php artisan optimize:clear', env);
     sh('php artisan config:cache && php artisan route:cache && php artisan view:cache', env);
     const procs = [];
-    if (frontend === 'react') {
-        procs.push(spawn('node', ['bootstrap/ssr/ssr.js'], { cwd: ROOT, env, stdio: 'ignore' }));
-        await waitFor('http://127.0.0.1:13714/health');
-    }
     procs.push(
         spawn('php', ['-d', 'opcache.enable_cli=1', '-d', 'opcache.validate_timestamps=0', '-S', `127.0.0.1:${PHP_PORT}`, join(ROOT, 'vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php')], {
             cwd: join(ROOT, 'public'),
@@ -274,7 +270,7 @@ async function saveAndCompare(browser) {
     return { openSaved };
 }
 
-/** Waktu render server tanpa throttling (PHP, ditambah SSR untuk React). */
+/** Waktu render server tanpa throttling. */
 async function serverTime(path, n = 40) {
     const xs = [];
     for (let i = 0; i < n; i++) {
@@ -287,43 +283,39 @@ async function serverTime(path, n = 40) {
 }
 
 /* ---------------- main ---------------- */
-if (!existsSync(join(ROOT, 'public/build/manifest.json')) || !existsSync(join(ROOT, 'bootstrap/ssr/ssr.js'))) {
-    console.error('Jalankan `npm run build` dulu (client + SSR).');
+if (!existsSync(join(ROOT, 'public/build/manifest.json'))) {
+    console.error('Jalankan `npm run build` dulu.');
     process.exit(1);
 }
 
-const results = {};
+let results = null;
 const browser = await chromium.launch();
 try {
-    for (const frontend of FRONTENDS) {
-        console.log(`\n== ${frontend} ==`);
-        const server = await startServers(frontend);
-        try {
-            for (const p of [LISTING, DETAIL]) for (let i = 0; i < 5; i++) await (await fetch(BASE + p)).text(); // pemanasan
+    const server = await startServers();
+    try {
+        for (const p of [LISTING, DETAIL]) for (let i = 0; i < 5; i++) await (await fetch(BASE + p)).text(); // pemanasan
 
-            const server_ = { listingMs: round(await serverTime(LISTING)), detailMs: round(await serverTime(DETAIL)) };
-            console.log('server', server_);
+        const server_ = { listingMs: round(await serverTime(LISTING)), detailMs: round(await serverTime(DETAIL)) };
+        console.log('server', server_);
 
-            const scenarios = {
-                coldListing: () => coldLoad(browser, LISTING),
-                coldDetail: () => coldLoad(browser, DETAIL),
-                saveListing: () => timeToSave(browser, LISTING),
-                navigation: () => navigation(browser),
-                mobileFilter: () => mobileFilter(browser),
-                saveAndCompare: () => saveAndCompare(browser),
-            };
-            const out = { server: server_ };
-            for (const [name, fn] of Object.entries(scenarios)) {
-                const runs = [];
-                for (let i = 0; i < RUNS; i++) runs.push(await fn());
-                out[name] = summarize(runs);
-                console.log(name, Object.fromEntries(Object.entries(out[name]).map(([k, v]) => [k, v.median])));
-            }
-            results[frontend] = out;
-        } finally {
-            server.stop();
-            await sleep(500);
+        const scenarios = {
+            coldListing: () => coldLoad(browser, LISTING),
+            coldDetail: () => coldLoad(browser, DETAIL),
+            saveListing: () => timeToSave(browser, LISTING),
+            navigation: () => navigation(browser),
+            mobileFilter: () => mobileFilter(browser),
+            saveAndCompare: () => saveAndCompare(browser),
+        };
+        results = { server: server_ };
+        for (const [name, fn] of Object.entries(scenarios)) {
+            const runs = [];
+            for (let i = 0; i < RUNS; i++) runs.push(await fn());
+            results[name] = summarize(runs);
+            console.log(name, Object.fromEntries(Object.entries(results[name]).map(([k, v]) => [k, v.median])));
         }
+    } finally {
+        server.stop();
+        await sleep(500);
     }
 } finally {
     await browser.close();
@@ -335,9 +327,9 @@ const meta = {
     runs: RUNS,
     device: `${DEVICE.viewport.width}×${DEVICE.viewport.height} @${DEVICE.deviceScaleFactor}x, CPU ${CPU_SLOWDOWN}× lebih lambat`,
     network: `RTT ${NETWORK.latency} ms, turun ${Math.round((NETWORK.downloadThroughput * 8) / 1024)} Kbps, naik ${Math.round((NETWORK.uploadThroughput * 8) / 1024)} Kbps`,
-    server: 'php -S (4 worker) + opcache, config/route/view cache, di belakang proxy brotli q5; React + node SSR',
-    fonts: 'font Google diblokir untuk kedua frontend',
+    server: 'php -S (4 worker) + opcache, config/route/view cache, di belakang proxy brotli q5',
+    fonts: 'font Google diblokir',
 };
 mkdirSync(join(ROOT, 'bench/results'), { recursive: true });
-for (const [f, r] of Object.entries(results)) writeFileSync(join(ROOT, `bench/results/${f}.json`), JSON.stringify({ meta, frontend: f, ...r }, null, 2) + '\n');
+writeFileSync(join(ROOT, 'bench/results/blade.json'), JSON.stringify({ meta, ...results }, null, 2) + '\n');
 console.log('\nHasil ditulis ke bench/results/. Buat tabel: node bench/report.mjs');

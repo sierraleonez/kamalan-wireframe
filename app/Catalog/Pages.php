@@ -5,8 +5,7 @@ namespace App\Catalog;
 use App\Catalog\Present as P;
 
 /**
- * Props per halaman. Satu sumber untuk kedua frontend: Blade merendernya
- * langsung, React menerimanya lewat Inertia.
+ * Props siap-tampil per halaman, dirender oleh view Blade di resources/views/pages.
  */
 final class Pages
 {

@@ -1,4 +1,4 @@
-// Frontend Blade: Livewire (dengan Alpine) di-bundle manual lewat Vite.
+// Livewire (dengan Alpine) di-bundle manual lewat Vite.
 import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
 
 function read(key, fallback) {

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Catalog\Catalog;
 use App\Catalog\Pages;
 use App\Catalog\Present;
-use App\Support\Page;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,23 +13,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SiteController extends Controller
 {
+    private function page(string $view, array $props, int $status = 200): Response
+    {
+        return response()->view('pages.'.$view, ['p' => $props], $status);
+    }
+
     public function home(): Response
     {
-        return Page::render('Home', Pages::home());
+        return $this->page('home', Pages::home());
     }
 
     public function branch(string $type): Response
     {
-        return Page::render('Branch', Pages::branch($type));
+        return $this->page('branch', Pages::branch($type));
     }
 
     public function listing(Request $request, string $type, string $cat, ?string $area = null): Response
     {
         abort_unless(Catalog::hasCategory($type, $cat), 404);
 
-        $shown = max(Pages::PER_PAGE, min(200, (int) $request->query('tampil', Pages::PER_PAGE)));
-
-        return Page::render('Listing', Pages::listing($type, $cat, $area, $request->query(), $shown));
+        return $this->page('listing', Pages::listing($type, $cat, $area, $request->query()));
     }
 
     /** /{type}/{cat}/{slug}: slug area menang atas slug vendor. */
@@ -45,21 +47,13 @@ class SiteController extends Controller
         $v = Catalog::vendor($slug);
         abort_unless($v && $v['cat'] === $cat && in_array($type, $v['types'], true), 404);
 
-        return Page::render('Detail', Pages::detail($type, $v));
+        return $this->page('detail', Pages::detail($type, $v));
     }
 
-    /** Jumlah hasil untuk sheet filter mobile (dipakai frontend React). */
-    public function count(Request $request, string $type, string $cat): JsonResponse
-    {
-        abort_unless(Catalog::hasCategory($type, $cat), 404);
-        $area = Catalog::area($request->query('area')) ? $request->query('area') : null;
-
-        return response()->json(['count' => Pages::countFor($type, $cat, $area, Pages::listingQuery($type, $cat, $request->query()))]);
-    }
 
     public function bundles(?string $type = null): Response
     {
-        return Page::render('Bundles', Pages::bundles($type));
+        return $this->page('bundles', Pages::bundles($type));
     }
 
     public function bundle(string $type, string $slug): Response
@@ -67,12 +61,12 @@ class SiteController extends Controller
         $b = Catalog::bundle($slug);
         abort_unless($b && $b['type'] === $type, 404);
 
-        return Page::render('Bundle', Pages::bundle($b));
+        return $this->page('bundle', Pages::bundle($b));
     }
 
     public function collections(): Response
     {
-        return Page::render('Collections', Pages::collections());
+        return $this->page('collections', Pages::collections());
     }
 
     public function collection(string $slug): Response
@@ -80,12 +74,12 @@ class SiteController extends Controller
         $c = Catalog::collection($slug);
         abort_unless($c, 404);
 
-        return Page::render('Collection', Pages::collection($c));
+        return $this->page('collection', Pages::collection($c));
     }
 
     public function saved(): Response
     {
-        return Page::render('Saved', Pages::saved());
+        return $this->page('saved', Pages::saved());
     }
 
     public function savedData(Request $request): JsonResponse
@@ -97,7 +91,7 @@ class SiteController extends Controller
 
     public function form(Request $request): Response
     {
-        return Page::render('Form', Pages::form($request->query()));
+        return $this->page('form', Pages::form($request->query()));
     }
 
     public function submit(Request $request): RedirectResponse
@@ -161,7 +155,7 @@ class SiteController extends Controller
 
     public function success(Request $request): Response
     {
-        return Page::render('Success', Pages::success($request->session()->get('sent')));
+        return $this->page('success', Pages::success($request->session()->get('sent')));
     }
 
     /** Teruskan ke WhatsApp. Nanti di sini klik dicatat sebelum redirect. */

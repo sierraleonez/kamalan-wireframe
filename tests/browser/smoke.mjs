@@ -1,4 +1,4 @@
-// Smoke test browser, dipakai untuk kedua frontend (selektor sama).
+// Smoke test browser: alur utama di desktop dan HP.
 // Pakai: BASE=http://127.0.0.1:8000 node tests/browser/smoke.mjs
 import { chromium } from 'playwright';
 

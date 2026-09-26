@@ -1,4 +1,21 @@
-# Hasil benchmark: Blade vs React
+# Keputusan: frontend Blade, bukan React (September 2026)
+
+## Keputusan
+
+Situs publik memakai **Blade + Livewire 3 + Alpine**. Versi React (Inertia 2 + SSR) dibangun dengan
+props dan rute yang sama untuk perbandingan, lalu dihapus.
+
+Alasannya ada di muat pertama di HP kelas menengah, tempat kebanyakan pengunjung datang dari Google
+atau Instagram: tombol ♡ sudah merespons 0,7 detik lebih cepat, JavaScript yang diunduh kurang dari
+setengahnya, dan tidak ada proses SSR Node yang harus dijaga. React unggul saat membuka sheet filter
+dan kembali ke halaman sebelumnya; selisih sheet filter bisa ditutup dengan memindahkan state sheet
+ke Alpine. Fitur yang benar-benar aplikasi klien (kalender ketersediaan, obrolan, offline) bisa
+memakai React di area terpisah nanti tanpa mengubah katalog publik.
+
+Data mentah: `blade.json` dan `react.json` di folder ini. Kode React ada di riwayat git
+(commit "Add the React frontend on Inertia 2 with SSR").
+
+## Hasil benchmark
 
 - Tanggal: 2026-09-26 · 10 run per skenario, nilai median (p75 dalam kurung)
 - Perangkat: 412×823 @2.625x, CPU 4× lebih lambat
@@ -8,14 +25,14 @@
 
 Kolom "React vs Blade": positif berarti React lebih lambat atau lebih besar.
 
-## Server (tanpa throttling)
+### Server (tanpa throttling)
 
 | | Blade | React | React vs Blade |
 |---|---|---|---|
 | Render listing | 15 ms | 20 ms | +33% |
 | Render detail | 11 ms | 17 ms | +55% |
 
-## Muat dingin listing (HP)
+### Muat dingin listing (HP)
 
 | | Blade | React | React vs Blade |
 |---|---|---|---|
@@ -29,7 +46,7 @@ Kolom "React vs Blade": positif berarti React lebih lambat atau lebih besar.
 | CSS | 5 KB (5 KB) | 5 KB (5 KB) | ≈ |
 | Total transfer | 73 KB (73 KB) | 149 KB (149 KB) | +104% |
 
-## Muat dingin detail (HP)
+### Muat dingin detail (HP)
 
 | | Blade | React | React vs Blade |
 |---|---|---|---|
@@ -40,13 +57,13 @@ Kolom "React vs Blade": positif berarti React lebih lambat atau lebih besar.
 | JavaScript | 61 KB (61 KB) | 135 KB (135 KB) | +121% |
 | Total transfer | 71 KB (71 KB) | 145 KB (145 KB) | +104% |
 
-## Interaktivitas
+### Interaktivitas
 
 | | Blade | React | React vs Blade |
 |---|---|---|---|
 | ♡ pertama merespons (dari awal navigasi) | 899 ms (931 ms) | 1.556 ms (1.581 ms) | +73% |
 
-## Navigasi di dalam situs
+### Navigasi di dalam situs
 
 | | Blade | React | React vs Blade |
 |---|---|---|---|
@@ -54,7 +71,7 @@ Kolom "React vs Blade": positif berarti React lebih lambat atau lebih besar.
 | Kembali ke listing | 110 ms (129 ms) | 36 ms (38 ms) | -67% |
 | Transfer saat pindah | 10 KB (10 KB) | 5 KB (5 KB) | -50% |
 
-## Filter di HP
+### Filter di HP
 
 | | Blade | React | React vs Blade |
 |---|---|---|---|
@@ -63,7 +80,7 @@ Kolom "React vs Blade": positif berarti React lebih lambat atau lebih besar.
 | Terapkan filter | 584 ms (599 ms) | 317 ms (327 ms) | -46% |
 | Ganti urutan | 284 ms (296 ms) | 272 ms (276 ms) | -4% |
 
-## Tersimpan
+### Tersimpan
 
 | | Blade | React | React vs Blade |
 |---|---|---|---|

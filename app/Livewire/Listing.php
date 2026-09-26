@@ -11,7 +11,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 
 /**
- * Listing kategori (frontend Blade). Filter tersimpan di query string lewat #[Url],
+ * Listing kategori. Filter tersimpan di query string lewat #[Url],
  * jadi setiap keadaan, termasuk hasil kosong, tetap bisa dibagikan.
  */
 class Listing extends Component
