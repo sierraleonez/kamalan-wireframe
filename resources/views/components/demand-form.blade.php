@@ -1,6 +1,6 @@
 @props(['pre', 'id', 'asal' => '', 'options' => \App\Catalog\Pages::formOptions()])
 @php($v = fn ($k) => old($k, $pre[$k] ?? ''))
-<form class="demand" method="post" action="/kasih-tau-kami" novalidate>
+<form class="form demand" method="post" action="/kasih-tau-kami" novalidate>
   @csrf
   <input type="hidden" name="kategori" value="{{ $v('kategori') }}">
   <input type="hidden" name="asal" value="{{ old('asal', $asal) }}">
@@ -24,5 +24,5 @@
   @if ($errors->any())
     <p class="form-error" role="alert">Belum bisa dikirim: {{ implode(' ', $errors->all()) }}</p>
   @endif
-  <div class="form-actions"><button class="btn big" type="submit">Kirim kebutuhan</button><span class="muted">Nomormu hanya dipakai untuk membalas permintaan ini.</span></div>
+  <div class="form-actions"><button class="btn btn-navy" type="submit">Kirim kebutuhan</button><span class="muted">Nomormu hanya dipakai untuk membalas permintaan ini.</span></div>
 </form>

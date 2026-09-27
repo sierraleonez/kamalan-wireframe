@@ -231,7 +231,7 @@ async function mobileFilter(browser) {
     await settle(page);
 
     let t = Date.now();
-    await page.locator('.mbar-btn').click();
+    await page.locator('.mfbar-btn').click();
     await page.locator('.sheet').waitFor();
     const sheetOpen = Date.now() - t;
 
@@ -242,13 +242,13 @@ async function mobileFilter(browser) {
 
     t = Date.now();
     await page.locator('.sheet-apply').click();
-    await page.waitForFunction(() => /tipe=outdoor/.test(location.search) && !document.querySelector('.sheet') && /\(2\)/.test(document.querySelector('.mbar-btn')?.textContent || ''));
+    await page.waitForFunction(() => /tipe=outdoor/.test(location.search) && !document.querySelector('.sheet') && /\(2\)/.test(document.querySelector('.mfbar-btn')?.textContent || ''));
     const sheetApply = Date.now() - t;
 
     t = Date.now();
-    await page.locator('.mbar-sort select').selectOption('harga');
+    await page.locator('.mfbar select').selectOption('harga');
     await page.waitForFunction(() => /urut=harga/.test(location.search));
-    await page.waitForFunction(() => document.querySelector('.card .card-title')?.textContent.trim() === 'Kebun Jagakarsa');
+    await page.waitForFunction(() => document.querySelector('.card .nm')?.textContent.trim() === 'Kebun Jagakarsa');
     const sortChange = Date.now() - t;
 
     await context.close();
@@ -263,7 +263,7 @@ async function saveAndCompare(browser) {
     await page.locator('.card .save').nth(1).click();
     await page.locator('.card .save').nth(2).click();
     const t = Date.now();
-    await page.locator('.nav-links a', { hasText: 'Tersimpan' }).click();
+    await page.locator('.wishlist').click();
     await page.waitForSelector('table.cmp thead th:nth-child(3)');
     const openSaved = Date.now() - t;
     await context.close();

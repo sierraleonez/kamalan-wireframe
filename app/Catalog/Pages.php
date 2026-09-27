@@ -11,35 +11,53 @@ final class Pages
 {
     public const PER_PAGE = 9;
 
-    private static function base(string $title, string $notes, array $extra = []): array
+    /** Kategori di beranda, urutan sama dengan desain. */
+    public const HOME_CATS = ['venue', 'catering', 'eo', 'hiburan', 'dekorasi', 'dokumentasi'];
+
+    private static function base(string $title, string $page, array $extra = []): array
     {
-        return ['title' => $title, 'notes' => Copy::NOTES[$notes] ?? [], 'notesKey' => $notes] + $extra;
+        return ['title' => $title, 'page' => $page] + $extra;
+    }
+
+    /** Jenis acara yang menawarkan kategori ini, dalam urutan beranda. */
+    public static function typesWithCat(string $cat): array
+    {
+        return array_values(array_filter(array_keys(Catalog::types()), fn ($t) => in_array($cat, Catalog::type($t)['cats'], true)));
     }
 
     /* ---------------- beranda ---------------- */
 
     public static function catRow(?string $type): array
     {
-        $cats = $type ? Catalog::type($type)['cats'] : ['venue', 'catering', 'eo', 'hiburan', 'dekorasi', 'dokumentasi'];
-        $w = Catalog::type('wedding')['cats'];
-        $c = Catalog::type('corporate')['cats'];
+        $cats = $type ? Catalog::type($type)['cats'] : self::HOME_CATS;
 
-        return array_map(function ($cat) use ($type, $w, $c) {
-            $name = Catalog::category($cat)['name'];
+        return array_map(function ($cat, $i) use ($type) {
+            $item = ['name' => Catalog::category($cat)['name'], 'icon' => $cat, 'tone' => 'c'.($i % 6 + 1), 'href' => null, 'choices' => []];
             if ($type) {
-                return ['name' => $name, 'href' => '/'.$type.'/'.$cat, 'choices' => []];
+                $item['href'] = '/'.$type.'/'.$cat;
+
+                return $item;
             }
-            $inW = in_array($cat, $w, true);
-            $inC = in_array($cat, $c, true);
-            if (! ($inW && $inC)) {
-                return ['name' => $name, 'href' => '/'.($inW ? 'wedding' : 'corporate').'/'.$cat, 'choices' => []];
+            $types = self::typesWithCat($cat);
+            if (count($types) === 1) {
+                $item['href'] = '/'.$types[0].'/'.$cat;
+            } else {
+                $item['choices'] = array_map(fn ($t) => ['label' => Catalog::type($t)['name'], 'href' => '/'.$t.'/'.$cat], $types);
             }
 
-            return ['name' => $name, 'href' => null, 'choices' => [
-                ['label' => 'Wedding', 'href' => '/wedding/'.$cat],
-                ['label' => 'Corporate', 'href' => '/corporate/'.$cat],
-            ]];
-        }, $cats);
+            return $item;
+        }, $cats, array_keys($cats));
+    }
+
+    public static function occasions(): array
+    {
+        $out = [];
+        $i = 0;
+        foreach (Catalog::types() as $slug => $t) {
+            $out[] = ['name' => $t['name'], 'href' => '/'.$slug, 'blurb' => $t['blurb'], 'tone' => 'o'.(++$i)];
+        }
+
+        return $out;
     }
 
     public static function home(): array
@@ -47,17 +65,18 @@ final class Pages
         $bundles = array_map(fn ($s) => Catalog::bundle($s), ['paket-intimate-wedding-150-pax', 'gathering-kantor-300-peserta', 'akad-resepsi-500-pax']);
         $vendors = array_filter([
             [Catalog::vendor('ballroom-kebayoran'), true],
+            [Catalog::vendor('kebun-jagakarsa'), false],
             [Catalog::firstEditorial('wedding', 'catering', 'jakarta-timur'), false],
-            [Catalog::firstEditorial('wedding', 'eo'), false],
-            [Catalog::firstEditorial('wedding', 'venue', 'bekasi'), false],
+            [Catalog::vendor('hall-senopati'), false],
         ], fn ($x) => $x[0] !== null);
 
-        return self::base('Vendor acara Jabodetabek', 'home', [
-            'tiles' => array_map(fn ($t) => ['name' => Catalog::type($t)['name'], 'href' => '/'.$t, 'blurb' => Catalog::type($t)['blurb']], ['wedding', 'corporate']),
+        return self::base('Vendor acara di Jabodetabek', 'home', [
+            'areas' => ['Jakarta Selatan', 'Jakarta Pusat', 'BSD & Tangerang', 'Bekasi', 'Depok'],
+            'occasions' => self::occasions(),
             'cats' => self::catRow(null),
-            'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted'])), $bundles),
-            'vendors' => array_values(array_map(fn ($x) => P::vendorCard($x[0], 'wedding', $x[1]), $vendors)),
-            'collections' => array_map(fn ($s) => P::collectionTile(Catalog::collection($s)), ['rooftop-jaksel-dibawah-50jt', 'venue-gathering-300-peserta-bsd', 'catering-halal-bersertifikat']),
+            'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted']), 'HOME'), $bundles),
+            'vendors' => array_values(array_map(fn ($x) => P::vendorCard($x[0], 'wedding', $x[1], 'HOME'), $vendors)),
+            'collections' => array_map(fn ($s, $i) => ['tone' => 'k'.($i + 1)] + P::collectionTile(Catalog::collection($s)), ['rooftop-jaksel-dibawah-50jt', 'venue-gathering-300-peserta-bsd', 'catering-halal-bersertifikat'], [0, 1, 2]),
             'bandHref' => '/kasih-tau-kami',
         ]);
     }
@@ -76,7 +95,7 @@ final class Pages
                 break;
             }
         }
-        $featured = array_values(array_filter(array_merge([$promo], array_map(fn ($c) => Catalog::firstEditorial($type, $c), array_slice($t['cats'], 1, 3)))));
+        $featured = array_values(array_filter(array_merge([$promo ?? ($venues[0] ?? null)], array_map(fn ($c) => Catalog::firstEditorial($type, $c), array_slice($t['cats'], 1, 3)))));
 
         $areas = [];
         foreach (Catalog::areas() as $a) {
@@ -86,17 +105,24 @@ final class Pages
             }
         }
 
+        $h1 = match ($type) {
+            'corporate' => 'Vendor acara kantor, dengan kapasitas, AV, dan faktur yang jelas.',
+            'wedding' => 'Vendor pernikahan dengan harga yang kami tanyakan sendiri.',
+            default => 'Vendor '.$t['noun'].' yang sudah kami datangi.',
+        };
+
         return self::base($t['name'], 'branch', [
             'type' => $type,
             'crumb' => P::crumb([['Beranda', '/'], [$t['name']]]),
-            'h1' => $type === 'corporate' ? 'Vendor acara kantor di Jabodetabek, dengan kapasitas, AV, dan faktur yang jelas.' : 'Vendor pernikahan di Jabodetabek, dengan harga yang kami tanyakan sendiri.',
-            'lead' => $type === 'corporate' ? 'Gathering, seminar, town hall, dan peluncuran produk. Harga per peserta, kapasitas per layout, dan siapa yang bisa menerbitkan faktur pajak.' : 'Akad, resepsi, dan intimate wedding. Kapasitas kami hitung per layout, harga dari vendor bulan ini.',
+            'eyebrow' => $t['name'].' · Jabodetabek',
+            'h1' => $h1,
+            'lead' => $t['blurb'].' Harga dan kapasitas dari pengelola, termasuk yang belum termasuk.',
             'cats' => self::catRow($type),
             'areas' => $areas,
-            'bundlesSub' => $type === 'corporate' ? '— dihargai per peserta' : '',
             'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted'])), array_slice($bundles, 0, 3)),
+            'perHead' => $type === 'corporate',
             'vendors' => array_map(fn ($v, $i) => P::vendorCard($v, $type, $i === 0 && $v['promoted']), $featured, array_keys($featured)),
-            'collections' => array_values(array_map(fn ($c) => P::collectionTile($c), array_slice(array_values(array_filter(Catalog::collections(), fn ($c) => $c['type'] === $type)), 0, 3))),
+            'collections' => array_values(array_map(fn ($c, $i) => ['tone' => 'k'.($i % 3 + 1)] + P::collectionTile($c), $cs = array_slice(array_values(array_filter(Catalog::collections(), fn ($c) => $c['type'] === $type)), 0, 3), array_keys($cs))),
             'bandHref' => '/kasih-tau-kami?jenis='.$type,
         ]);
     }
@@ -149,7 +175,7 @@ final class Pages
 
         $chips = [];
         if ($area) {
-            $chips[] = ['label' => 'Area: '.$where, 'href' => P::listingPath($type, $cat, null, $q), 'key' => 'area'];
+            $chips[] = ['label' => $where, 'href' => P::listingPath($type, $cat, null, $q), 'key' => 'area'];
         }
         foreach ($act as $d) {
             $chips[] = ['label' => Filters::chipLabel($d, $q), 'href' => P::listingPath($type, $cat, $area, array_diff_key($q, [$d['key'] => 1])), 'key' => $d['key']];
@@ -159,12 +185,14 @@ final class Pages
         if ($area) {
             $crumb[] = [$where];
         }
+        $slice = array_slice($results, 0, $shown);
 
-        $props = self::base($h1Noun.' di '.$where, 'listing', [
+        return self::base($h1Noun.' di '.$where, 'listing', [
             'type' => $type,
             'cat' => $cat,
             'area' => $area,
             'crumb' => P::crumb($crumb),
+            'eyebrow' => count($base).' '.mb_strtolower($catName).' · '.$where,
             'h1' => $h1Noun.' di '.$where,
             'intro' => $zero ? null : Copy::listingIntro($type, $cat, $area, count($base)),
             'catNoun' => mb_strtolower($catName),
@@ -180,7 +208,7 @@ final class Pages
             'sorts' => array_map(fn ($k, $l) => ['value' => $k, 'label' => $l], array_keys(Filters::SORTS), Filters::SORTS),
             'total' => $total,
             'shown' => min($shown, $total),
-            'results' => array_map(fn ($v, $i) => P::vendorCard($v, $type, $i === 0 && $v === $promo), array_slice($results, 0, $shown), array_keys(array_slice($results, 0, $shown))),
+            'results' => array_map(fn ($v, $i) => P::vendorCard($v, $type, $i === 0 && $v === $promo), $slice, array_keys($slice)),
             'zero' => $zero,
             'thin' => $thin,
             'zeroMessage' => $zero ? [
@@ -195,8 +223,6 @@ final class Pages
             'sideLinks' => $zero ? [] : self::sideLinks($type, $cat, $area, $defs),
             'bandHref' => '/kasih-tau-kami?'.http_build_query(array_filter(['jenis' => $type, 'kategori' => $cat, 'area' => $area])),
         ]);
-
-        return $props;
     }
 
     public static function relaxations(string $type, string $cat, ?string $area, array $defs, array $q, int $current, ?string $sort = null): array
@@ -273,7 +299,9 @@ final class Pages
                     $links[] = ['label' => $a['name'], 'href' => P::listingPath($type, $cat, $a['slug']), 'count' => $n];
                 }
             }
-            $cols[] = ['title' => 'Per area', 'links' => $links];
+            if ($links) {
+                $cols[] = ['title' => 'Per area', 'links' => $links];
+            }
         }
 
         foreach ($defs as $d) {
@@ -288,7 +316,9 @@ final class Pages
                     $links[] = ['label' => $o['label'].' '.P::guestWord($type), 'href' => P::listingPath($type, $cat, $area, ['kapasitas' => $o['id']]), 'count' => $n];
                 }
             }
-            $cols[] = ['title' => $type === 'corporate' ? 'Jumlah peserta lain' : 'Kapasitas lain', 'links' => $links];
+            if ($links) {
+                $cols[] = ['title' => $type === 'corporate' ? 'Jumlah peserta lain' : 'Kapasitas lain', 'links' => $links];
+            }
         }
 
         $colls = array_values(array_filter(Catalog::collections(), fn ($c) => $c['type'] === $type && $c['cat'] === $cat));
@@ -305,79 +335,7 @@ final class Pages
         return $cols;
     }
 
-    /* ---------------- detail ---------------- */
-
-    public static function detail(string $type, array $v): array
-    {
-        $cat = Catalog::category($v['cat']);
-        $area = Catalog::area($v['area']);
-
-        $tags = [];
-        foreach ($v['types'] as $t) {
-            $tags[] = $t === $type
-                ? ['label' => Catalog::type($t)['name'], 'kind' => 'type-on', 'href' => null]
-                : ['label' => Catalog::type($t)['name'].' →', 'kind' => 'type', 'href' => P::vendorPath($v, $t)];
-        }
-        $tags[] = ['label' => $v['hood'].', '.$area['short'], 'kind' => 'plain', 'href' => null];
-        if ($v['cap'] && $v['cat'] === 'venue') {
-            $tags[] = ['label' => P::capText($v, $type), 'kind' => 'plain', 'href' => null];
-        }
-        if ($v['setting']) {
-            $tags[] = ['label' => P::settingText($v['setting']), 'kind' => 'plain', 'href' => null];
-        }
-        foreach (P::extras($v, $type) as $x) {
-            if ($x !== P::settingText($v['setting'])) {
-                $tags[] = ['label' => $x, 'kind' => 'plain', 'href' => null];
-            }
-        }
-
-        $bundles = array_values(array_filter(Catalog::bundles(), function ($b) use ($type, $v) {
-            if ($b['type'] !== $type) {
-                return false;
-            }
-
-            return $b['eo'] === $v['slug'] || in_array($v['slug'], array_column($b['members'], 1), true);
-        }));
-
-        $similar = array_values(array_filter(Catalog::vendorsOf($type, $v['cat']), fn ($x) => $x['slug'] !== $v['slug']));
-        usort($similar, fn ($a, $b) => [(int) ($a['area'] !== $v['area']), abs($a['price'] - $v['price'])] <=> [(int) ($b['area'] !== $v['area']), abs($b['price'] - $v['price'])]);
-
-        $sub = $v['cat'] === 'venue'
-            ? ($v['cateringBebas'] ? 'Sewa venue, catering bebas' : 'Sewa venue, belum termasuk catering')
-            : ($cat['unit'] === 'pax' ? 'per pax, menu standar' : 'harga dasar, belum transport');
-
-        $share = self::share(P::vendorPath($v, $type), $v['name'], implode(', ', array_filter([$v['hood'], P::capText($v, $type), 'mulai '.P::priceFrom($v)])));
-
-        return self::base($v['name'], 'detail', $share + [
-            'type' => $type,
-            'saveKey' => P::savedKey('v', $type, $v['slug']),
-            'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($type)['name'], '/'.$type], [$cat['name'], '/'.$type.'/'.$v['cat']], [$area['name'], P::listingPath($type, $v['cat'], $v['area'])], [$v['name']]]),
-            'name' => $v['name'],
-            'photos' => $v['photos'],
-            'photoLabel' => 'foto utama '.mb_strtolower($cat['name']),
-            'tags' => $tags,
-            'writeup' => Copy::writeup($v, $type),
-            'included' => Copy::included($v, $type),
-            'mapLabel' => 'peta · '.$v['hood'].', '.$area['name'],
-            'faqs' => Copy::faqs($v, $type),
-            'social' => ['ig' => $v['ig'], 'igHref' => 'https://instagram.com/'.ltrim($v['ig'], '@'), 'web' => $v['web'], 'webHref' => 'https://'.$v['web']],
-            'box' => [
-                'label' => 'Kisaran harga',
-                'price' => P::priceRange($v),
-                'sub' => $sub,
-                'wa' => P::goHref($v['ref'], $type),
-                'ref' => $v['ref'],
-                'waLabel' => 'Hubungi via WhatsApp',
-                'message' => P::waMessage($v['name'], $type, $v['ref']),
-                'foot' => null,
-            ],
-            'mcta' => ['price' => P::priceFrom($v), 'waLabel' => 'WhatsApp'],
-            'bundlesTitle' => 'Bundle yang memakai '.mb_strtolower($cat['name']).' ini',
-            'bundles' => array_map(fn ($b) => P::bundleCard($b), array_slice($bundles, 0, 2)),
-            'similarTitle' => $cat['name'].' lain yang mirip',
-            'similar' => array_map(fn ($x) => P::vendorCard($x, $type), array_slice($similar, 0, 4)),
-        ]);
-    }
+    /* ---------------- bagikan ---------------- */
 
     /**
      * Tautan untuk dibagikan ke teman: URL kanonik bersih tanpa kode referral.
@@ -389,12 +347,104 @@ final class Pages
     public static function share(string $path, string $title, string $summary): array
     {
         $url = url($path);
-        $text = $title.' — '.$summary.'. Lihat di EventHub:';
+        $text = $title.' — '.$summary.'. Lihat di Kamalan:';
 
         return [
             'share' => ['url' => $url, 'title' => $title, 'text' => $text, 'wa' => 'https://wa.me/?text='.rawurlencode($text.' '.$url)],
-            'og' => ['title' => $title.' · EventHub', 'description' => $text, 'url' => $url],
+            'og' => ['title' => $title.' — Kamalan Event Hub', 'description' => $text, 'url' => $url],
         ];
+    }
+
+    /* ---------------- detail ---------------- */
+
+    public static function detail(string $type, array $v): array
+    {
+        $cat = Catalog::category($v['cat']);
+        $area = Catalog::area($v['area']);
+        $summary = implode(', ', array_filter([$v['hood'], P::capText($v, $type), 'mulai '.P::priceFrom($v)]));
+
+        $tags = [];
+        if ($v['setting']) {
+            $tags[] = P::settingText($v['setting']);
+        }
+        foreach ([['cateringBebas', 'Catering bebas'], ['transit', 'Ruang transit'], ['av', 'AV in-house'], ['halal', 'Halal']] as [$k, $label]) {
+            if (! empty($v[$k])) {
+                $tags[] = $label;
+            }
+        }
+        if ($v['bus'] >= 3 && $v['cat'] === 'venue') {
+            $tags[] = 'Parkir bus';
+        }
+
+        // Satu panel per jenis acara yang dilayani; hanya kalau ada catatan spesifik.
+        $occasions = [];
+        foreach ($v['types'] as $o) {
+            $note = Copy::occasionNote($v, $o);
+            if (! $note['paras']) {
+                continue;
+            }
+            $t = Catalog::type($o);
+            $occasions[] = [
+                'slug' => $o,
+                'name' => $t['name'],
+                'phrase' => $t['phrase'],
+                'href' => P::vendorPath($v, $o),
+                'url' => url(P::vendorPath($v, $o)),
+                'crumbHref' => '/'.$o,
+                'catHref' => '/'.$o.'/'.$v['cat'],
+                'areaHref' => P::listingPath($o, $v['cat'], $v['area']),
+                'wa' => P::goHref($v['ref'], $o, 'DETAIL'),
+                'title' => $note['title'],
+                'paras' => $note['paras'],
+            ];
+        }
+
+        $bundles = array_values(array_filter(Catalog::bundles(), fn ($b) => $b['type'] === $type && ($b['eo'] === $v['slug'] || in_array($v['slug'], array_column($b['members'], 1), true))));
+        $similar = array_values(array_filter(Catalog::vendorsOf($type, $v['cat']), fn ($x) => $x['slug'] !== $v['slug']));
+        usort($similar, fn ($a, $b) => [(int) ($a['area'] !== $v['area']), abs($a['price'] - $v['price'])] <=> [(int) ($b['area'] !== $v['area']), abs($b['price'] - $v['price'])]);
+        $similar = array_slice($similar, 0, 4);
+        $sameArea = $similar && ! array_filter($similar, fn ($x) => $x['area'] !== $v['area']);
+
+        $words = Copy::writeup($v);
+
+        return self::base($v['name'], 'detail', self::share(P::vendorPath($v, $type), $v['name'], $summary) + [
+            'type' => $type,
+            'saveKey' => P::savedKey('v', $type, $v['slug']),
+            'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($type)['name'], '/'.$type], [$cat['name'], '/'.$type.'/'.$v['cat']], [$area['name'], P::listingPath($type, $v['cat'], $v['area'])], [$v['name']]]),
+            'eyebrow' => $cat['name'].' · '.$v['hood'].', '.$area['name'],
+            'name' => $v['name'],
+            'photos' => $v['photos'],
+            'tones' => ['s1', 's2', 's3', 's4'],
+            'tags' => $tags,
+            'lead' => $words[0],
+            'paras' => array_slice($words, 1),
+            'facts' => Copy::facts($v),
+            'occasions' => $occasions,
+            'active' => $type,
+            'refused' => Copy::refusedLine($v),
+            'includedNote' => 'Rincian dari pengelola, per September 2026.',
+            'included' => Copy::included($v),
+            'location' => Copy::locationLine($v),
+            'mapLabel' => $v['hood'].', '.$area['name'],
+            'faqs' => Copy::faqs($v),
+            'cta' => [
+                'label' => 'Mulai dari',
+                'price' => P::priceLong($v),
+                'note' => P::priceNote($v),
+                'wa' => P::goHref($v['ref'], $type, 'DETAIL'),
+                'waLabel' => 'Hubungi via WhatsApp',
+                'refCode' => P::refCode($v['ref'], 'DETAIL'),
+                'messageName' => $v['name'],
+                'phrase' => Catalog::type($type)['phrase'],
+                'foot' => null,
+                'socials' => [['label' => 'Instagram', 'href' => 'https://instagram.com/'.ltrim($v['ig'], '@')], ['label' => 'Website', 'href' => 'https://'.$v['web']]],
+            ],
+            'mbar' => ['label' => 'Mulai dari', 'price' => P::priceFrom($v), 'wa' => P::goHref($v['ref'], $type, 'DETAIL'), 'waLabel' => 'Hubungi via WhatsApp'],
+            'bundlesTitle' => 'Paket yang memakai '.mb_strtolower($cat['name']).' ini',
+            'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted']), 'DETAIL'), array_slice($bundles, 0, 3)),
+            'similarTitle' => $sameArea ? $cat['name'].' lain di '.$area['name'] : $cat['name'].' lain yang mirip',
+            'similar' => array_map(fn ($x) => P::vendorCard($x, $type, false, 'DETAIL'), $similar),
+        ]);
     }
 
     /* ---------------- bundle ---------------- */
@@ -408,67 +458,82 @@ final class Pages
             if (! $v) {
                 continue;
             }
-            $catName = Catalog::category($mcat)['name'];
             $members[] = [
-                'cat' => $catName,
+                'key' => $v['slug'],
+                'chip' => Catalog::category($mcat)['name'],
                 'name' => $v['name'],
                 'href' => P::vendorPath($v, $b['type']),
+                'tone' => P::tone($v['slug']),
                 'meta' => implode(' · ', array_filter([$v['hood'], P::capText($v, $b['type'])])),
-                'more' => 'Lihat '.mb_strtolower($catName).' →',
+                'more' => 'Lihat '.mb_strtolower(Catalog::category($mcat)['name']).' →',
             ];
         }
         $catList = implode(', ', array_map(fn ($m) => mb_strtolower(Catalog::category($m[0])['name']), $b['members']));
-
-        $share = self::share(P::bundlePath($b), $b['title'], implode(', ', array_filter([
+        $summary = implode(', ', array_filter([
             implode(' + ', array_map(fn ($m) => Catalog::category($m[0])['name'], $b['members'])),
             Catalog::area($b['area'])['name'],
             P::bundlePrice($b),
             $eo ? 'oleh '.$eo['name'] : null,
-        ])));
+        ]));
+        $price = $b['perHead'] ? 'Rp '.$b['priceMin'].' rb' : 'Rp '.$b['priceMin'].' – '.$b['priceMax'].' juta';
 
-        return self::base($b['title'], 'bundle', $share + [
+        return self::base($b['title'], 'bundle', self::share(P::bundlePath($b), $b['title'], $summary) + [
             'type' => $b['type'],
             'saveKey' => P::savedKey('b', $b['type'], $b['slug']),
             'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($b['type'])['name'], '/'.$b['type']], ['Bundle', '/'.$b['type'].'/bundle'], [$b['title']]]),
+            'eyebrow' => 'Bundle · '.Catalog::area($b['area'])['name'],
             'name' => $b['title'],
             'promo' => ! empty($b['promoted']),
             'eo' => $eo ? ['name' => $eo['name'], 'href' => P::vendorPath($eo, $b['type'])] : null,
-            'lead' => 'Satu kontak untuk '.count($b['members']).' vendor. EO yang mengoordinasi '.$catList.' sampai hari-H.',
+            'lead' => 'Satu kontak untuk '.count($b['members']).' vendor. EO yang mengoordinasi '.$catList.' sampai hari-H, jadi kamu bicara ke satu orang, bukan '.count($b['members']).'.',
+            'facts' => array_values(array_filter([
+                ['Tamu', $b['perHead'] ? 'min. '.$b['minGuests'] : $b['guests'].' pax'],
+                ['Vendor', (string) count($b['members'])],
+                ['Area', Catalog::area($b['area'])['name']],
+                ['Harga berlaku', $b['validity']],
+            ])),
             'members' => $members,
             'included' => $b['included'],
             'excluded' => $b['excluded'],
-            'box' => [
-                'label' => 'Kisaran harga paket',
-                'price' => P::bundlePrice($b),
-                'sub' => $b['perHead'] ? 'minimum '.$b['minGuests'].' peserta' : 'untuk '.$b['guests'].' pax',
-                'wa' => P::goHref($b['ref'], $b['type']),
-                'ref' => $b['ref'],
+            'cta' => [
+                'label' => $b['perHead'] ? 'Per peserta, mulai dari' : 'Kisaran harga paket',
+                'price' => $price,
+                'note' => $b['perHead'] ? 'Minimum '.$b['minGuests'].' peserta; di bawah itu dihitung minimum' : 'Untuk '.$b['guests'].' pax; tamu tambahan dihitung per orang',
+                'wa' => P::goHref($b['ref'], $b['type'], 'BUNDLE'),
                 'waLabel' => 'Hubungi EO via WhatsApp',
-                'message' => null,
+                'refCode' => P::refCode($b['ref'], 'BUNDLE'),
+                'messageName' => $b['title'],
+                'phrase' => Catalog::type($b['type'])['phrase'],
                 'foot' => 'Harga dari '.($eo['name'] ?? 'EO').', berlaku per '.$b['validity'].'.',
+                'socials' => [],
             ],
-            'mcta' => ['price' => $b['perHead'] ? $b['priceMin'].' rb/org' : $b['priceMin'].' jt', 'waLabel' => 'Hubungi EO'],
+            'mbar' => ['label' => $b['perHead'] ? 'Per peserta' : 'Mulai dari', 'price' => $b['perHead'] ? 'Rp '.$b['priceMin'].' rb' : 'Rp '.$b['priceMin'].' jt', 'wa' => P::goHref($b['ref'], $b['type'], 'BUNDLE'), 'waLabel' => 'Hubungi EO'],
         ]);
     }
 
     public static function bundles(?string $type): array
     {
-        $types = $type ? [$type] : ['wedding', 'corporate'];
+        $types = $type ? [$type] : array_keys(Catalog::types());
         $sections = [];
         foreach ($types as $t) {
             $list = array_values(array_filter(Catalog::bundles(), fn ($b) => $b['type'] === $t));
+            if (! $list) {
+                continue;
+            }
             usort($list, fn ($a, $b) => (int) ! empty($b['promoted']) <=> (int) ! empty($a['promoted']));
             $sections[] = [
-                'title' => Catalog::type($t)['name'],
-                'sub' => $t === 'corporate' ? '— dihargai per peserta' : '',
+                'eyebrow' => Catalog::type($t)['name'],
+                'title' => $t === 'corporate' ? 'Dihargai per peserta' : 'Paket '.Catalog::type($t)['noun'],
                 'cards' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted'])), $list),
             ];
         }
 
         return self::base('Bundle', 'bundles', [
             'crumb' => P::crumb($type ? [['Beranda', '/'], [Catalog::type($type)['name'], '/'.$type], ['Bundle']] : [['Beranda', '/'], ['Bundle']]),
-            'h1' => 'Paket bundle'.($type ? ' '.mb_strtolower(Catalog::type($type)['name']) : ''),
+            'h1' => 'Satu kontak, semua vendornya',
+            'lead' => 'Paket yang disusun EO dari vendor rekanan mereka sendiri. Kamu bicara ke satu orang, bukan lima.',
             'sections' => $sections,
+            'empty' => ! $sections,
             'bandHref' => '/kasih-tau-kami'.($type ? '?jenis='.$type : ''),
         ]);
     }
@@ -483,20 +548,17 @@ final class Pages
     public static function collections(): array
     {
         $sections = [];
-        foreach (['wedding', 'corporate'] as $t) {
+        foreach (array_keys(Catalog::types()) as $t) {
             $cards = [];
             foreach (Catalog::collections() as $c) {
                 if ($c['type'] !== $t) {
                     continue;
                 }
-                $cards[] = [
-                    'href' => '/koleksi/'.$c['slug'],
-                    'title' => $c['title'],
-                    'sponsor' => $c['sponsor'] ?? null,
-                    'meta' => count(self::collectionPicks($c)).' pilihan · '.implode(' · ', $c['locks']),
-                ];
+                $cards[] = ['tone' => 'k'.(count($cards) % 3 + 1)] + P::collectionTile($c) + ['meta' => count(self::collectionPicks($c)).' pilihan'];
             }
-            $sections[] = ['title' => Catalog::type($t)['name'], 'cards' => $cards];
+            if ($cards) {
+                $sections[] = ['eyebrow' => Catalog::type($t)['name'], 'title' => 'Untuk '.Catalog::type($t)['noun'], 'cards' => $cards];
+            }
         }
 
         return self::base('Koleksi', 'collections', [
@@ -515,10 +577,11 @@ final class Pages
                 'key' => P::savedKey('v', $c['type'], $v['slug']),
                 'name' => $v['name'],
                 'href' => P::vendorPath($v, $c['type']),
-                'meta' => implode(' · ', array_filter([$v['hood'].', '.Catalog::area($v['area'])['short'], P::capText($v, $c['type']), 'mulai '.P::priceFrom($v)])),
+                'tone' => P::tone($v['slug']),
+                'meta' => implode(' · ', array_filter([$v['hood'].', '.Catalog::area($v['area'])['short'], P::capText($v, $c['type'])])),
+                'price' => 'Mulai '.P::priceFrom($v),
                 'blurb' => Copy::highlight($v, $c['type']),
-                'wa' => P::goHref($v['ref'], $c['type']),
-                'ref' => $v['ref'],
+                'wa' => P::goHref($v['ref'], $c['type'], 'KOLEKSI'),
             ];
         }
         $title = count($items).' '.mb_strtolower(mb_substr($c['title'], 0, 1)).mb_substr($c['title'], 1);
@@ -526,6 +589,8 @@ final class Pages
         return self::base($c['short'], 'collection', [
             'crumb' => P::crumb([['Beranda', '/'], ['Koleksi', '/koleksi'], [$c['short']]]),
             'sponsor' => $c['sponsor'] ?? null,
+            'tone' => P::tone($c['slug'], 'k', 3),
+            'eyebrow' => 'Koleksi · '.Catalog::type($c['type'])['name'],
             'h1' => $title,
             'intro' => $c['intro'],
             'locks' => $c['locks'],
@@ -543,7 +608,6 @@ final class Pages
             'empty' => [
                 ['label' => 'Venue wedding', 'href' => '/wedding/venue', 'primary' => true],
                 ['label' => 'Venue corporate', 'href' => '/corporate/venue', 'primary' => false],
-                ['label' => 'Catering', 'href' => '/wedding/catering', 'primary' => false],
                 ['label' => 'Bundle', 'href' => '/bundle', 'primary' => false],
             ],
         ]);
@@ -561,21 +625,21 @@ final class Pages
             [$kind, $type, $slug] = $p;
             if ($kind === 'v' && ($v = Catalog::vendor($slug)) && in_array($type, $v['types'], true)) {
                 $out[] = [
-                    'key' => $key, 'name' => $v['name'], 'href' => P::vendorPath($v, $type),
+                    'key' => $key, 'name' => $v['name'], 'href' => P::vendorPath($v, $type), 'tone' => P::tone($v['slug']),
                     'kind' => Catalog::type($type)['name'].' · '.Catalog::category($v['cat'])['name'],
                     'area' => $v['hood'].', '.Catalog::area($v['area'])['short'],
                     'capacity' => P::capText($v, $type) ?: '—',
                     'price' => P::priceFrom($v),
-                    'wa' => P::goHref($v['ref'], $type), 'ref' => $v['ref'], 'waLabel' => 'WhatsApp',
+                    'wa' => P::goHref($v['ref'], $type, 'SAVED'), 'waLabel' => 'WhatsApp',
                 ];
             } elseif ($kind === 'b' && ($b = Catalog::bundle($slug)) && $b['type'] === $type) {
                 $out[] = [
-                    'key' => $key, 'name' => $b['title'], 'href' => P::bundlePath($b),
+                    'key' => $key, 'name' => $b['title'], 'href' => P::bundlePath($b), 'tone' => P::tone($b['slug']),
                     'kind' => Catalog::type($type)['name'].' · Bundle',
                     'area' => Catalog::area($b['area'])['name'],
                     'capacity' => $b['guests'].' '.P::guestWord($type),
                     'price' => P::bundlePrice($b),
-                    'wa' => P::goHref($b['ref'], $type), 'ref' => $b['ref'], 'waLabel' => 'Hubungi EO',
+                    'wa' => P::goHref($b['ref'], $type, 'SAVED'), 'waLabel' => 'Hubungi EO',
                 ];
             }
         }
@@ -587,8 +651,14 @@ final class Pages
 
     public static function formOptions(): array
     {
+        $jenis = [];
+        foreach (Catalog::types() as $slug => $t) {
+            $jenis[] = ['value' => $slug, 'label' => $t['name']];
+        }
+        $jenis[] = ['value' => 'lainnya', 'label' => 'Lainnya'];
+
         return [
-            'jenis' => [['value' => 'wedding', 'label' => 'Wedding'], ['value' => 'corporate', 'label' => 'Corporate'], ['value' => 'lainnya', 'label' => 'Lainnya']],
+            'jenis' => $jenis,
             'areas' => array_merge(array_values(array_map(fn ($a) => ['value' => $a['slug'], 'label' => $a['name']], Catalog::areas())), [['value' => 'lainnya', 'label' => 'Di luar Jabodetabek']]),
         ];
     }
@@ -620,8 +690,27 @@ final class Pages
 
     public static function footer(): array
     {
+        $occ = [];
+        foreach (Catalog::types() as $slug => $t) {
+            $occ[] = ['label' => $t['name'], 'href' => '/'.$slug];
+        }
+
         return [
-            'areas' => array_map(fn ($a) => ['label' => $a['name'], 'href' => '/wedding/venue/'.$a['slug']], array_slice(array_values(Catalog::areas()), 0, 6)),
+            'wedding' => array_map(fn ($c) => ['label' => Catalog::category($c)['name'], 'href' => '/wedding/'.$c], ['venue', 'catering', 'eo', 'dekorasi']),
+            'corporate' => array_map(fn ($c) => ['label' => $c === 'av-produksi' ? 'AV & Produksi' : Catalog::category($c)['name'], 'href' => '/corporate/'.$c], ['venue', 'catering', 'eo', 'av-produksi']),
+            'occasions' => $occ,
+            'cats' => array_map(fn ($c) => ['label' => Catalog::category($c)['name'], 'href' => '/'.self::typesWithCat($c)[0].'/'.$c], self::HOME_CATS),
+            'areas' => [
+                ['label' => 'Jakarta Selatan', 'href' => '/wedding/venue/jakarta-selatan'],
+                ['label' => 'BSD & Tangerang', 'href' => '/wedding/venue/tangerang-selatan'],
+                ['label' => 'Bekasi', 'href' => '/wedding/venue/bekasi'],
+                ['label' => 'Depok', 'href' => '/wedding/venue/depok'],
+            ],
+            'about' => [
+                ['label' => 'Tentang kami', 'href' => '/#tentang'],
+                ['label' => 'Kasih tau kami', 'href' => '/kasih-tau-kami'],
+                ['label' => 'Daftarkan usaha', 'href' => '/kasih-tau-kami?jenis=lainnya'],
+            ],
         ];
     }
 }

@@ -6,7 +6,7 @@ use Closure;
 
 /**
  * Definisi filter per jenis acara × kategori (port dari EH.filtersFor di prototipe).
- * Wedding memilih suasana; corporate mencoret dengan batasan keras.
+ * Acara non-corporate memilih suasana; corporate mencoret dengan batasan keras.
  */
 final class Filters
 {
@@ -95,7 +95,7 @@ final class Filters
             return ! $b || ($v['price'] >= $b['min'] && $v['price'] <= $b['max']);
         }, ['ordered' => true]);
 
-        if ($type === 'wedding' && $cat === 'venue') {
+        if ($type !== 'corporate' && $cat === 'venue') {
             $f[] = self::band('tipe', 'Indoor / outdoor', [['id' => 'indoor', 'label' => 'Indoor'], ['id' => 'outdoor', 'label' => 'Outdoor']],
                 fn (array $v, string $id) => $v['setting'] === 'both' || $v['setting'] === $id, ['plain' => true]);
             $f[] = self::flag('catering-bebas', 'Catering bebas', 'Fasilitas', fn ($v) => (bool) $v['cateringBebas']);
@@ -103,7 +103,7 @@ final class Filters
             $f[] = self::flag('parkir-100', 'Parkir 100+ mobil', 'Fasilitas', fn ($v) => $v['parkir'] >= 100);
         }
 
-        if ($type === 'wedding' && $cat === 'catering') {
+        if ($type !== 'corporate' && $cat === 'catering') {
             $f[] = self::flag('halal', 'Halal bersertifikat', 'Fasilitas', fn ($v) => (bool) $v['halal']);
         }
 

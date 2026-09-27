@@ -23,8 +23,10 @@ const h1 = async () => (await p.locator('h1').first().textContent()).trim();
 
 // 1. rute
 const routes = {
-    '/': 'Vendor acara di Jabodetabek',
+    '/': 'Acara yang',
     '/wedding': 'Vendor pernikahan',
+    '/ulang-tahun': 'Vendor ulang tahun',
+    '/baby-kids/venue': 'Venue acara bayi & anak',
     '/corporate/eo/tangerang': 'EO acara kantor di Tangerang',
     '/wedding/venue/jakarta-selatan': 'Venue pernikahan di Jakarta Selatan',
     '/wedding/venue/ballroom-kebayoran': 'Ballroom Kebayoran',
@@ -43,7 +45,7 @@ errors.length = 0; // log 404 yang disengaja
 
 // 2. filter desktop
 await p.goto(BASE + '/wedding/venue/jakarta-selatan');
-await p.locator('.filterbar label', { hasText: 'Indoor / outdoor' }).locator('select').selectOption('outdoor');
+await p.locator('.fbar label', { hasText: 'Indoor / outdoor' }).locator('select').selectOption('outdoor');
 await p.waitForURL(/tipe=outdoor/);
 await p.locator('.chip-x', { hasText: 'Outdoor' }).waitFor();
 ok(/tipe=outdoor/.test(p.url()), 'filter memperbarui URL', p.url());
@@ -61,12 +63,12 @@ ok((await p.locator('.card').count()) > n0, 'muat lebih banyak', `${n0} → ${aw
 // 4. simpan + navigasi
 await p.locator('.card .save').nth(0).click();
 await p.locator('.card .save').nth(2).click();
-ok((await p.locator('.nav-links').textContent()).includes('(2)'), 'hitungan ♡ di nav');
+ok((await p.locator('.wishlist b').textContent()) === '2', 'hitungan ♡ di nav');
 await p.locator('.card .card-link').first().click();
 await p.waitForURL(/ballroom-kebayoran/);
-ok((await p.locator('.nav-links').textContent()).includes('(2)'), 'hitungan ♡ bertahan setelah navigasi');
-ok((await p.locator('.sticky-box .save').getAttribute('aria-pressed')) === 'true', 'status simpan di detail');
-await p.locator('.nav-links a', { hasText: 'Tersimpan' }).click();
+ok((await p.locator('.wishlist b').textContent()) === '2', 'hitungan ♡ bertahan setelah navigasi');
+ok((await p.locator('.cta-card .save').getAttribute('aria-pressed')) === 'true', 'status simpan di detail');
+await p.locator('.wishlist').click();
 await p.waitForURL(/tersimpan/);
 await p.waitForSelector('table.cmp thead th:nth-child(3)');
 ok((await p.locator('table.cmp thead th').count()) === 3, 'tabel banding 2 kolom');
@@ -107,10 +109,24 @@ ok(shared.url === BASE + '/wedding/venue/ballroom-kebayoran' && shared.title ===
 ok(!(await ns.locator('.share-pop').isVisible()), 'popover tidak muncul bila ada sheet bawaan');
 await ns.close();
 
+// 4d. tab jenis acara di halaman vendor
+await p.goto(BASE + '/wedding/venue/taman-cilandak');
+await p.locator('.occ-tab', { hasText: 'Ulang Tahun' }).click();
+await p.waitForURL(/\/ulang-tahun\/venue\/taman-cilandak$/);
+ok(p.url().endsWith('/ulang-tahun/venue/taman-cilandak'), 'tab mengganti URL');
+ok((await p.locator('#crumb-occ').textContent()).trim() === 'Ulang Tahun', 'tab mengganti breadcrumb');
+ok((await p.locator('.cta-card .ref-occ').textContent()) === 'acara ulang tahun', 'tab mengganti pratinjau pesan');
+ok(/t=ulang-tahun&p=DETAIL/.test(await p.locator('.cta-card .btn-orange').getAttribute('href')), 'tab mengganti tautan WhatsApp');
+ok(await p.locator('#pane-ulang-tahun').isVisible() && !(await p.locator('#pane-wedding').isVisible()), 'tab menampilkan panel yang benar');
+await p.locator('.share-btn').click();
+ok((await p.locator('.share-url').inputValue()).endsWith('/ulang-tahun/venue/taman-cilandak'), 'tab mengganti URL bagikan');
+await p.reload();
+ok((await p.locator('.occ-tab[aria-selected="true"]').textContent()).trim() === 'Ulang Tahun', 'URL jenis acara membuka tab yang sama');
+
 // 5. popover kategori
 await p.goto(BASE + '/');
 await p.locator('.cat-pop button').first().click();
-await p.locator('.cat-pop.open a', { hasText: 'Corporate' }).click();
+await p.locator('.cat-pop').first().locator('.menu a', { hasText: 'Corporate' }).click();
 await p.waitForURL(/\/corporate\/venue$/);
 ok(p.url().endsWith('/corporate/venue'), 'popover kategori → corporate');
 
@@ -134,7 +150,7 @@ ok((await h1()).includes('sudah kami terima') && (await p.locator('.lead').textC
 const m = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 await track(m);
 await m.goto(BASE + '/wedding/venue/jakarta-selatan');
-await m.locator('.mbar-btn').click();
+await m.locator('.mfbar-btn').click();
 await m.waitForSelector('.sheet');
 await m.locator('.sheet .chip', { hasText: 'Outdoor' }).click();
 await m.waitForFunction(() => /Tampilkan \d+ hasil/.test(document.querySelector('.sheet-apply')?.textContent || '') && !/16/.test(document.querySelector('.sheet-apply').textContent));
@@ -143,12 +159,16 @@ await m.locator('.sheet-apply').click();
 await m.waitForURL(/tipe=outdoor/);
 ok(/tipe=outdoor/.test(m.url()), 'sheet menerapkan filter');
 await m.goto(BASE + '/wedding/venue/ballroom-kebayoran');
-ok(await m.locator('.m-cta').isVisible(), 'bar CTA bawah di detail');
+ok(await m.locator('.mbar').isVisible(), 'bar CTA bawah di detail');
 await m.locator('.share-btn').click();
 await m.locator('.share-pop').waitFor({ state: 'visible' });
 const box = await m.locator('.share-pop').boundingBox();
 ok(box.x >= 0 && box.x + box.width <= 390, 'popover bagikan muat di layar HP', `${Math.round(box.x)}–${Math.round(box.x + box.width)}px`);
-ok((await m.evaluate(() => document.documentElement.scrollWidth)) <= 390, 'tanpa scroll samping di 390px');
+for (const path of ['/', '/wedding/venue/ballroom-kebayoran', '/wedding/venue/jakarta-selatan', '/wedding/bundle/paket-intimate-wedding-150-pax', '/koleksi/rooftop-jaksel-dibawah-50jt', '/baby-kids', '/kasih-tau-kami']) {
+    await m.goto(BASE + path);
+    const sw = await m.evaluate(() => document.documentElement.scrollWidth);
+    ok(sw <= 390, 'tanpa scroll samping di 390px ' + path, String(sw));
+}
 
 ok(errors.length === 0, 'tanpa error JS', errors.join(' | '));
 await browser.close();

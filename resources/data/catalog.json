@@ -167,7 +167,10 @@
     "dekorasi",
     "dokumentasi"
    ],
-   "blurb": "Akad, resepsi, intimate, lamaran"
+   "noun": "pernikahan",
+   "phrase": "acara pernikahan",
+   "pane": "Untuk pernikahan",
+   "blurb": "Gedung, catering, dekorasi, dan dokumentasi untuk akad sampai resepsi."
   },
   "corporate": {
    "slug": "corporate",
@@ -180,7 +183,74 @@
     "av-produksi",
     "hiburan"
    ],
-   "blurb": "Gathering, seminar, town hall, peluncuran produk"
+   "noun": "acara kantor",
+   "phrase": "acara kantor",
+   "pane": "Untuk acara kantor",
+   "blurb": "Gathering kantor, town hall, seminar, dan peluncuran produk."
+  },
+  "ulang-tahun": {
+   "slug": "ulang-tahun",
+   "name": "Ulang Tahun",
+   "guest": "tamu",
+   "cats": [
+    "venue",
+    "catering",
+    "dekorasi",
+    "hiburan",
+    "dokumentasi"
+   ],
+   "noun": "ulang tahun",
+   "phrase": "acara ulang tahun",
+   "pane": "Untuk ulang tahun",
+   "blurb": "Dari ulang tahun anak sampai perayaan kepala lima."
+  },
+  "baby-kids": {
+   "slug": "baby-kids",
+   "name": "Baby & Kids",
+   "guest": "tamu",
+   "cats": [
+    "venue",
+    "catering",
+    "dekorasi",
+    "hiburan",
+    "dokumentasi"
+   ],
+   "noun": "acara bayi & anak",
+   "phrase": "acara bayi dan anak",
+   "pane": "Untuk acara bayi & anak",
+   "blurb": "Aqiqah, baby shower, gender reveal, dan acara sekolah."
+  },
+  "social-gathering": {
+   "slug": "social-gathering",
+   "name": "Social Gathering",
+   "guest": "tamu",
+   "cats": [
+    "venue",
+    "catering",
+    "eo",
+    "hiburan"
+   ],
+   "noun": "kumpul-kumpul",
+   "phrase": "acara kumpul-kumpul",
+   "pane": "Untuk kumpul-kumpul",
+   "blurb": "Arisan, reuni, komunitas, dan kumpul keluarga besar."
+  },
+  "perayaan": {
+   "slug": "perayaan",
+   "name": "Perayaan",
+   "guest": "tamu",
+   "cats": [
+    "venue",
+    "catering",
+    "eo",
+    "dekorasi",
+    "dokumentasi",
+    "hiburan"
+   ],
+   "noun": "perayaan",
+   "phrase": "perayaan",
+   "pane": "Untuk perayaan",
+   "blurb": "Anniversary, wisuda, lamaran, dan syukuran."
   }
  },
  "categories": {
@@ -191,7 +261,11 @@
    "unit": "total",
    "h1": {
     "wedding": "Venue pernikahan",
-    "corporate": "Venue acara kantor"
+    "corporate": "Venue acara kantor",
+    "ulang-tahun": "Venue ulang tahun",
+    "baby-kids": "Venue acara bayi & anak",
+    "social-gathering": "Venue kumpul-kumpul",
+    "perayaan": "Venue perayaan"
    }
   },
   "catering": {
@@ -201,7 +275,11 @@
    "unit": "pax",
    "h1": {
     "wedding": "Catering pernikahan",
-    "corporate": "Catering acara kantor"
+    "corporate": "Catering acara kantor",
+    "ulang-tahun": "Catering ulang tahun",
+    "baby-kids": "Catering acara bayi & anak",
+    "social-gathering": "Catering kumpul-kumpul",
+    "perayaan": "Catering perayaan"
    }
   },
   "eo": {
@@ -211,7 +289,9 @@
    "unit": "total",
    "h1": {
     "wedding": "Wedding organizer",
-    "corporate": "EO acara kantor"
+    "corporate": "EO acara kantor",
+    "social-gathering": "EO kumpul-kumpul",
+    "perayaan": "EO perayaan"
    }
   },
   "hiburan": {
@@ -221,7 +301,11 @@
    "unit": "acara",
    "h1": {
     "wedding": "Hiburan pernikahan",
-    "corporate": "Hiburan acara kantor"
+    "corporate": "Hiburan acara kantor",
+    "ulang-tahun": "Hiburan ulang tahun",
+    "baby-kids": "Hiburan acara bayi & anak",
+    "social-gathering": "Hiburan kumpul-kumpul",
+    "perayaan": "Hiburan perayaan"
    }
   },
   "dekorasi": {
@@ -230,7 +314,10 @@
    "code": "DKR",
    "unit": "total",
    "h1": {
-    "wedding": "Dekorasi pernikahan"
+    "wedding": "Dekorasi pernikahan",
+    "ulang-tahun": "Dekorasi ulang tahun",
+    "baby-kids": "Dekorasi acara bayi & anak",
+    "perayaan": "Dekorasi perayaan"
    }
   },
   "dokumentasi": {
@@ -239,7 +326,10 @@
    "code": "DOK",
    "unit": "total",
    "h1": {
-    "wedding": "Foto dan video pernikahan"
+    "wedding": "Foto dan video pernikahan",
+    "ulang-tahun": "Foto dan video ulang tahun",
+    "baby-kids": "Foto dan video acara bayi & anak",
+    "perayaan": "Foto dan video perayaan"
    }
   },
   "av-produksi": {
@@ -266,7 +356,9 @@
    "setting": "indoor",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "promoted": true,
    "rank": 0,
@@ -298,7 +390,10 @@
    "price": 32,
    "setting": "outdoor",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 1,
@@ -364,7 +459,9 @@
    "setting": "outdoor",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "promoted": false,
    "rank": 3,
@@ -396,7 +493,9 @@
    "price": 21,
    "setting": "indoor",
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 4,
@@ -461,7 +560,10 @@
    "price": 38,
    "setting": "outdoor",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 6,
@@ -493,7 +595,10 @@
    "price": 27,
    "setting": "outdoor",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 7,
@@ -558,7 +663,11 @@
    "price": 41,
    "setting": "both",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 9,
@@ -590,7 +699,9 @@
    "price": 29,
    "setting": "outdoor",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 10,
@@ -623,7 +734,11 @@
    "setting": "both",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 11,
@@ -656,7 +771,8 @@
    "setting": "outdoor",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun"
    ],
    "promoted": false,
    "rank": 12,
@@ -688,7 +804,10 @@
    "price": 33,
    "setting": "both",
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 13,
@@ -721,7 +840,8 @@
    "setting": "indoor",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 14,
@@ -753,7 +873,10 @@
    "price": 44,
    "setting": "outdoor",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "promoted": false,
    "rank": 15,
@@ -796,7 +919,8 @@
    "name": "Aula Kemayoran",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "perayaan"
    ],
    "id": 186,
    "slug": "aula-kemayoran",
@@ -828,7 +952,10 @@
    "price": 12,
    "name": "Paviliun Cikini",
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 189,
    "slug": "paviliun-cikini",
@@ -860,7 +987,9 @@
    "price": 15,
    "name": "Hall Senen",
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "perayaan"
    ],
    "id": 193,
    "slug": "hall-senen",
@@ -892,7 +1021,9 @@
    "price": 19,
    "name": "Pendopo Kemayoran",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "id": 199,
    "slug": "pendopo-kemayoran",
@@ -924,7 +1055,9 @@
    "price": 55,
    "name": "Taman Kemayoran",
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 203,
    "slug": "taman-kemayoran",
@@ -956,7 +1089,9 @@
    "price": 23,
    "name": "Pendopo Cikini",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "id": 210,
    "slug": "pendopo-cikini",
@@ -988,7 +1123,8 @@
    "price": 16,
    "name": "Balai Menteng",
    "types": [
-    "wedding"
+    "wedding",
+    "perayaan"
    ],
    "id": 213,
    "slug": "balai-menteng",
@@ -1020,7 +1156,10 @@
    "price": 12,
    "name": "Villa Grogol",
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 219,
    "slug": "villa-grogol",
@@ -1053,7 +1192,9 @@
    "name": "Pendopo Kembangan",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "perayaan"
    ],
    "id": 225,
    "slug": "pendopo-kembangan",
@@ -1118,7 +1259,9 @@
    "name": "Taman Grogol",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "id": 233,
    "slug": "taman-grogol",
@@ -1151,7 +1294,10 @@
    "name": "Lapangan Hijau Palmerah",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 238,
    "slug": "lapangan-hijau-palmerah",
@@ -1183,7 +1329,11 @@
    "price": 12,
    "name": "Gedung Grogol",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 241,
    "slug": "gedung-grogol",
@@ -1249,7 +1399,9 @@
    "name": "Rooftop Kebon Jeruk",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 255,
    "slug": "rooftop-kebon-jeruk",
@@ -1313,7 +1465,11 @@
    "price": 20,
    "name": "Aula Kramat Jati",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 271,
    "slug": "aula-kramat-jati",
@@ -1345,7 +1501,9 @@
    "price": 69,
    "name": "Aula Cibubur",
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 278,
    "slug": "aula-cibubur",
@@ -1377,7 +1535,9 @@
    "price": 12,
    "name": "Kebun Cibubur",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "id": 282,
    "slug": "kebun-cibubur",
@@ -1409,7 +1569,10 @@
    "price": 13,
    "name": "Gedung Duren Sawit",
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 285,
    "slug": "gedung-duren-sawit",
@@ -1442,7 +1605,9 @@
    "name": "Aula Duren Sawit",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "id": 294,
    "slug": "aula-duren-sawit",
@@ -1475,7 +1640,9 @@
    "name": "Rooftop Cibubur",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "id": 297,
    "slug": "rooftop-cibubur",
@@ -1507,7 +1674,8 @@
    "price": 60,
    "name": "Ballroom Kramat Jati",
    "types": [
-    "corporate"
+    "corporate",
+    "perayaan"
    ],
    "id": 299,
    "slug": "ballroom-kramat-jati",
@@ -1539,7 +1707,8 @@
    "price": 48,
    "name": "Aula Gading Serpong",
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "id": 302,
    "slug": "aula-gading-serpong",
@@ -1571,7 +1740,10 @@
    "price": 45,
    "name": "Lapangan Hijau Kelapa Dua",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 307,
    "slug": "lapangan-hijau-kelapa-dua",
@@ -1604,7 +1776,8 @@
    "name": "Hall Cipondoh",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "perayaan"
    ],
    "id": 310,
    "slug": "hall-cipondoh",
@@ -1636,7 +1809,10 @@
    "price": 18,
    "name": "Rooftop Karawaci",
    "types": [
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 314,
    "slug": "rooftop-karawaci",
@@ -1668,7 +1844,8 @@
    "price": 34,
    "name": "Rooftop Cipondoh",
    "types": [
-    "corporate"
+    "corporate",
+    "perayaan"
    ],
    "id": 319,
    "slug": "rooftop-cipondoh",
@@ -1700,7 +1877,9 @@
    "price": 12,
    "name": "Gedung Gading Serpong",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "id": 328,
    "slug": "gedung-gading-serpong",
@@ -1766,7 +1945,9 @@
    "name": "Paviliun Kelapa Dua",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "perayaan"
    ],
    "id": 339,
    "slug": "paviliun-kelapa-dua",
@@ -1798,7 +1979,8 @@
    "price": 27,
    "name": "Hall Cikokol",
    "types": [
-    "corporate"
+    "corporate",
+    "perayaan"
    ],
    "id": 341,
    "slug": "hall-cikokol",
@@ -1929,7 +2111,10 @@
    "price": 37,
    "name": "Taman Bintaro",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 364,
    "slug": "taman-bintaro",
@@ -1962,7 +2147,9 @@
    "name": "Aula Alam Sutera",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 370,
    "slug": "aula-alam-sutera",
@@ -2027,7 +2214,10 @@
    "price": 25,
    "name": "Balai Ciputat",
    "types": [
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering"
    ],
    "id": 377,
    "slug": "balai-ciputat",
@@ -2060,7 +2250,10 @@
    "name": "Graha Ciputat",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering"
    ],
    "id": 385,
    "slug": "graha-ciputat",
@@ -2092,7 +2285,9 @@
    "price": 62,
    "name": "Paviliun Pamulang",
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 393,
    "slug": "paviliun-pamulang",
@@ -2125,7 +2320,11 @@
    "name": "Hall Alam Sutera",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 398,
    "slug": "hall-alam-sutera",
@@ -2256,7 +2455,8 @@
    "name": "Kebun Cikarang",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "perayaan"
    ],
    "id": 422,
    "slug": "kebun-cikarang",
@@ -2289,7 +2489,10 @@
    "name": "Graha Summarecon Bekasi",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 425,
    "slug": "graha-summarecon-bekasi",
@@ -2322,7 +2525,10 @@
    "name": "Pendopo Cikarang",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 430,
    "slug": "pendopo-cikarang",
@@ -2355,7 +2561,8 @@
    "name": "Rooftop Summarecon Bekasi",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun"
    ],
    "id": 434,
    "slug": "rooftop-summarecon-bekasi",
@@ -2421,7 +2628,11 @@
    "name": "Ballroom Cimanggis",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 448,
    "slug": "ballroom-cimanggis",
@@ -2454,7 +2665,10 @@
    "name": "Gedung Margonda",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 450,
    "slug": "gedung-margonda",
@@ -2486,7 +2700,9 @@
    "price": 34,
    "name": "Taman Sawangan",
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 452,
    "slug": "taman-sawangan",
@@ -2519,7 +2735,10 @@
    "name": "Graha Cimanggis",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 454,
    "slug": "graha-cimanggis",
@@ -2552,7 +2771,9 @@
    "name": "Ballroom Sawangan",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 462,
    "slug": "ballroom-sawangan",
@@ -2584,7 +2805,11 @@
    "price": 24,
    "name": "Ballroom Sawangan",
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 470,
    "slug": "ballroom-sawangan-2",
@@ -2649,7 +2874,9 @@
    "price": 20,
    "name": "Rooftop Sentul",
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 478,
    "slug": "rooftop-sentul",
@@ -2714,7 +2941,9 @@
    "name": "Ballroom Bogor Kota",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "id": 491,
    "slug": "ballroom-bogor-kota",
@@ -2747,7 +2976,9 @@
    "name": "Kebun Cibinong",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 492,
    "slug": "kebun-cibinong",
@@ -2811,7 +3042,9 @@
    "price": 15,
    "name": "Pendopo Cibinong",
    "types": [
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "perayaan"
    ],
    "id": 498,
    "slug": "pendopo-cibinong",
@@ -2843,7 +3076,10 @@
    "price": 12,
    "name": "Rumah Joglo Puncak",
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 507,
    "slug": "rumah-joglo-puncak",
@@ -2876,7 +3112,9 @@
    "name": "Kebun Puncak",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "perayaan"
    ],
    "id": 512,
    "slug": "kebun-puncak",
@@ -2909,7 +3147,9 @@
    "name": "Graha Sentul",
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "id": 515,
    "slug": "graha-sentul",
@@ -2941,7 +3181,11 @@
    "price": 95,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Boga Mahardika",
    "id": 520,
@@ -2973,7 +3217,10 @@
    ],
    "price": 150,
    "types": [
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Dapur Asmara",
    "id": 525,
@@ -3006,7 +3253,11 @@
    "price": 150,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Boga Candra",
    "id": 531,
@@ -3038,7 +3289,8 @@
    ],
    "price": 120,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun"
    ],
    "name": "Dapur Anjani",
    "id": 539,
@@ -3071,7 +3323,9 @@
    "price": 175,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Katering Nawala Nusantara",
    "id": 540,
@@ -3104,7 +3358,10 @@
    "price": 145,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Katering Lingkar Nusantara",
    "id": 545,
@@ -3136,7 +3393,10 @@
    ],
    "price": 160,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Boga Bestari",
    "id": 546,
@@ -3169,7 +3429,9 @@
    "price": 130,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Katering Pijar Nusantara",
    "id": 547,
@@ -3202,7 +3464,11 @@
    "price": 195,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Catering Karsa",
    "id": 548,
@@ -3235,7 +3501,9 @@
    "price": 120,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Dapur Rasa",
    "id": 550,
@@ -3268,7 +3536,10 @@
    "price": 190,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Boga Selaras",
    "id": 558,
@@ -3301,7 +3572,9 @@
    "price": 130,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "name": "Katering Sekar Nusantara",
    "id": 566,
@@ -3334,7 +3607,11 @@
    "price": 165,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Katering Mahardika Nusantara",
    "id": 572,
@@ -3367,7 +3644,10 @@
    "price": 100,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Rasa Tandem",
    "id": 579,
@@ -3400,7 +3680,11 @@
    "price": 165,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Catering Bestari",
    "id": 584,
@@ -3432,7 +3716,11 @@
    ],
    "price": 95,
    "types": [
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Catering Kirana",
    "id": 586,
@@ -3465,7 +3753,11 @@
    "price": 50,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Rasa Lentera",
    "id": 588,
@@ -3498,7 +3790,11 @@
    "price": 90,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Catering Bumi",
    "id": 592,
@@ -3531,7 +3827,9 @@
    "price": 145,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "social-gathering"
    ],
    "name": "Dapur Nawala",
    "id": 601,
@@ -3564,7 +3862,10 @@
    "price": 45,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Rasa Gita",
    "id": 610,
@@ -3597,7 +3898,11 @@
    "price": 75,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Dapur Tandem",
    "id": 614,
@@ -3630,7 +3935,8 @@
    "price": 80,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids"
    ],
    "name": "Katering Semesta Nusantara",
    "id": 623,
@@ -3662,7 +3968,10 @@
    ],
    "price": 115,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering"
    ],
    "name": "Dapur Kirana",
    "id": 627,
@@ -3694,7 +4003,8 @@
    ],
    "price": 45,
    "types": [
-    "corporate"
+    "corporate",
+    "perayaan"
    ],
    "name": "Catering Selaras",
    "id": 630,
@@ -3727,7 +4037,9 @@
    "price": 85,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Catering Lingkar",
    "id": 631,
@@ -3759,7 +4071,10 @@
    ],
    "price": 70,
    "types": [
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Catering Tandem",
    "id": 636,
@@ -3792,7 +4107,9 @@
    "price": 150,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Catering Bumi",
    "id": 644,
@@ -3825,7 +4142,9 @@
    "price": 145,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "social-gathering"
    ],
    "name": "Katering Selaras Nusantara",
    "id": 647,
@@ -3858,7 +4177,10 @@
    "price": 170,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering"
    ],
    "name": "Catering Rasa",
    "id": 655,
@@ -3890,7 +4212,11 @@
    ],
    "price": 110,
    "types": [
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Rasa Dharma",
    "id": 661,
@@ -3923,7 +4249,9 @@
    "price": 60,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Katering Gita Nusantara",
    "id": 663,
@@ -3956,7 +4284,11 @@
    "price": 75,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Catering Mahardika",
    "id": 666,
@@ -3988,7 +4320,10 @@
    ],
    "price": 105,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering"
    ],
    "name": "Katering Selaras Nusantara",
    "id": 669,
@@ -4021,7 +4356,11 @@
    "price": 65,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Catering Kencana",
    "id": 670,
@@ -4054,7 +4393,10 @@
    "price": 145,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Katering Selaras Nusantara",
    "id": 676,
@@ -4086,7 +4428,11 @@
    ],
    "price": 55,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Boga Sagara",
    "id": 684,
@@ -4119,7 +4465,11 @@
    "price": 40,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Rasa Tandem",
    "id": 693,
@@ -4152,7 +4502,10 @@
    "price": 40,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Dapur Laras",
    "id": 700,
@@ -4184,7 +4537,9 @@
    ],
    "price": 80,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Boga Sagara",
    "id": 706,
@@ -4217,7 +4572,10 @@
    "price": 100,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Katering Arunika Nusantara",
    "id": 713,
@@ -4249,7 +4607,9 @@
    ],
    "price": 50,
    "types": [
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "name": "Katering Sekar Nusantara",
    "id": 716,
@@ -4282,7 +4642,10 @@
    "price": 140,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Katering Sagara Nusantara",
    "id": 720,
@@ -4315,7 +4678,10 @@
    "price": 105,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Katering Pelita Nusantara",
    "id": 721,
@@ -4347,7 +4713,10 @@
    ],
    "price": 40,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Boga Pelita",
    "id": 725,
@@ -4380,7 +4749,10 @@
    "price": 95,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Boga Dharma",
    "id": 728,
@@ -4412,7 +4784,9 @@
    ],
    "price": 42,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Gita Event",
    "id": 737,
@@ -4445,7 +4819,9 @@
    "price": 30,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Mahardika Kreatif",
    "id": 746,
@@ -4477,7 +4853,9 @@
    ],
    "price": 22,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Karsa Kreatif",
    "id": 751,
@@ -4509,7 +4887,9 @@
    ],
    "price": 23,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Tim Acara Lentera",
    "id": 759,
@@ -4541,7 +4921,8 @@
    ],
    "price": 61,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Tim Acara Asmara",
    "id": 764,
@@ -4573,7 +4954,8 @@
    ],
    "price": 21,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Tim Acara Wiyata",
    "id": 770,
@@ -4605,7 +4987,9 @@
    ],
    "price": 24,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Kirana Kreatif",
    "id": 771,
@@ -4637,7 +5021,8 @@
    ],
    "price": 36,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Karsa Organizer",
    "id": 774,
@@ -4669,7 +5054,8 @@
    ],
    "price": 36,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Tim Acara Asmara",
    "id": 779,
@@ -4701,7 +5087,8 @@
    ],
    "price": 38,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Semesta Event",
    "id": 782,
@@ -4733,7 +5120,9 @@
    ],
    "price": 49,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Lingkar Kreatif",
    "id": 783,
@@ -4765,7 +5154,8 @@
    ],
    "price": 52,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering"
    ],
    "name": "Asmara Organizer",
    "id": 786,
@@ -4797,7 +5187,8 @@
    ],
    "price": 24,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering"
    ],
    "name": "Tim Acara Swara",
    "id": 790,
@@ -4829,7 +5220,8 @@
    ],
    "price": 28,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering"
    ],
    "name": "Tim Acara Anjani",
    "id": 793,
@@ -4861,7 +5253,8 @@
    ],
    "price": 29,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Tim Acara Bumi",
    "id": 799,
@@ -4893,8 +5286,10 @@
    ],
    "price": 38,
    "types": [
+    "wedding",
     "corporate",
-    "wedding"
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Swara Kreatif",
    "id": 806,
@@ -4958,8 +5353,10 @@
    ],
    "price": 48,
    "types": [
+    "wedding",
     "corporate",
-    "wedding"
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Bumi Event",
    "id": 818,
@@ -4991,7 +5388,8 @@
    ],
    "price": 31,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Anjani Organizer",
    "id": 823,
@@ -5023,8 +5421,10 @@
    ],
    "price": 40,
    "types": [
+    "wedding",
     "corporate",
-    "wedding"
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Semesta Organizer",
    "id": 826,
@@ -5056,7 +5456,8 @@
    ],
    "price": 35,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Selaras Organizer",
    "id": 833,
@@ -5120,7 +5521,8 @@
    ],
    "price": 26,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Nawala Kreatif",
    "id": 844,
@@ -5153,7 +5555,9 @@
    "price": 56,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Tim Acara Selaras",
    "id": 852,
@@ -5185,7 +5589,8 @@
    ],
    "price": 17,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Bumi Organizer",
    "id": 855,
@@ -5217,7 +5622,9 @@
    ],
    "price": 25,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Karsa Organizer",
    "id": 862,
@@ -5250,7 +5657,9 @@
    "price": 37,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Kencana Kreatif",
    "id": 866,
@@ -5282,7 +5691,8 @@
    ],
    "price": 27,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Sekar Event",
    "id": 872,
@@ -5314,7 +5724,8 @@
    ],
    "price": 17,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Jingga Organizer",
    "id": 876,
@@ -5346,7 +5757,9 @@
    ],
    "price": 40,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Tim Acara Kirana",
    "id": 877,
@@ -5410,7 +5823,8 @@
    ],
    "price": 25,
    "types": [
-    "wedding"
+    "wedding",
+    "perayaan"
    ],
    "name": "Arunika Organizer",
    "id": 886,
@@ -5443,7 +5857,9 @@
    "price": 42,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Tim Acara Lentera",
    "id": 895,
@@ -5475,7 +5891,8 @@
    ],
    "price": 20,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering"
    ],
    "name": "Tim Acara Selaras",
    "id": 897,
@@ -5507,7 +5924,9 @@
    ],
    "price": 17,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Serambi Kreatif",
    "id": 900,
@@ -5539,7 +5958,8 @@
    ],
    "price": 48,
    "types": [
-    "corporate"
+    "corporate",
+    "social-gathering"
    ],
    "name": "Kencana Event",
    "id": 908,
@@ -5571,7 +5991,9 @@
    ],
    "price": 48,
    "types": [
-    "wedding"
+    "wedding",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Selaras Kreatif",
    "id": 914,
@@ -5697,7 +6119,10 @@
    "price": 18,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Orkestra Pijar",
    "id": 935,
@@ -5727,7 +6152,11 @@
    "price": 35,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Selaras Entertainment",
    "id": 939,
@@ -5757,7 +6186,10 @@
    "price": 16,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Akustik Gita",
    "id": 945,
@@ -5787,7 +6219,11 @@
    "price": 19,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Gamelan Sekar",
    "id": 948,
@@ -5817,7 +6253,11 @@
    "price": 12,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Akustik Candra",
    "id": 955,
@@ -5847,7 +6287,10 @@
    "price": 20,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Orkestra Bumi",
    "id": 964,
@@ -5877,7 +6320,11 @@
    "price": 15,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Selaras Entertainment",
    "id": 973,
@@ -5907,7 +6354,9 @@
    "price": 33,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "social-gathering"
    ],
    "name": "Orkestra Pijar",
    "id": 980,
@@ -5937,7 +6386,11 @@
    "price": 8,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Mahardika Band",
    "id": 982,
@@ -5967,7 +6420,10 @@
    "price": 8,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Gita Band",
    "id": 991,
@@ -5997,7 +6453,10 @@
    "price": 20,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Gamelan Laras",
    "id": 993,
@@ -6027,7 +6486,10 @@
    "price": 35,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering"
    ],
    "name": "Lentera Band",
    "id": 999,
@@ -6057,7 +6519,10 @@
    "price": 15,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Orkestra Bumi",
    "id": 1002,
@@ -6087,7 +6552,11 @@
    "price": 8,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Bestari Band",
    "id": 1007,
@@ -6117,7 +6586,9 @@
    "price": 32,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "name": "Mahardika Band",
    "id": 1010,
@@ -6147,7 +6618,10 @@
    "price": 18,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Semesta Entertainment",
    "id": 1012,
@@ -6177,7 +6651,9 @@
    "price": 24,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Gamelan Swara",
    "id": 1019,
@@ -6207,7 +6683,10 @@
    "price": 7,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Karsa Entertainment",
    "id": 1021,
@@ -6237,7 +6716,9 @@
    "price": 13,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "social-gathering"
    ],
    "name": "Serambi Entertainment",
    "id": 1030,
@@ -6267,7 +6748,9 @@
    "price": 31,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "baby-kids",
+    "social-gathering"
    ],
    "name": "Karsa Entertainment",
    "id": 1039,
@@ -6297,7 +6780,11 @@
    "price": 29,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Mahardika Band",
    "id": 1048,
@@ -6327,7 +6814,11 @@
    "price": 22,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Gamelan Ruang",
    "id": 1054,
@@ -6357,7 +6848,11 @@
    "price": 22,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering",
+    "perayaan"
    ],
    "name": "Gamelan Kencana",
    "id": 1060,
@@ -6387,7 +6882,10 @@
    "price": 5,
    "types": [
     "wedding",
-    "corporate"
+    "corporate",
+    "ulang-tahun",
+    "baby-kids",
+    "social-gathering"
    ],
    "name": "Bestari Band",
    "id": 1064,
@@ -6416,7 +6914,10 @@
    "cap": null,
    "price": 94,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Janur Rasa",
    "id": 1067,
@@ -6445,7 +6946,10 @@
    "cap": null,
    "price": 98,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Lentera Dekorasi",
    "id": 1068,
@@ -6474,7 +6978,10 @@
    "cap": null,
    "price": 18,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Rangkai Tandem",
    "id": 1069,
@@ -6503,7 +7010,10 @@
    "cap": null,
    "price": 83,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Sagara Dekorasi",
    "id": 1074,
@@ -6532,7 +7042,9 @@
    "cap": null,
    "price": 75,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Janur Kirana",
    "id": 1075,
@@ -6561,7 +7073,9 @@
    "cap": null,
    "price": 79,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Sekar Dekorasi",
    "id": 1076,
@@ -6590,7 +7104,10 @@
    "cap": null,
    "price": 44,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Jingga Dekorasi",
    "id": 1080,
@@ -6619,7 +7136,9 @@
    "cap": null,
    "price": 57,
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Ruang Florist",
    "id": 1084,
@@ -6648,7 +7167,8 @@
    "cap": null,
    "price": 88,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun"
    ],
    "name": "Rangkai Laras",
    "id": 1087,
@@ -6677,7 +7197,8 @@
    "cap": null,
    "price": 30,
    "types": [
-    "wedding"
+    "wedding",
+    "perayaan"
    ],
    "name": "Bumi Florist",
    "id": 1093,
@@ -6706,7 +7227,10 @@
    "cap": null,
    "price": 65,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Jingga Dekorasi",
    "id": 1099,
@@ -6735,7 +7259,9 @@
    "cap": null,
    "price": 68,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Janur Serambi",
    "id": 1102,
@@ -6764,7 +7290,9 @@
    "cap": null,
    "price": 57,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Janur Kirana",
    "id": 1107,
@@ -6793,7 +7321,9 @@
    "cap": null,
    "price": 107,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Nawala Florist",
    "id": 1115,
@@ -6822,7 +7352,9 @@
    "cap": null,
    "price": 51,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Rangkai Mahardika",
    "id": 1121,
@@ -6851,7 +7383,10 @@
    "cap": null,
    "price": 50,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Janur Anjani",
    "id": 1125,
@@ -6880,7 +7415,9 @@
    "cap": null,
    "price": 93,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Rangkai Gita",
    "id": 1130,
@@ -6909,7 +7446,9 @@
    "cap": null,
    "price": 98,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Karsa Dekorasi",
    "id": 1138,
@@ -6938,7 +7477,10 @@
    "cap": null,
    "price": 78,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Rangkai Pelita",
    "id": 1139,
@@ -6967,7 +7509,8 @@
    "cap": null,
    "price": 101,
    "types": [
-    "wedding"
+    "wedding",
+    "perayaan"
    ],
    "name": "Rangkai Selaras",
    "id": 1145,
@@ -6996,7 +7539,9 @@
    "cap": null,
    "price": 97,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Rangkai Lingkar",
    "id": 1151,
@@ -7025,7 +7570,9 @@
    "cap": null,
    "price": 99,
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Nawala Florist",
    "id": 1157,
@@ -7054,7 +7601,10 @@
    "cap": null,
    "price": 86,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Rangkai Mahardika",
    "id": 1163,
@@ -7083,7 +7633,9 @@
    "cap": null,
    "price": 19,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Candra Dekorasi",
    "id": 1164,
@@ -7112,7 +7664,10 @@
    "cap": null,
    "price": 94,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Rangkai Mahardika",
    "id": 1170,
@@ -7141,7 +7696,9 @@
    "cap": null,
    "price": 112,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Pelita Dekorasi",
    "id": 1172,
@@ -7170,7 +7727,10 @@
    "cap": null,
    "price": 41,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Rangkai Serambi",
    "id": 1173,
@@ -7199,7 +7759,10 @@
    "cap": null,
    "price": 53,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Swara Dekorasi",
    "id": 1175,
@@ -7228,7 +7791,9 @@
    "cap": null,
    "price": 47,
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Janur Swara",
    "id": 1184,
@@ -7257,7 +7822,8 @@
    "cap": null,
    "price": 50,
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids"
    ],
    "name": "Rangkai Semesta",
    "id": 1185,
@@ -7286,7 +7852,10 @@
    "cap": null,
    "price": 91,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Selaras Dekorasi",
    "id": 1186,
@@ -7315,7 +7884,8 @@
    "cap": null,
    "price": 35,
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids"
    ],
    "name": "Studio Candra",
    "id": 1191,
@@ -7344,7 +7914,9 @@
    "cap": null,
    "price": 19,
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Lensa Pelita",
    "id": 1196,
@@ -7373,7 +7945,10 @@
    "cap": null,
    "price": 32,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Studio Anjani",
    "id": 1202,
@@ -7402,7 +7977,10 @@
    "cap": null,
    "price": 33,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Rasa Pictures",
    "id": 1209,
@@ -7431,7 +8009,9 @@
    "cap": null,
    "price": 31,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Rasa Films",
    "id": 1214,
@@ -7460,7 +8040,10 @@
    "cap": null,
    "price": 26,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Lensa Gita",
    "id": 1221,
@@ -7489,7 +8072,9 @@
    "cap": null,
    "price": 26,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Lensa Bumi",
    "id": 1229,
@@ -7518,7 +8103,10 @@
    "cap": null,
    "price": 31,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Pelita Pictures",
    "id": 1237,
@@ -7547,7 +8135,10 @@
    "cap": null,
    "price": 33,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Asmara Films",
    "id": 1238,
@@ -7576,7 +8167,8 @@
    "cap": null,
    "price": 35,
    "types": [
-    "wedding"
+    "wedding",
+    "perayaan"
    ],
    "name": "Selaras Pictures",
    "id": 1243,
@@ -7605,7 +8197,10 @@
    "cap": null,
    "price": 15,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Lensa Sagara",
    "id": 1248,
@@ -7634,7 +8229,9 @@
    "cap": null,
    "price": 11,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Kirana Films",
    "id": 1253,
@@ -7663,7 +8260,10 @@
    "cap": null,
    "price": 29,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Studio Sekar",
    "id": 1258,
@@ -7692,7 +8292,9 @@
    "cap": null,
    "price": 37,
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Karsa Pictures",
    "id": 1259,
@@ -7721,7 +8323,8 @@
    "cap": null,
    "price": 17,
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids"
    ],
    "name": "Studio Mahardika",
    "id": 1260,
@@ -7779,7 +8382,8 @@
    "cap": null,
    "price": 10,
    "types": [
-    "wedding"
+    "wedding",
+    "perayaan"
    ],
    "name": "Lensa Rasa",
    "id": 1265,
@@ -7808,7 +8412,9 @@
    "cap": null,
    "price": 36,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Studio Wiyata",
    "id": 1270,
@@ -7837,7 +8443,10 @@
    "cap": null,
    "price": 14,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Tandem Pictures",
    "id": 1279,
@@ -7866,7 +8475,9 @@
    "cap": null,
    "price": 26,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids"
    ],
    "name": "Studio Nawala",
    "id": 1288,
@@ -7895,7 +8506,9 @@
    "cap": null,
    "price": 25,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Lensa Candra",
    "id": 1290,
@@ -7924,7 +8537,10 @@
    "cap": null,
    "price": 28,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Rasa Films",
    "id": 1291,
@@ -7953,7 +8569,10 @@
    "cap": null,
    "price": 14,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Studio Pelita",
    "id": 1298,
@@ -7982,7 +8601,10 @@
    "cap": null,
    "price": 35,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Studio Anjani",
    "id": 1305,
@@ -8011,7 +8633,10 @@
    "cap": null,
    "price": 18,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Tandem Films",
    "id": 1309,
@@ -8040,7 +8665,8 @@
    "cap": null,
    "price": 28,
    "types": [
-    "wedding"
+    "wedding",
+    "baby-kids"
    ],
    "name": "Sagara Pictures",
    "id": 1314,
@@ -8069,7 +8695,8 @@
    "cap": null,
    "price": 38,
    "types": [
-    "wedding"
+    "wedding",
+    "perayaan"
    ],
    "name": "Studio Tandem",
    "id": 1316,
@@ -8098,7 +8725,9 @@
    "cap": null,
    "price": 25,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Anjani Films",
    "id": 1320,
@@ -8127,7 +8756,9 @@
    "cap": null,
    "price": 29,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "perayaan"
    ],
    "name": "Kencana Pictures",
    "id": 1323,
@@ -8156,7 +8787,10 @@
    "cap": null,
    "price": 30,
    "types": [
-    "wedding"
+    "wedding",
+    "ulang-tahun",
+    "baby-kids",
+    "perayaan"
    ],
    "name": "Lensa Laras",
    "id": 1328,

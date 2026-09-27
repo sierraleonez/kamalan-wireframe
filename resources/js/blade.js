@@ -40,19 +40,6 @@ Alpine.store('saved', {
     },
 });
 
-// Lapis catatan pena: kelas di <html> supaya bertahan saat wire:navigate mengganti <body>.
-Alpine.store('notes', {
-    on: read('eh_notes_on', window.innerWidth >= 1360),
-    init() {
-        document.documentElement.classList.toggle('notes-on', this.on);
-    },
-    toggle() {
-        this.on = !this.on;
-        write('eh_notes_on', this.on);
-        document.documentElement.classList.toggle('notes-on', this.on);
-    },
-});
-
 // Halaman tersimpan: tabel banding dari /tersimpan/data, catatan pribadi, antrean kontak.
 Alpine.data('savedPage', () => ({
     items: [],
@@ -109,15 +96,22 @@ Alpine.data('savedPage', () => ({
 }));
 
 // Bagikan halaman: sheet bawaan HP (navigator.share) bila ada, selain itu popover
-// dengan WhatsApp, salin tautan, dan kolom tautan untuk disalin manual.
+// dengan WhatsApp, salin tautan, dan kolom tautan untuk disalin manual. Di halaman vendor,
+// URL mengikuti tab jenis acara yang aktif (occUrl dari occasionPage).
 Alpine.data('shareButton', (share) => ({
-    share,
+    base: share,
     open: false,
     copied: false,
+    get shareUrl() {
+        return this.occUrl || this.base.url;
+    },
+    get shareWa() {
+        return 'https://wa.me/?text=' + encodeURIComponent(this.base.text + ' ' + this.shareUrl);
+    },
     async start() {
         if (navigator.share) {
             try {
-                await navigator.share({ title: share.title, text: share.text, url: share.url });
+                await navigator.share({ title: this.base.title, text: this.base.text, url: this.shareUrl });
                 return;
             } catch (e) {
                 if (e && e.name === 'AbortError') return;
@@ -127,13 +121,36 @@ Alpine.data('shareButton', (share) => ({
     },
     async copy() {
         try {
-            await navigator.clipboard.writeText(share.url);
+            await navigator.clipboard.writeText(this.shareUrl);
             this.copied = true;
             setTimeout(() => (this.copied = false), 2000);
         } catch (e) {
             this.$refs.url.focus();
             this.$refs.url.select();
         }
+    },
+}));
+
+// Halaman vendor: tab jenis acara. Mengganti tab juga mengganti URL (replaceState),
+// breadcrumb, frasa di pratinjau pesan, tautan WhatsApp, dan URL bagikan.
+Alpine.data('occasionPage', (cfg) => ({
+    occ: cfg.active,
+    list: cfg.occasions,
+    get cur() {
+        return this.list.find((o) => o.slug === this.occ) || null;
+    },
+    get wa() {
+        return this.cur ? this.cur.wa : cfg.wa;
+    },
+    get phrase() {
+        return this.cur ? this.cur.phrase : cfg.phrase;
+    },
+    get occUrl() {
+        return this.cur ? this.cur.url : null;
+    },
+    select(slug) {
+        this.occ = slug;
+        if (this.cur) history.replaceState(history.state, '', this.cur.href);
     },
 }));
 

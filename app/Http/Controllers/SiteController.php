@@ -99,7 +99,7 @@ class SiteController extends Controller
         $request->merge(['wa' => preg_replace('/[\s.\-]/', '', (string) $request->input('wa'))]);
 
         $data = $request->validate([
-            'jenis' => ['required', 'in:wedding,corporate,lainnya'],
+            'jenis' => ['required', 'in:'.implode(',', array_keys(Catalog::types())).',lainnya'],
             'wa' => ['required', 'regex:/^(\+?62|0)8\d{7,11}$/'],
             'tanggal' => ['nullable', 'string', 'max:100'],
             'area' => ['nullable', 'string', 'max:60'],
@@ -127,7 +127,7 @@ class SiteController extends Controller
         $cat = Catalog::category($data['kategori'] ?? '');
         $area = Catalog::area($data['area'] ?? null);
         $summary = implode(' · ', array_filter([
-            ['wedding' => 'Wedding', 'corporate' => 'Corporate'][$data['jenis']] ?? 'Lainnya',
+            Catalog::type($data['jenis'])['name'] ?? 'Lainnya',
             $cat['name'] ?? null,
             $area['name'] ?? null,
             ! empty($data['tamu']) ? $data['tamu'].' tamu' : null,
@@ -141,7 +141,7 @@ class SiteController extends Controller
         if (count($seg) >= 2 && Catalog::hasCategory($seg[0], $seg[1]) && (! isset($seg[2]) || Catalog::area($seg[2]))) {
             $a = isset($seg[2]) ? Catalog::area($seg[2]) : null;
             $back = ['href' => Present::listingPath($seg[0], $seg[1], $a['slug'] ?? null), 'label' => 'Lanjut lihat '.mb_strtolower(Catalog::category($seg[1])['h1'][$seg[0]]).($a ? ' di '.$a['name'] : '')];
-        } elseif (in_array($data['jenis'], ['wedding', 'corporate'], true)) {
+        } elseif (Catalog::type($data['jenis'])) {
             $back = ['href' => '/'.$data['jenis'], 'label' => 'Lanjut menjelajah '.Catalog::type($data['jenis'])['name']];
         }
 
@@ -165,12 +165,13 @@ class SiteController extends Controller
         abort_unless($hit, 404);
         [$kind, $item] = $hit;
         $type = $request->query('t');
+        $placement = strtoupper((string) $request->query('p', 'LIST'));
 
         if ($kind === 'v') {
             $type = in_array($type, $item['types'], true) ? $type : $item['types'][0];
-            $url = Present::waUrl($item['wa'], Present::waMessage($item['name'], $type, $item['ref']));
+            $url = Present::waUrl($item['wa'], Present::waMessage($item['name'], $type, $item['ref'], $placement));
         } else {
-            $url = Present::waUrl($item['wa'], Present::waMessage($item['title'], $item['type'], $item['ref'], true));
+            $url = Present::waUrl($item['wa'], Present::waMessage($item['title'], $item['type'], $item['ref'], $placement));
         }
 
         return redirect()->away($url);

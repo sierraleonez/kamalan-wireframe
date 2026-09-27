@@ -14,7 +14,7 @@ class ListingComponentTest extends TestCase
             ->assertSee('16</b> venue', false)
             ->set('tipe', 'outdoor')
             ->assertSee('10</b> venue', false)
-            ->assertSee('Outdoor ✕')
+            ->assertSeeHtml("wire:click=\"remove('tipe')\">Outdoor")
             ->call('remove', 'tipe')
             ->assertSee('16</b> venue', false);
     }

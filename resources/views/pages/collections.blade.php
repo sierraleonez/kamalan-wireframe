@@ -1,15 +1,17 @@
 @extends('layouts.site')
 @section('content')
-<x-crumb :items="$p['crumb']" />
-<h1 class="h1">Koleksi</h1>
-<p class="lead">Pilihan yang ditulis dan diurutkan tim, untuk pertanyaan yang lebih spesifik dari satu kategori.</p>
+<div class="shell">
+  <x-crumb :items="$p['crumb']" />
+  <div class="list-head">
+    <p class="eyebrow">Koleksi</p>
+    <h1 class="display">Sudah kami pilihkan</h1>
+    <p class="lead" style="max-width:56ch">Pilihan yang ditulis dan diurutkan tim, untuk pertanyaan yang lebih spesifik dari satu kategori.</p>
+  </div>
+</div>
 @foreach ($p['sections'] as $s)
-  <x-sec :title="$s['title']">
-    <div class="grid g-3">
-      @foreach ($s['cards'] as $c)
-        <a class="card coll-card" href="{{ $c['href'] }}" wire:navigate>@if ($c['sponsor'])<span class="tag paid">Disponsori</span>@endif<div class="ph ph-img">foto sampul</div><h3 class="card-title">{{ $c['title'] }}</h3><p class="card-meta">{{ $c['meta'] }}</p></a>
-      @endforeach
-    </div>
-  </x-sec>
+  <div class="shell sec {{ $loop->first ? '' : 'tight' }}">
+    <x-sec-head :eyebrow="$s['eyebrow']" :title="$s['title']" />
+    <x-colls :items="$s['cards']" />
+  </div>
 @endforeach
 @endsection

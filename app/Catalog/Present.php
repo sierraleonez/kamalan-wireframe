@@ -8,6 +8,9 @@ namespace App\Catalog;
  */
 final class Present
 {
+    /** Penempatan tombol WhatsApp, ikut di kode referral: VNU-0104-DETAIL. */
+    public const PLACEMENTS = ['HOME', 'LIST', 'DETAIL', 'KOLEKSI', 'SAVED', 'BUNDLE'];
+
     public static function num(int|float $n): string
     {
         return number_format($n, 0, ',', '.');
@@ -18,9 +21,15 @@ final class Present
         return $type === 'corporate' ? 'peserta' : 'pax';
     }
 
-    private static function unitSuffix(string $cat): string
+    public static function unit(array $v): string
     {
-        return match (Catalog::category($cat)['unit']) {
+        return Catalog::category($v['cat'])['unit'];
+    }
+
+    /** Harga singkat untuk kartu: "Rp 45 jt", "Rp 95 rb/pax". */
+    public static function priceFrom(array $v): string
+    {
+        return 'Rp '.$v['price'].match (self::unit($v)) {
             'pax' => ' rb/pax',
             'hari' => ' jt/hari',
             'acara' => ' jt/acara',
@@ -28,18 +37,30 @@ final class Present
         };
     }
 
-    public static function priceFrom(array $v): string
+    /** Harga panjang untuk kotak CTA: "Rp 45 juta", "Rp 95 rb / pax". */
+    public static function priceLong(array $v): string
     {
-        return $v['price'].self::unitSuffix($v['cat']);
+        return 'Rp '.$v['price'].match (self::unit($v)) {
+            'pax' => ' rb / pax',
+            'hari' => ' juta / hari',
+            'acara' => ' juta / acara',
+            default => ' juta',
+        };
     }
 
-    public static function priceRange(array $v): string
+    /** Yang belum termasuk: harga tidak pernah tampil tanpa pengecualiannya. */
+    public static function priceNote(array $v): string
     {
-        $hi = Catalog::category($v['cat'])['unit'] === 'pax'
-            ? (int) (round($v['price'] * 1.5 / 5) * 5)
-            : (int) round($v['price'] * 1.45);
+        $area = Catalog::area($v['area'])['name'];
 
-        return $v['price'].' – '.$hi.self::unitSuffix($v['cat']);
+        return match ($v['cat']) {
+            'venue' => $v['cateringBebas']
+                ? 'Sewa venue 6 jam, belum termasuk catering dan dekorasi'
+                : 'Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah',
+            'catering' => 'Per pax untuk menu standar, belum termasuk stall tambahan',
+            'eo' => 'Jasa koordinasi, belum termasuk venue dan vendor lain',
+            default => 'Harga dasar, belum termasuk transport di luar '.$area,
+        };
     }
 
     public static function capText(array $v, string $type): string
@@ -65,16 +86,12 @@ final class Present
         };
     }
 
+    /** Batasan yang dicari pembeli corporate, dan fakta pendek lain untuk meta kartu. */
     public static function extras(array $v, string $type): array
     {
         $e = [];
         if ($v['cat'] === 'venue') {
-            if ($type === 'wedding') {
-                $e[] = self::settingText($v['setting']);
-                if ($v['cateringBebas']) {
-                    $e[] = 'catering bebas';
-                }
-            } else {
+            if ($type === 'corporate') {
                 if ($v['av']) {
                     $e[] = 'AV in-house';
                 }
@@ -84,6 +101,8 @@ final class Present
                 if ($v['pkp']) {
                     $e[] = 'PKP';
                 }
+            } elseif ($v['cateringBebas']) {
+                $e[] = 'catering bebas';
             }
         } elseif ($v['cat'] === 'eo' && $type === 'corporate') {
             $e[] = $v['av'] ? 'AV in-house' : 'AV sewa';
@@ -97,7 +116,13 @@ final class Present
 
     public static function bundlePrice(array $b): string
     {
-        return $b['perHead'] ? 'Rp '.$b['priceMin'].' rb/peserta' : $b['priceMin'].'–'.$b['priceMax'].' jt';
+        return $b['perHead'] ? 'Rp '.$b['priceMin'].' rb / peserta' : 'Rp '.$b['priceMin'].' – '.$b['priceMax'].' jt';
+    }
+
+    /** Gradien placeholder foto, stabil per slug. */
+    public static function tone(string $slug, string $set = 't', int $n = 5): string
+    {
+        return $set.(crc32($slug) % $n + 1);
     }
 
     /* ---------- path ---------- */
@@ -122,10 +147,14 @@ final class Present
 
     /* ---------- WhatsApp ---------- */
 
-    public static function waMessage(string $name, string $type, string $ref, bool $bundle = false): string
+    public static function refCode(string $ref, string $placement): string
     {
-        return 'Halo, saya lihat '.$name.' di EventHub. Mau tanya untuk '
-            .($type === 'corporate' ? 'acara kantor' : 'pernikahan').($bundle ? ' (paket)' : '').'. (ref: '.$ref.')';
+        return $ref.'-'.(in_array($placement, self::PLACEMENTS, true) ? $placement : 'LIST');
+    }
+
+    public static function waMessage(string $name, string $type, string $ref, string $placement): string
+    {
+        return 'Halo, saya dari Kamalan — ref '.self::refCode($ref, $placement).'. Saya lihat '.$name.' untuk '.Catalog::type($type)['phrase'].'.';
     }
 
     public static function waUrl(string $number, string $text): string
@@ -134,9 +163,9 @@ final class Present
     }
 
     /** Tautan internal yang meneruskan ke wa.me (tempat pencatatan klik nanti). */
-    public static function goHref(string $ref, string $type): string
+    public static function goHref(string $ref, string $type, string $placement): string
     {
-        return '/go/'.$ref.'?t='.$type;
+        return '/go/'.$ref.'?t='.$type.'&p='.$placement;
     }
 
     /* ---------- kartu ---------- */
@@ -146,42 +175,47 @@ final class Present
         return $kind.':'.$type.':'.$slug;
     }
 
-    public static function vendorCard(array $v, string $type, bool $promo = false): array
+    public static function vendorCard(array $v, string $type, bool $promo = false, string $placement = 'LIST'): array
     {
         return [
             'key' => self::savedKey('v', $type, $v['slug']),
             'name' => $v['name'],
             'href' => self::vendorPath($v, $type),
-            'photo' => 'foto '.mb_strtolower(Catalog::category($v['cat'])['name']),
-            'meta' => implode(' · ', array_filter([$v['hood'], self::capText($v, $type)])),
-            'meta2' => implode(' · ', array_merge(['Mulai '.self::priceFrom($v)], self::extras($v, $type))),
-            'wa' => self::goHref($v['ref'], $type),
-            'ref' => $v['ref'],
+            'tone' => self::tone($v['slug']),
+            'chip' => $v['cat'] === 'venue' ? self::settingText($v['setting']) : Catalog::category($v['cat'])['name'],
+            'meta' => implode(' · ', array_filter(array_merge([$v['hood'], self::capText($v, $type)], self::extras($v, $type)))),
+            // Tanpa chip foto (kartu "serupa" di halaman detail), suasana pindah ke meta.
+            'metaNoChip' => implode(' · ', array_filter(array_merge([$v['hood'], self::capText($v, $type), $v['cat'] === 'venue' ? self::settingText($v['setting']) : null], self::extras($v, $type)))),
+            'price' => 'Mulai '.self::priceFrom($v),
+            'wa' => self::goHref($v['ref'], $type, $placement),
+            'cta' => 'WhatsApp',
             'promo' => $promo,
         ];
     }
 
-    public static function bundleCard(array $b, bool $promo = false): array
+    public static function bundleCard(array $b, bool $promo = false, string $placement = 'LIST'): array
     {
         $eo = Catalog::vendor($b['eo'] ?? '');
-        $parts = implode(' + ', array_map(fn ($m) => str_replace(' / produksi', '', Catalog::category($m[0])['name']), $b['members']));
+        $parts = implode(' + ', array_map(fn ($m) => $m[0] === 'av-produksi' ? 'AV' : mb_strtolower(Catalog::category($m[0])['name']), $b['members']));
 
         return [
             'key' => self::savedKey('b', $b['type'], $b['slug']),
             'name' => $b['title'],
             'href' => self::bundlePath($b),
-            'photo' => 'foto bundle',
-            'meta' => $parts,
-            'meta2' => self::bundlePrice($b).($b['perHead'] ? ' · min. '.$b['minGuests'] : '').' · '.Catalog::area($b['area'])['short'].($eo ? ' · oleh '.$eo['name'] : ''),
-            'wa' => self::goHref($b['ref'], $b['type']),
-            'ref' => $b['ref'],
+            'tone' => self::tone($b['slug']),
+            'chip' => null,
+            'meta' => ($eo ? 'oleh '.$eo['name'].' · ' : '').$parts,
+            'metaNoChip' => ($eo ? 'oleh '.$eo['name'].' · ' : '').$parts,
+            'price' => self::bundlePrice($b).($b['perHead'] ? ' · min. '.$b['minGuests'] : ''),
+            'wa' => self::goHref($b['ref'], $b['type'], $placement),
+            'cta' => 'Hubungi EO',
             'promo' => $promo,
         ];
     }
 
     public static function collectionTile(array $c): array
     {
-        return ['href' => '/koleksi/'.$c['slug'], 'label' => $c['short'], 'sponsor' => $c['sponsor'] ?? null];
+        return ['href' => '/koleksi/'.$c['slug'], 'label' => $c['short'], 'sponsor' => $c['sponsor'] ?? null, 'tone' => self::tone($c['slug'], 'k', 3)];
     }
 
     public static function crumb(array $parts): array

@@ -1,6 +1,10 @@
 @props(['items'])
-<div class="grid g-3">
+<div class="cols">
 @foreach ($items as $t)
-  <a class="coll-tile" href="{{ $t['href'] }}" wire:navigate>@if ($t['sponsor'])<span class="tag paid">Sponsor</span>@endif<span>{{ $t['label'] }} →</span></a>
+  <a class="col {{ $t['tone'] }}" href="{{ $t['href'] }}" wire:navigate>
+    @if ($t['sponsor'])<span class="chip-promo">Disponsori</span>@endif
+    <span>{{ $t['label'] }}</span>
+    @if (!empty($t['meta']))<small>{{ $t['meta'] }}</small>@endif
+  </a>
 @endforeach
 </div>

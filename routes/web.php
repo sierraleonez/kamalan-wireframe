@@ -1,9 +1,10 @@
 <?php
 
+use App\Catalog\Catalog;
 use App\Http\Controllers\SiteController as S;
 use Illuminate\Support\Facades\Route;
 
-$type = 'wedding|corporate';
+$type = implode('|', array_keys(Catalog::types())); // wedding|corporate|ulang-tahun|…
 $slug = '[a-z0-9-]+';
 
 Route::get('/', [S::class, 'home']);
