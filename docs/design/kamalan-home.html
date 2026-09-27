@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kamalan Event Hub — Vendor acara di Jabodetabek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+
+  --navy:#022A5B;
+  --orange:#FF7A3D;
+  --lime:#C9D63C;
+  --sky:#8EC9F2;
+  --pink:#F7C6E7;
+  --cream:#FAF8F4;
+
+  --canvas:#fff;
+  --surface:#fff;
+  --band:var(--cream);
+  --text:#022A5B;
+  --text-2:rgba(2,42,91,.72);
+  --text-3:rgba(2,42,91,.5);
+  --line:rgba(2,42,91,.14);
+  --line-soft:rgba(2,42,91,.08);
+  --tint:rgba(2,42,91,.04);
+
+  --r-md:14px;
+  --r-lg:22px;
+  --r-xl:32px;
+  --pad:clamp(16px,4vw,32px);
+}
+:root:not([data-theme="light"]){
+  @media (prefers-color-scheme: dark){
+    --canvas:#021B3A;--surface:#04254D;--band:#02203F;
+    --text:#F3F1EC;--text-2:rgba(243,241,236,.76);--text-3:rgba(243,241,236,.54);
+    --line:rgba(243,241,236,.18);--line-soft:rgba(243,241,236,.1);--tint:rgba(243,241,236,.05);
+  }
+}
+:root[data-theme="dark"]{
+  --canvas:#021B3A;--surface:#04254D;--band:#02203F;
+  --text:#F3F1EC;--text-2:rgba(243,241,236,.76);--text-3:rgba(243,241,236,.54);
+  --line:rgba(243,241,236,.18);--line-soft:rgba(243,241,236,.1);--tint:rgba(243,241,236,.05);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+body{
+  margin:0;background:var(--canvas);color:var(--text);
+  font-family:Jost,system-ui,sans-serif;font-size:16px;line-height:1.6;font-weight:400;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+.shell{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
+
+/* ---------- type ---------- */
+.display{font-family:Fraunces,Georgia,serif;font-weight:400;line-height:1.02;letter-spacing:-.02em}
+h1.display{font-size:clamp(40px,7vw,72px);margin:0 0 20px}
+h2.display{font-size:clamp(27px,4vw,42px);margin:0 0 10px}
+h3.display{font-size:clamp(19px,2.2vw,23px);margin:0}
+.script{font-family:Fraunces,serif;font-style:italic;font-weight:500;line-height:1.15}
+.eyebrow{
+  font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--text-3);margin:0 0 14px;
+}
+p{margin:0 0 18px;color:var(--text-2);font-weight:300}
+.lead{font-size:17.5px;max-width:46ch}
+
+/* ---------- nav ---------- */
+header.nav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:60;
+  background:color-mix(in srgb, var(--canvas) 88%, transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft);
+}
+.nav-in{display:flex;align-items:center;gap:26px;height:68px}
+.brand{font-family:Fraunces,serif;font-size:25px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.brand em{font-style:italic}
+.brand small{display:block;font-family:Jost,sans-serif;font-size:8px;font-weight:500;letter-spacing:.32em;color:var(--text-3);margin-top:2px}
+.nav-links{display:none;gap:24px;margin-left:12px;font-size:14.5px;color:var(--text-2)}
+@media(min-width:860px){.nav-links{display:flex}}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.wishlist{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:500;padding:9px 16px;border:1px solid var(--line);border-radius:100px}
+.wishlist b{background:var(--navy);color:#fff;font-size:11px;font-weight:600;width:18px;height:18px;border-radius:50%;display:grid;place-items:center}
+:root[data-theme="dark"] .wishlist b,:root:not([data-theme="light"]) .wishlist b{background:var(--sky);color:var(--navy)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 28px;border-radius:100px;border:1px solid transparent;
+  font-family:Jost,sans-serif;font-size:15.5px;font-weight:500;cursor:pointer;
+}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-orange{background:var(--orange);color:#fff;box-shadow:0 10px 26px -12px rgba(255,122,61,.75)}
+.btn-line{border-color:var(--line);color:var(--text)}
+:root[data-theme="dark"] .btn-navy,:root:not([data-theme="light"]) .btn-navy{background:var(--sky);color:var(--navy)}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(28px,5vw,56px) 0 clamp(40px,6vw,72px);position:relative}
+.hero-grid{display:grid;gap:clamp(28px,4vw,48px);grid-template-columns:1fr;align-items:center}
+@media(min-width:940px){.hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr)}}
+.hero-copy .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chip{font-size:13.5px;padding:8px 16px;border-radius:100px;border:1px solid var(--line);color:var(--text-2)}
+
+.hero-art{position:relative;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3;background:linear-gradient(145deg,#0b3a72,#1d6fae 48%,#8EC9F2)}
+@media(min-width:940px){.hero-art{aspect-ratio:11/9}}
+.hero-art .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.72);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.hero-art .script{position:absolute;left:26px;top:26px;color:#fff;font-size:clamp(24px,3vw,34px);text-shadow:0 2px 18px rgba(2,42,91,.35)}
+.hero-art .vals{
+  position:absolute;right:22px;bottom:24px;text-align:right;color:rgba(255,255,255,.9);
+  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;line-height:2.1;
+}
+.ribbon-hero{position:absolute;left:-90px;bottom:-40px;z-index:2;pointer-events:none}
+
+/* ---------- section head ---------- */
+.sec{padding:clamp(40px,6vw,72px) 0}
+.sec-head{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.sec-head .more{margin-left:auto;font-size:14.5px;font-weight:500;color:var(--text-2);display:flex;align-items:center;gap:8px}
+
+/* ---------- occasion tiles ---------- */
+.occs{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:620px){.occs{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.occs{grid-template-columns:repeat(3,1fr)}}
+.occ{
+  position:relative;border-radius:var(--r-xl);overflow:hidden;min-height:210px;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:24px;color:#fff;
+}
+.occ::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(2,42,91,.86),rgba(2,42,91,.12) 66%)}
+.occ>*{position:relative;z-index:2}
+.occ h3{font-family:Fraunces,serif;font-size:26px;margin:0 0 5px;letter-spacing:-.01em}
+.occ p{color:rgba(255,255,255,.84);margin:0 0 12px;font-size:14px;max-width:30ch;line-height:1.5}
+.occ .go{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
+.o1{background:linear-gradient(150deg,#F7C6E7,#b8709f 72%)}
+.o2{background:linear-gradient(150deg,#8EC9F2,#2a6ea8 72%)}
+.o3{background:linear-gradient(150deg,#FF7A3D,#b8420f 72%)}
+.o4{background:linear-gradient(150deg,#C9D63C,#6f9130 72%)}
+.o5{background:linear-gradient(150deg,#8EC9F2,#0d4a8f 72%)}
+.o6{background:linear-gradient(150deg,#F7C6E7,#7e5fa8 72%)}
+
+/* ---------- categories ---------- */
+.cats{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:620px){.cats{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.cats{grid-template-columns:repeat(6,1fr)}}
+.cat{text-align:center}
+.cat .ic{
+  height:92px;border-radius:var(--r-lg);display:grid;place-items:center;margin-bottom:11px;
+  border:1px solid var(--line-soft);
+}
+.cat .nm{font-size:14.5px;font-weight:400;color:var(--text-2)}
+.c1{background:rgba(142,201,242,.24)}
+.c2{background:rgba(247,198,231,.34)}
+.c3{background:rgba(255,122,61,.15)}
+.c4{background:rgba(201,214,60,.24)}
+.c5{background:rgba(142,201,242,.16)}
+.c6{background:rgba(247,198,231,.22)}
+
+/* ---------- cards ---------- */
+.row{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column}
+.thumb-wrap{position:relative}
+.thumb{aspect-ratio:3/2;display:grid;place-items:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+.t1{background:linear-gradient(150deg,#C9D63C,#7fa33a)}
+.t2{background:linear-gradient(150deg,#FF7A3D,#d1471c)}
+.t3{background:linear-gradient(150deg,#F7C6E7,#c98bb5)}
+.t4{background:linear-gradient(150deg,#022A5B,#0d4a8f)}
+.t5{background:linear-gradient(150deg,#8EC9F2,#2a6ea8)}
+.card .body{padding:16px 17px 14px;display:flex;flex-direction:column;gap:5px;flex:1}
+.card .nm{font-family:Fraunces,serif;font-size:18.5px;line-height:1.2}
+.card .mt{font-size:13.5px;color:var(--text-3);font-weight:300}
+.card .pr{font-size:14.5px;font-weight:500;margin-top:auto;padding-top:10px}
+.card .go{margin:0 17px 17px;padding:11px;border-radius:100px;text-align:center;font-size:14px;font-weight:500;background:var(--tint)}
+.card .go.wa{background:var(--orange);color:#fff}
+.card.promoted{border-color:rgba(201,214,60,.85);box-shadow:0 0 0 3px rgba(201,214,60,.16)}
+.chip-promo{
+  position:absolute;top:12px;left:12px;background:var(--lime);color:var(--navy);
+  font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 11px;border-radius:100px;
+}
+.chip-area{
+  position:absolute;top:12px;left:12px;background:rgba(255,255,255,.94);color:var(--navy);
+  font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 11px;border-radius:100px;
+}
+
+/* ---------- collections ---------- */
+.cols{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:760px){.cols{grid-template-columns:repeat(3,1fr)}}
+.col{
+  position:relative;border-radius:var(--r-lg);overflow:hidden;min-height:190px;
+  display:flex;align-items:flex-end;padding:22px;color:#fff;
+}
+.col::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(2,42,91,.8),rgba(2,42,91,.1) 70%)}
+.col span{position:relative;z-index:2;font-family:Fraunces,serif;font-size:20px;line-height:1.2}
+.k1{background:linear-gradient(150deg,#C9D63C,#4f7a2e)}
+.k2{background:linear-gradient(150deg,#8EC9F2,#1d5b93)}
+.k3{background:linear-gradient(150deg,#FF7A3D,#a8360f)}
+
+/* ---------- about band ---------- */
+.band{background:var(--band);border-radius:var(--r-xl);padding:clamp(28px,5vw,56px);position:relative;overflow:hidden}
+.band-grid{display:grid;gap:clamp(24px,4vw,48px);grid-template-columns:1fr;align-items:center}
+@media(min-width:900px){.band-grid{grid-template-columns:1fr 1fr}}
+.how{display:grid;gap:0}
+.how div{padding:18px 0;border-top:1px solid var(--line-soft)}
+.how div:first-child{border-top:none;padding-top:0}
+.how .n{font-family:Fraunces,serif;font-size:13px;color:var(--text-3);margin-bottom:4px}
+.how .h{font-size:16.5px;font-weight:500;margin-bottom:3px}
+.how .d{font-size:14.5px;color:var(--text-2);font-weight:300;line-height:1.55}
+
+/* ---------- nemu band ---------- */
+.nemu{
+  background:rgba(142,201,242,.28);border-radius:var(--r-xl);
+  padding:clamp(28px,5vw,52px);display:grid;gap:22px;align-items:center;
+}
+@media(min-width:840px){.nemu{grid-template-columns:1.4fr auto}}
+:root[data-theme="dark"] .nemu,:root:not([data-theme="light"]) .nemu{background:rgba(142,201,242,.12)}
+
+/* ---------- footer ---------- */
+footer{margin-top:56px;background:var(--navy);color:rgba(255,255,255,.72);padding:56px 0 48px;position:relative;overflow:hidden}
+:root[data-theme="dark"] footer,:root:not([data-theme="light"]) footer{background:#011531}
+footer .shell{position:relative;z-index:2}
+footer .brand{color:#fff;margin-bottom:18px}
+footer .brand small{color:rgba(255,255,255,.55)}
+footer p{color:rgba(255,255,255,.66);max-width:44ch;font-size:14.5px}
+.fcols{display:grid;gap:30px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:34px}
+.fcols h5{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 12px;font-weight:500}
+.fcols a{display:block;font-size:14.5px;padding:5px 0;color:rgba(255,255,255,.8);font-weight:300}
+.ribbon-f{position:absolute;right:-60px;top:-40px;opacity:.5;pointer-events:none}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="shell nav-in">
+    <div class="brand"><em>Kamalan</em><small>EVENT HUB</small></div>
+    <nav class="nav-links">
+      <a href="#bundle">Bundle</a>
+      <a href="#koleksi">Koleksi</a>
+    </nav>
+    <div class="nav-right">
+      <div class="wishlist">Tersimpan <b>0</b></div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="shell hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">People · Ideas · Places · Possibilities</p>
+      <h1 class="display">Acara yang<br>benar-benar<br>jadi.</h1>
+      <p class="lead">Venue, catering, EO, dan hiburan di Jabodetabek — semuanya kami datangi sendiri sebelum masuk daftar. Harga dan kapasitas apa adanya.</p>
+      <a class="btn btn-navy" href="#branch">Mulai jelajahi →</a>
+      <div class="chips">
+        <span class="chip">Jakarta Selatan</span>
+        <span class="chip">Jakarta Pusat</span>
+        <span class="chip">BSD & Tangerang</span>
+        <span class="chip">Bekasi</span>
+        <span class="chip">Depok</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="ph">foto acara</div>
+      <div class="script">Momen yang<br>lebih berarti</div>
+      <div class="vals">Creative<br>Inclusive<br>Trusted<br>Inspiring<br>Joyful</div>
+    </div>
+  </div>
+  <svg class="ribbon-hero" width="300" height="200" viewBox="0 0 300 200" fill="none" aria-hidden="true">
+    <path d="M10 150 C 70 60, 120 190, 180 100 S 270 50, 292 120" stroke="#C9D63C" stroke-width="24" stroke-linecap="round"/>
+    <path d="M0 180 C 60 110, 110 200, 170 140" stroke="#FF7A3D" stroke-width="19" stroke-linecap="round" opacity=".9"/>
+    <path d="M30 110 C 80 70, 120 130, 180 70" stroke="#F7C6E7" stroke-width="17" stroke-linecap="round" opacity=".9"/>
+  </svg>
+</div>
+
+<!-- OCCASIONS -->
+<div class="shell sec" id="branch">
+  <div class="sec-head">
+    <div>
+      <p class="eyebrow">Mulai dari sini</p>
+      <h2 class="display">Acaranya yang mana?</h2>
+      <p style="max-width:52ch;margin:10px 0 0">Vendor yang sama bisa cocok untuk beberapa acara — tapi yang kami tulis soal tempatnya berbeda-beda, sesuai acaranya.</p>
+    </div>
+  </div>
+  <div class="occs">
+    <a class="occ o1" href="#">
+      <h3>Wedding</h3>
+      <p>Gedung, catering, dekorasi, dan dokumentasi untuk akad sampai resepsi.</p>
+      <span class="go">Lihat vendor →</span>
+    </a>
+    <a class="occ o2" href="#">
+      <h3>Corporate</h3>
+      <p>Gathering kantor, town hall, seminar, dan peluncuran produk.</p>
+      <span class="go">Lihat vendor →</span>
+    </a>
+    <a class="occ o3" href="#">
+      <h3>Ulang Tahun</h3>
+      <p>Dari ulang tahun anak sampai perayaan kepala lima.</p>
+      <span class="go">Lihat vendor →</span>
+    </a>
+    <a class="occ o4" href="#">
+      <h3>Baby &amp; Kids</h3>
+      <p>Aqiqah, baby shower, gender reveal, dan acara sekolah.</p>
+      <span class="go">Lihat vendor →</span>
+    </a>
+    <a class="occ o5" href="#">
+      <h3>Social Gathering</h3>
+      <p>Arisan, reuni, komunitas, dan kumpul keluarga besar.</p>
+      <span class="go">Lihat vendor →</span>
+    </a>
+    <a class="occ o6" href="#">
+      <h3>Perayaan</h3>
+      <p>Anniversary, wisuda, lamaran, dan syukuran.</p>
+      <span class="go">Lihat vendor →</span>
+    </a>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="shell sec" style="padding-top:0">
+  <div class="sec-head">
+    <div>
+      <p class="eyebrow">Kategori</p>
+      <h2 class="display">Cari per kebutuhan</h2>
+    </div>
+  </div>
+  <div class="cats">
+    <a class="cat" href="#">
+      <div class="ic c1"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#022A5B" stroke-width="1.4"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-5h6v5"/></svg></div>
+      <div class="nm">Venue</div>
+    </a>
+    <a class="cat" href="#">
+      <div class="ic c2"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#022A5B" stroke-width="1.4"><path d="M4 18h16M6 18a6 6 0 0112 0M12 6v2M9 4h6"/></svg></div>
+      <div class="nm">Catering</div>
+    </a>
+    <a class="cat" href="#">
+      <div class="ic c3"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#022A5B" stroke-width="1.4"><path d="M9 7a3 3 0 106 0 3 3 0 00-6 0zM4 20a8 8 0 0116 0M17 9l2.5-1.5M17 12l3 .5"/></svg></div>
+      <div class="nm">EO</div>
+    </a>
+    <a class="cat" href="#">
+      <div class="ic c4"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#022A5B" stroke-width="1.4"><path d="M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+      <div class="nm">Hiburan</div>
+    </a>
+    <a class="cat" href="#">
+      <div class="ic c5"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#022A5B" stroke-width="1.4"><path d="M12 21s-7-5-7-10a7 7 0 0114 0c0 5-7 10-7 10zM12 8v6M9 11h6"/></svg></div>
+      <div class="nm">Dekorasi</div>
+    </a>
+    <a class="cat" href="#">
+      <div class="ic c6"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#022A5B" stroke-width="1.4"><path d="M3 8h4l2-3h6l2 3h4v11H3zM12 15a3.5 3.5 0 100-7 3.5 3.5 0 000 7z"/></svg></div>
+      <div class="nm">Dokumentasi</div>
+    </a>
+  </div>
+</div>
+
+<!-- BUNDLES -->
+<div class="shell sec" id="bundle">
+  <div class="sec-head">
+    <div>
+      <p class="eyebrow">Paket bundle</p>
+      <h2 class="display">Satu kontak, semua vendornya</h2>
+      <p style="max-width:52ch;margin:10px 0 0">Paket yang disusun EO dari vendor rekanan mereka sendiri. Kamu bicara ke satu orang, bukan lima.</p>
+    </div>
+    <a class="more" href="#">Semua bundle →</a>
+  </div>
+  <div class="row">
+    <article class="card promoted">
+      <div class="thumb-wrap"><div class="thumb t3">foto</div><span class="chip-promo">Promoted</span></div>
+      <div class="body">
+        <div class="nm">Intimate Wedding 150 pax</div>
+        <div class="mt">oleh Sekar Event · venue + catering + dekor</div>
+        <div class="pr">Rp 85 – 110 jt</div>
+      </div>
+      <div class="go wa">Hubungi EO</div>
+    </article>
+    <article class="card">
+      <div class="thumb-wrap"><div class="thumb t5">foto</div></div>
+      <div class="body">
+        <div class="nm">Gathering Kantor 300 pax</div>
+        <div class="mt">oleh Tabik Project · venue + catering + AV</div>
+        <div class="pr">Rp 120 – 148 jt</div>
+      </div>
+      <div class="go wa">Hubungi EO</div>
+    </article>
+    <article class="card">
+      <div class="thumb-wrap"><div class="thumb t1">foto</div></div>
+      <div class="body">
+        <div class="nm">Akad & Resepsi 500 pax</div>
+        <div class="mt">oleh Rasa Kreasi · venue + catering + dekor + dok.</div>
+        <div class="pr">Rp 210 – 245 jt</div>
+      </div>
+      <div class="go wa">Hubungi EO</div>
+    </article>
+  </div>
+</div>
+
+<!-- VENDORS -->
+<div class="shell sec" style="padding-top:0">
+  <div class="sec-head">
+    <div>
+      <p class="eyebrow">Vendor pilihan</p>
+      <h2 class="display">Baru kami datangi</h2>
+    </div>
+    <a class="more" href="#">Semua vendor →</a>
+  </div>
+  <div class="row">
+    <article class="card promoted">
+      <div class="thumb-wrap"><div class="thumb t4">foto</div><span class="chip-promo">Promoted</span></div>
+      <div class="body">
+        <div class="nm">Taman Kebayoran</div>
+        <div class="mt">Kebayoran Baru · 300–500 pax</div>
+        <div class="pr">Mulai Rp 45 jt</div>
+      </div>
+      <div class="go wa">WhatsApp</div>
+    </article>
+    <article class="card">
+      <div class="thumb-wrap"><div class="thumb t1">foto</div><span class="chip-area">Outdoor</span></div>
+      <div class="body">
+        <div class="nm">Rumah Kebon</div>
+        <div class="mt">Kemang · 150–250 pax</div>
+        <div class="pr">Mulai Rp 38 jt</div>
+      </div>
+      <div class="go wa">WhatsApp</div>
+    </article>
+    <article class="card">
+      <div class="thumb-wrap"><div class="thumb t2">foto</div><span class="chip-area">Catering</span></div>
+      <div class="body">
+        <div class="nm">Dapur Nusa</div>
+        <div class="mt">Jakarta Timur · min 100 pax</div>
+        <div class="pr">Mulai Rp 95 rb/pax</div>
+      </div>
+      <div class="go wa">WhatsApp</div>
+    </article>
+    <article class="card">
+      <div class="thumb-wrap"><div class="thumb t5">foto</div><span class="chip-area">Indoor</span></div>
+      <div class="body">
+        <div class="nm">Beranda Senopati</div>
+        <div class="mt">Senopati · 80–120 pax</div>
+        <div class="pr">Mulai Rp 21 jt</div>
+      </div>
+      <div class="go wa">WhatsApp</div>
+    </article>
+  </div>
+</div>
+
+<!-- COLLECTIONS -->
+<div class="shell sec" id="koleksi" style="padding-top:0">
+  <div class="sec-head">
+    <div>
+      <p class="eyebrow">Koleksi</p>
+      <h2 class="display">Sudah kami pilihkan</h2>
+    </div>
+    <a class="more" href="#">Semua koleksi →</a>
+  </div>
+  <div class="cols">
+    <a class="col k1" href="#"><span>Rooftop di Jaksel<br>di bawah 50 juta</span></a>
+    <a class="col k2" href="#"><span>Venue gathering<br>300 pax di BSD</span></a>
+    <a class="col k3" href="#"><span>Catering halal<br>bersertifikat</span></a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="shell sec" style="padding-top:0">
+  <div class="band">
+    <div class="band-grid">
+      <div>
+        <p class="eyebrow">Tentang Kamalan</p>
+        <h2 class="display">Daftar yang kami tulis sendiri.</h2>
+        <p style="max-width:44ch">Kami belum punya ribuan vendor, dan memang belum mau. Yang ada di sini sudah didatangi, ditanyai harganya langsung, dan ditulis apa adanya — termasuk kekurangannya.</p>
+        <a class="btn btn-line" href="#">Cara kami memilih →</a>
+      </div>
+      <div class="how">
+        <div>
+          <div class="n">01</div>
+          <div class="h">Kami datang</div>
+          <div class="d">Setiap venue dikunjungi minimal sekali, biasanya di jam acara berlangsung.</div>
+        </div>
+        <div>
+          <div class="n">02</div>
+          <div class="h">Kami tanya harganya</div>
+          <div class="d">Angka di sini dari pengelola, bukan perkiraan. Lengkap dengan yang belum termasuk.</div>
+        </div>
+        <div>
+          <div class="n">03</div>
+          <div class="h">Kami tulis kekurangannya</div>
+          <div class="d">Akses sempit, batas jam, tidak ada area indoor — semuanya kami sebut di halaman vendornya.</div>
+        </div>
+        <div>
+          <div class="n">04</div>
+          <div class="h">Kamu hubungi langsung</div>
+          <div class="d">Tidak ada perantara dan tidak ada biaya tambahan. Kamu ngobrol langsung dengan vendornya.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NGGA NEMU -->
+<div class="shell sec" style="padding-top:0">
+  <div class="nemu">
+    <div>
+      <h2 class="display" style="font-size:clamp(24px,3.4vw,34px)">Ngga nemu yang kamu cari?</h2>
+      <p style="margin:8px 0 0;max-width:48ch">Kasih tau kebutuhanmu — jenis acara, tanggal, area, jumlah tamu, dan kisaran budget. Tim kami carikan dan kabari lewat WhatsApp.</p>
+    </div>
+    <a class="btn btn-orange" href="#">Isi kebutuhan →</a>
+  </div>
+</div>
+
+<footer>
+  <svg class="ribbon-f" width="320" height="220" viewBox="0 0 320 220" fill="none" aria-hidden="true">
+    <path d="M10 160 C 70 60, 130 200, 190 100 S 300 40, 310 120" stroke="#C9D63C" stroke-width="26" stroke-linecap="round"/>
+    <path d="M40 200 C 100 110, 150 230, 220 140" stroke="#FF7A3D" stroke-width="20" stroke-linecap="round" opacity=".85"/>
+    <path d="M120 30 C 180 0, 230 80, 300 30" stroke="#8EC9F2" stroke-width="18" stroke-linecap="round" opacity=".8"/>
+  </svg>
+  <div class="shell">
+    <div class="brand"><em>Kamalan</em><small>EVENT HUB</small></div>
+    <p>Venue, catering, EO, dan hiburan di Jabodetabek — semuanya kami datangi sendiri sebelum masuk daftar.</p>
+    <div class="fcols">
+      <div>
+        <h5>Acara</h5>
+        <a href="#">Wedding</a><a href="#">Corporate</a><a href="#">Ulang Tahun</a><a href="#">Baby &amp; Kids</a><a href="#">Social Gathering</a><a href="#">Perayaan</a>
+      </div>
+      <div>
+        <h5>Kategori</h5>
+        <a href="#">Venue</a><a href="#">Catering</a><a href="#">EO</a><a href="#">Hiburan</a><a href="#">Dekorasi</a><a href="#">Dokumentasi</a>
+      </div>
+      <div>
+        <h5>Area</h5>
+        <a href="#">Jakarta Selatan</a><a href="#">BSD & Tangerang</a><a href="#">Bekasi</a><a href="#">Depok</a>
+      </div>
+      <div>
+        <h5>Kamalan</h5>
+        <a href="#">Tentang kami</a><a href="#">Kasih tau kami</a><a href="#">Daftarkan usaha</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

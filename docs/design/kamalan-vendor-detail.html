@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rumah Kebon Kemang — Kamalan Event Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+
+  --navy:#022A5B;
+  --orange:#FF7A3D;
+  --lime:#C9D63C;
+  --sky:#8EC9F2;
+  --pink:#F7C6E7;
+  --cream:#FAF8F4;
+  --white:#fff;
+
+  --canvas:#fff;
+  --surface:#fff;
+  --band:var(--cream);
+  --text:#022A5B;
+  --text-2:rgba(2,42,91,.72);
+  --text-3:rgba(2,42,91,.5);
+  --line:rgba(2,42,91,.14);
+  --line-soft:rgba(2,42,91,.08);
+  --tint:rgba(2,42,91,.04);
+
+  --r-sm:8px;
+  --r-md:14px;
+  --r-lg:22px;
+  --pad:clamp(16px,4vw,32px);
+}
+:root:not([data-theme="light"]){
+  @media (prefers-color-scheme: dark){
+    --canvas:#021B3A;
+    --surface:#04254D;
+    --band:#02203F;
+    --text:#F3F1EC;
+    --text-2:rgba(243,241,236,.76);
+    --text-3:rgba(243,241,236,.54);
+    --line:rgba(243,241,236,.18);
+    --line-soft:rgba(243,241,236,.1);
+    --tint:rgba(243,241,236,.05);
+  }
+}
+:root[data-theme="dark"]{
+  --canvas:#021B3A;
+  --surface:#04254D;
+  --band:#02203F;
+  --text:#F3F1EC;
+  --text-2:rgba(243,241,236,.76);
+  --text-3:rgba(243,241,236,.54);
+  --line:rgba(243,241,236,.18);
+  --line-soft:rgba(243,241,236,.1);
+  --tint:rgba(243,241,236,.05);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+body{
+  margin:0;background:var(--canvas);color:var(--text);
+  font-family:Jost,system-ui,sans-serif;font-size:16px;line-height:1.6;
+  font-weight:400;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(env(safe-area-inset-bottom,0px) + 92px);
+}
+@media(min-width:900px){body{padding-bottom:env(safe-area-inset-bottom,0px)}}
+img{max-width:100%}
+a{color:inherit;text-decoration:none}
+
+.shell{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
+
+/* ---------- type ---------- */
+.display{font-family:Fraunces,Georgia,serif;font-weight:400;line-height:1.05;letter-spacing:-.015em}
+h1.display{font-size:clamp(34px,5.5vw,54px);margin:0 0 14px}
+h2.display{font-size:clamp(24px,3.2vw,34px);margin:0 0 6px}
+h3.display{font-size:clamp(19px,2.2vw,23px);margin:0 0 4px}
+.eyebrow{
+  font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-3);margin:0 0 10px;
+}
+p{margin:0 0 16px;color:var(--text-2);font-weight:300}
+.lead{font-size:17px}
+
+/* ---------- nav ---------- */
+header.nav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:60;
+  background:color-mix(in srgb, var(--canvas) 88%, transparent);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-in{display:flex;align-items:center;gap:26px;height:68px}
+.brand{font-family:Fraunces,serif;font-size:25px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.brand em{font-style:italic}
+.brand small{
+  display:block;font-family:Jost,sans-serif;font-size:8px;font-weight:500;
+  letter-spacing:.32em;color:var(--text-3);margin-top:2px;
+}
+.nav-links{display:none;gap:24px;margin-left:12px;font-size:14.5px;font-weight:400;color:var(--text-2)}
+@media(min-width:860px){.nav-links{display:flex}}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.wishlist{
+  display:flex;align-items:center;gap:7px;font-size:14px;font-weight:500;
+  padding:9px 16px;border:1px solid var(--line);border-radius:100px;
+}
+.wishlist b{
+  background:var(--navy);color:#fff;font-size:11px;font-weight:600;
+  width:18px;height:18px;border-radius:50%;display:grid;place-items:center;
+}
+:root[data-theme="dark"] .wishlist b,
+:root:not([data-theme="light"]) .wishlist b{background:var(--sky);color:var(--navy)}
+
+/* ---------- breadcrumb ---------- */
+.crumb{
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  padding:22px 0 16px;font-size:14px;color:var(--text-2);font-weight:400;
+}
+.crumb a{border-bottom:1px solid var(--line);padding-bottom:1px}
+.crumb span{color:var(--text-3)}
+.crumb .here{color:var(--text-3);border:none}
+
+/* ---------- gallery ---------- */
+.gallery{display:grid;gap:10px;grid-template-columns:1fr;margin-bottom:34px}
+@media(min-width:800px){.gallery{grid-template-columns:1.9fr 1fr;height:420px}}
+.shot{
+  border-radius:var(--r-lg);overflow:hidden;position:relative;
+  display:grid;place-items:center;
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85);
+}
+.shot-main{aspect-ratio:16/10;background:linear-gradient(140deg,#0b3a72,#1d6fae 55%,#8EC9F2)}
+@media(min-width:800px){.shot-main{aspect-ratio:auto;height:100%}}
+.gal-side{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+@media(min-width:800px){.gal-side{grid-template-columns:1fr 1fr;height:100%}}
+.shot-s{aspect-ratio:4/3}
+@media(min-width:800px){.shot-s{aspect-ratio:auto}}
+.s1{background:linear-gradient(150deg,#C9D63C,#7fa33a)}
+.s2{background:linear-gradient(150deg,#FF7A3D,#d1471c)}
+.s3{background:linear-gradient(150deg,#F7C6E7,#c98bb5)}
+.s4{background:linear-gradient(150deg,#022A5B,#0d4a8f)}
+.more-shot{
+  position:absolute;inset:0;background:rgba(2,42,91,.55);
+  display:grid;place-items:center;font-family:Fraunces,serif;
+  font-size:17px;letter-spacing:0;text-transform:none;color:#fff;
+}
+
+/* ---------- layout ---------- */
+.split{display:grid;gap:clamp(28px,5vw,56px);grid-template-columns:1fr;align-items:start}
+@media(min-width:960px){.split{grid-template-columns:minmax(0,1.65fr) minmax(320px,1fr)}}
+
+/* ---------- title block ---------- */
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.tag{
+  font-size:12.5px;font-weight:500;letter-spacing:.02em;
+  padding:5px 13px;border-radius:100px;border:1px solid var(--line);color:var(--text-2);
+}
+.tag.on{background:var(--navy);border-color:var(--navy);color:#fff}
+:root[data-theme="dark"] .tag.on,
+:root:not([data-theme="light"]) .tag.on{background:var(--sky);border-color:var(--sky);color:var(--navy)}
+
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);
+  border-radius:var(--r-md);overflow:hidden;margin:26px 0 34px;
+}
+.fact{background:var(--band);padding:16px 18px}
+.fact .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:5px}
+.fact .v{font-family:Fraunces,serif;font-size:19px;line-height:1.2}
+
+/* ---------- occasion switcher ---------- */
+.occ-block{
+  border:1px solid var(--line);border-radius:var(--r-lg);
+  overflow:hidden;margin:30px 0 8px;
+}
+.occ-tabs{
+  display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  border-bottom:1px solid var(--line-soft);scrollbar-width:none;
+}
+.occ-tabs::-webkit-scrollbar{display:none}
+.occ-tab{
+  flex:0 0 auto;padding:15px 20px;font-size:14.5px;font-weight:400;color:var(--text-3);
+  cursor:pointer;border:none;background:none;font-family:Jost,sans-serif;
+  border-bottom:2px solid transparent;white-space:nowrap;
+}
+.occ-tab[aria-selected="true"]{color:var(--text);font-weight:500;border-bottom-color:var(--orange)}
+.occ-body{padding:24px}
+.occ-body .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px}
+.occ-body h4{font-family:Fraunces,serif;font-weight:400;font-size:21px;margin:0 0 10px;letter-spacing:-.01em}
+.occ-body p{margin:0 0 12px;font-size:15.5px}
+.occ-body p:last-child{margin-bottom:0}
+.occ-pane{display:none}
+.occ-pane.on{display:block}
+.occ-none{
+  padding:14px 24px;border-top:1px solid var(--line-soft);
+  font-size:13.5px;color:var(--text-3);font-weight:300;
+}
+
+/* ---------- sections ---------- */
+section.blk{padding:34px 0;border-top:1px solid var(--line-soft)}
+section.blk:first-of-type{border-top:none;padding-top:0}
+
+.incl{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.incl li{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:14px 0;border-bottom:1px solid var(--line-soft);
+  font-size:15.5px;font-weight:300;color:var(--text-2);
+}
+.incl li:last-child{border-bottom:none}
+.incl .dot{
+  flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:var(--lime);margin-top:9px;
+}
+.incl b{font-weight:500;color:var(--text)}
+
+.map{
+  height:230px;border-radius:var(--r-lg);border:1px solid var(--line);
+  background:
+    linear-gradient(var(--line-soft) 1px,transparent 1px) 0 0/100% 34px,
+    linear-gradient(90deg,var(--line-soft) 1px,transparent 1px) 0 0/34px 100%,
+    var(--tint);
+  display:grid;place-items:center;position:relative;
+}
+.pin{
+  width:34px;height:34px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);
+  background:var(--orange);box-shadow:0 8px 20px rgba(255,122,61,.35);
+}
+.map .addr{
+  position:absolute;left:14px;bottom:14px;background:var(--surface);
+  border:1px solid var(--line);border-radius:100px;padding:8px 16px;
+  font-size:13.5px;color:var(--text-2);
+}
+
+details.faq{border-bottom:1px solid var(--line-soft);padding:4px 0}
+details.faq summary{
+  cursor:pointer;list-style:none;padding:15px 0;font-size:15.5px;font-weight:400;
+  display:flex;align-items:center;gap:14px;
+}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:"+";margin-left:auto;font-size:19px;color:var(--text-3);font-weight:300}
+details.faq[open] summary::after{content:"–"}
+details.faq p{padding:0 0 16px;font-size:15px;max-width:60ch}
+
+/* ---------- sticky cta ---------- */
+.cta-card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:26px;
+  box-shadow:0 20px 50px -30px rgba(2,42,91,.45);
+}
+@media(min-width:960px){.cta-card{position:sticky;top:calc(env(safe-area-inset-top,0px) + 92px)}}
+.price-k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
+.price{font-family:Fraunces,serif;font-size:34px;line-height:1.05;letter-spacing:-.02em}
+.price-n{font-size:13.5px;color:var(--text-3);margin:6px 0 22px;font-weight:300}
+
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:16px 20px;border-radius:100px;border:1px solid transparent;
+  font-family:Jost,sans-serif;font-size:15.5px;font-weight:500;cursor:pointer;
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 10px 26px -12px rgba(255,122,61,.75)}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--text);margin-top:10px}
+
+.ref{
+  margin-top:20px;padding-top:18px;border-top:1px dashed var(--line);
+  font-size:13px;color:var(--text-3);font-weight:300;line-height:1.55;
+}
+.ref code{
+  font-family:Jost,sans-serif;font-size:12.5px;background:var(--tint);
+  padding:2px 8px;border-radius:5px;color:var(--text-2);letter-spacing:.04em;
+}
+.socials{display:flex;gap:8px;margin-top:16px}
+.soc{
+  flex:1;text-align:center;font-size:13px;font-weight:400;color:var(--text-2);
+  padding:9px;border:1px solid var(--line);border-radius:10px;
+}
+
+/* ---------- cards ---------- */
+.row{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;
+}
+.card .thumb{aspect-ratio:3/2;display:grid;place-items:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.card .body{padding:16px 17px 18px;display:flex;flex-direction:column;gap:5px;flex:1}
+.card .nm{font-family:Fraunces,serif;font-size:18px;line-height:1.2}
+.card .mt{font-size:13.5px;color:var(--text-3);font-weight:300}
+.card .pr{font-size:14.5px;font-weight:500;margin-top:auto;padding-top:10px}
+.card .go{
+  margin:0 17px 17px;padding:11px;border-radius:100px;background:var(--tint);
+  text-align:center;font-size:14px;font-weight:500;
+}
+.card.promoted{border-color:rgba(201,214,60,.85);box-shadow:0 0 0 3px rgba(201,214,60,.16)}
+.chip-promo{
+  position:absolute;top:12px;left:12px;background:var(--lime);color:var(--navy);
+  font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 11px;border-radius:100px;
+}
+.thumb-wrap{position:relative}
+
+/* ---------- mobile bar ---------- */
+.mbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  background:color-mix(in srgb, var(--canvas) 94%, transparent);
+  backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  padding:12px var(--pad) calc(12px + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:center;gap:14px;
+}
+@media(min-width:960px){.mbar{display:none}}
+.mbar .mp{flex:0 0 auto}
+.mbar .mp .k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.mbar .mp .v{font-family:Fraunces,serif;font-size:19px;line-height:1.1}
+.mbar .btn{width:auto;flex:1;padding:14px 18px}
+
+/* ---------- footer ---------- */
+footer{
+  margin-top:56px;background:var(--navy);color:rgba(255,255,255,.72);
+  padding:56px 0 48px;position:relative;overflow:hidden;
+}
+:root[data-theme="dark"] footer,
+:root:not([data-theme="light"]) footer{background:#011531}
+footer .shell{position:relative;z-index:2}
+footer .brand{color:#fff;margin-bottom:18px}
+footer .brand small{color:rgba(255,255,255,.55)}
+footer p{color:rgba(255,255,255,.66);max-width:44ch;font-size:14.5px}
+.fcols{display:grid;gap:30px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:34px}
+.fcols h5{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 12px;font-weight:500}
+.fcols a{display:block;font-size:14.5px;padding:5px 0;color:rgba(255,255,255,.8);font-weight:300}
+.ribbon{position:absolute;right:-60px;top:-40px;opacity:.5;pointer-events:none}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="shell nav-in">
+    <div class="brand"><em>Kamalan</em><small>EVENT HUB</small></div>
+    <nav class="nav-links">
+      <a href="#">Bundle</a>
+      <a href="#">Koleksi</a>
+    </nav>
+    <div class="nav-right">
+      <div class="wishlist">Tersimpan <b>3</b></div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <nav class="crumb">
+    <a href="#">Beranda</a><span>›</span>
+    <a href="#" id="crumb-occ">Wedding</a><span>›</span>
+    <a href="#">Venue</a><span>›</span>
+    <a href="#">Jakarta Selatan</a><span>›</span>
+    <span class="here">Rumah Kebon</span>
+  </nav>
+
+  <div class="gallery">
+    <div class="shot shot-main">foto utama</div>
+    <div class="gal-side">
+      <div class="shot shot-s s1">foto</div>
+      <div class="shot shot-s s2">foto</div>
+      <div class="shot shot-s s3">foto</div>
+      <div class="shot shot-s s4">foto<div class="more-shot">+12 foto</div></div>
+    </div>
+  </div>
+
+  <div class="split">
+    <main>
+
+      <section class="blk">
+        <p class="eyebrow">Venue · Kemang, Jakarta Selatan</p>
+        <h1 class="display">Rumah Kebon</h1>
+        <div class="tags">
+          <span class="tag">Outdoor</span>
+          <span class="tag">Catering bebas</span>
+          <span class="tag">Halaman 900 m²</span>
+        </div>
+        <p class="lead">Rumah tua dengan halaman belakang seluas 900 m² di balik deretan ruko Kemang. Dari jalan hampir tidak kelihatan — begitu masuk, yang terdengar cuma pohon dan tetangga sebelah.</p>
+        <p>Kami datang dua kali, sekali siang dan sekali menjelang magrib, karena arah cahaya di sini berubah drastis. Resepsi sore hari mendapat sinar dari sisi barat halaman; kalau akad dilangsungkan siang, sebagian besar tamu akan duduk tanpa naungan. Tim venue biasanya menyarankan tenda transparan untuk acara di atas jam sebelas.</p>
+        <p>Halaman menampung 150–250 tamu dengan nyaman. Di atas itu alur ke area catering menyempit dan antrean menumpuk di satu sisi. Rumah utamanya bisa dipakai terpisah sebagai ruang tertutup.</p>
+
+        <div class="facts">
+          <div class="fact"><div class="k">Kapasitas</div><div class="v">150–250</div></div>
+          <div class="fact"><div class="k">Luas halaman</div><div class="v">900 m²</div></div>
+          <div class="fact"><div class="k">Parkir</div><div class="v">40 mobil</div></div>
+          <div class="fact"><div class="k">Jam sewa</div><div class="v">10 jam</div></div>
+        </div>
+
+        <div class="occ-block">
+          <div class="occ-tabs" role="tablist">
+            <button class="occ-tab" role="tab" aria-selected="true" data-occ="wedding">Wedding</button>
+            <button class="occ-tab" role="tab" aria-selected="false" data-occ="corporate">Corporate</button>
+            <button class="occ-tab" role="tab" aria-selected="false" data-occ="ultah">Ulang Tahun</button>
+            <button class="occ-tab" role="tab" aria-selected="false" data-occ="gathering">Social Gathering</button>
+          </div>
+          <div class="occ-body">
+            <div class="k">Untuk acara ini</div>
+
+            <div class="occ-pane on" data-pane="wedding">
+              <h4>Untuk pernikahan</h4>
+              <p>Format duduk 150–250 tamu. Pelaminan biasanya dipasang di sisi timur halaman, membelakangi pohon mangga, supaya cahaya sore jatuh ke arah tamu dan bukan ke kamera.</p>
+              <p>Ruang transit di lantai atas muat satu tim rias dengan dua pengantin. Akses tangga sempit, jadi gaun dengan ekor panjang sebaiknya dipakaikan di bawah.</p>
+            </div>
+
+            <div class="occ-pane" data-pane="corporate">
+              <h4>Untuk acara kantor</h4>
+              <p>Rumah utama dipakai sebagai ruang sesi tertutup — sekitar 60 orang dengan kursi teater, atau 35 dengan meja. Halaman untuk coffee break dan makan siang.</p>
+              <p>Tidak ada proyektor atau layar bawaan, dan sinyal di dalam rumah lemah. Kalau acaranya butuh streaming, vendor AV perlu bawa koneksi sendiri.</p>
+            </div>
+
+            <div class="occ-pane" data-pane="ultah">
+              <h4>Untuk ulang tahun</h4>
+              <p>Halaman berpagar penuh dan tidak ada kolam, jadi aman untuk acara anak. Rumput dipotong seminggu sekali; kalau acaranya jatuh jauh dari jadwal, pengelola bisa diminta memotong lebih dekat ke tanggal.</p>
+              <p>Kulkas di dapur muat satu kue tingkat tiga. Untuk ulang tahun dewasa, batas musik pukul 22.00 tetap berlaku.</p>
+            </div>
+
+            <div class="occ-pane" data-pane="gathering">
+              <h4>Untuk kumpul-kumpul</h4>
+              <p>Format lesehan dan prasmanan paling cocok di sini — halaman rata dan teduh dari jam empat sore. Untuk 60–100 orang, tenda biasanya tidak diperlukan.</p>
+              <p>Parkir 40 mobil jadi batasnya kalau tamu datang terpisah-pisah. Untuk reuni besar, pengelola biasanya menyarankan titik kumpul di luar.</p>
+            </div>
+          </div>
+          <div class="occ-none">Menurut pengelola, venue ini tidak menerima acara Baby &amp; Kids dan Perayaan.</div>
+        </div>
+      </section>
+
+      <section class="blk">
+        <h2 class="display">Yang termasuk</h2>
+        <p>Rincian dari pengelola, per September 2026.</p>
+        <ul class="incl">
+          <li><i class="dot"></i><span><b>Halaman dan rumah utama</b> — 10 jam, termasuk waktu loading dan bongkar</span></li>
+          <li><i class="dot"></i><span><b>Listrik 23.000 watt</b> — cukup untuk sound, lighting, dan dua stall catering panas</span></li>
+          <li><i class="dot"></i><span><b>Meja dan kursi 150 pax</b> — di luar itu sewa tambahan lewat vendor rekanan</span></li>
+          <li><i class="dot"></i><span><b>Ruang transit</b> — dua kamar di lantai atas, ber-AC</span></li>
+          <li><i class="dot"></i><span><b>Catering bebas</b> — tanpa charge, tapi dapur bersih harus disiapkan vendor sendiri</span></li>
+          <li><i class="dot"></i><span><b>Overtime Rp 2,5 jt / jam</b> — maksimal sampai pukul 23.00, aturan RT setempat</span></li>
+        </ul>
+      </section>
+
+      <section class="blk">
+        <h2 class="display">Lokasi</h2>
+        <p>Masuk dari Jl. Kemang Raya, gang kedua setelah pom bensin. Drop-off muat dua mobil sekaligus.</p>
+        <div class="map">
+          <div class="pin"></div>
+          <div class="addr">Jl. Kemang Raya, Bangka, Jakarta Selatan</div>
+        </div>
+      </section>
+
+      <section class="blk">
+        <h2 class="display">Pertanyaan yang sering masuk</h2>
+        <details class="faq" open>
+          <summary>Boleh bawa catering sendiri?</summary>
+          <p>Boleh, tanpa biaya tambahan. Pengelola hanya minta vendor catering survei lokasi dulu karena akses dapur lewat samping rumah dan lebarnya terbatas.</p>
+        </details>
+        <details class="faq">
+          <summary>Berapa DP dan kapan pelunasan?</summary>
+          <p>DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara. Tanggal bisa digeser sekali tanpa biaya kalau diberitahukan lebih dari 60 hari sebelumnya.</p>
+        </details>
+        <details class="faq">
+          <summary>Kalau hujan bagaimana?</summary>
+          <p>Tidak ada area indoor yang muat seluruh tamu. Sebagian besar acara di sini memasang tenda dari awal, dan pengelola punya dua vendor tenda rekanan yang sudah hafal titik tiangnya.</p>
+        </details>
+        <details class="faq">
+          <summary>Ada batas jam dan suara?</summary>
+          <p>Musik sampai pukul 22.00, acara selesai pukul 23.00. Ini kesepakatan dengan warga sekitar dan tidak bisa dinegosiasikan.</p>
+        </details>
+      </section>
+
+    </main>
+
+    <aside>
+      <div class="cta-card">
+        <div class="price-k">Mulai dari</div>
+        <div class="price">Rp 38 juta</div>
+        <div class="price-n">Sewa venue 10 jam, belum termasuk catering dan dekorasi</div>
+
+        <button class="btn btn-primary">Hubungi via WhatsApp</button>
+        <button class="btn btn-ghost">♡ Simpan</button>
+
+        <div class="ref">
+          Pesanmu akan terisi otomatis:<br>
+          <span style="color:var(--text-2)">“Halo, saya dari Kamalan — ref <code>VNU-0142-DETAIL</code>. Saya lihat Rumah Kebon untuk <span id="ref-occ">acara pernikahan</span>, sekitar 200 pax.”</span>
+        </div>
+
+        <div class="socials">
+          <a class="soc" href="#">Instagram</a>
+          <a class="soc" href="#">Website</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="blk" style="margin-top:20px">
+    <p class="eyebrow">Paket bundle</p>
+    <h2 class="display">Paket yang memakai venue ini</h2>
+    <p style="margin-bottom:22px">Disusun oleh EO rekanan — satu kontak untuk semua vendor di dalamnya.</p>
+    <div class="row">
+      <article class="card promoted">
+        <div class="thumb-wrap">
+          <div class="thumb s3">foto</div>
+          <span class="chip-promo">Promoted</span>
+        </div>
+        <div class="body">
+          <div class="nm">Intimate Wedding 150 pax</div>
+          <div class="mt">oleh Sekar Event · venue + catering + dekor</div>
+          <div class="pr">Rp 85 – 110 jt</div>
+        </div>
+        <div class="go">Hubungi EO</div>
+      </article>
+      <article class="card">
+        <div class="thumb-wrap"><div class="thumb s1">foto</div></div>
+        <div class="body">
+          <div class="nm">Akad & Resepsi 220 pax</div>
+          <div class="mt">oleh Rasa Kreasi · venue + catering + dekor + dok.</div>
+          <div class="pr">Rp 140 – 165 jt</div>
+        </div>
+        <div class="go">Hubungi EO</div>
+      </article>
+      <article class="card">
+        <div class="thumb-wrap"><div class="thumb s4">foto</div></div>
+        <div class="body">
+          <div class="nm">Gathering Kantor 120 pax</div>
+          <div class="mt">oleh Tabik Project · venue + catering + AV</div>
+          <div class="pr">Rp 62 – 78 jt</div>
+        </div>
+        <div class="go">Hubungi EO</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="blk">
+    <p class="eyebrow">Serupa</p>
+    <h2 class="display">Venue lain di Jakarta Selatan</h2>
+    <p style="margin-bottom:22px">Kapasitas dan suasana yang mirip, sudah kami datangi juga.</p>
+    <div class="row">
+      <article class="card">
+        <div class="thumb-wrap"><div class="thumb s1">foto</div></div>
+        <div class="body"><div class="nm">Pendopo Cilandak</div><div class="mt">Cilandak · 120–200 pax · Outdoor</div><div class="pr">Mulai Rp 32 jt</div></div>
+        <div class="go">WhatsApp</div>
+      </article>
+      <article class="card">
+        <div class="thumb-wrap"><div class="thumb s2">foto</div></div>
+        <div class="body"><div class="nm">Beranda Senopati</div><div class="mt">Senopati · 80–120 pax · Indoor</div><div class="pr">Mulai Rp 21 jt</div></div>
+        <div class="go">WhatsApp</div>
+      </article>
+      <article class="card">
+        <div class="thumb-wrap"><div class="thumb s3">foto</div></div>
+        <div class="body"><div class="nm">Taman Kebayoran</div><div class="mt">Kebayoran · 300–500 pax · Indoor</div><div class="pr">Mulai Rp 45 jt</div></div>
+        <div class="go">WhatsApp</div>
+      </article>
+      <article class="card">
+        <div class="thumb-wrap"><div class="thumb s4">foto</div></div>
+        <div class="body"><div class="nm">Rumah Tebet</div><div class="mt">Tebet · 200–300 pax · Outdoor</div><div class="pr">Mulai Rp 38 jt</div></div>
+        <div class="go">WhatsApp</div>
+      </article>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <svg class="ribbon" width="320" height="220" viewBox="0 0 320 220" fill="none" aria-hidden="true">
+    <path d="M10 160 C 70 60, 130 200, 190 100 S 300 40, 310 120" stroke="#C9D63C" stroke-width="26" stroke-linecap="round"/>
+    <path d="M40 200 C 100 110, 150 230, 220 140" stroke="#FF7A3D" stroke-width="20" stroke-linecap="round" opacity=".85"/>
+    <path d="M120 30 C 180 0, 230 80, 300 30" stroke="#8EC9F2" stroke-width="18" stroke-linecap="round" opacity=".8"/>
+  </svg>
+  <div class="shell">
+    <div class="brand"><em>Kamalan</em><small>EVENT HUB</small></div>
+    <p>Venue, catering, EO, dan hiburan di Jabodetabek — semuanya kami datangi sendiri sebelum masuk daftar.</p>
+    <div class="fcols">
+      <div>
+        <h5>Wedding</h5>
+        <a href="#">Venue</a><a href="#">Catering</a><a href="#">EO</a><a href="#">Dekorasi</a>
+      </div>
+      <div>
+        <h5>Corporate</h5>
+        <a href="#">Venue</a><a href="#">Catering</a><a href="#">EO</a><a href="#">AV & Produksi</a>
+      </div>
+      <div>
+        <h5>Area</h5>
+        <a href="#">Jakarta Selatan</a><a href="#">BSD & Tangerang</a><a href="#">Bekasi</a><a href="#">Depok</a>
+      </div>
+      <div>
+        <h5>Kamalan</h5>
+        <a href="#">Tentang kami</a><a href="#">Kasih tau kami</a><a href="#">Daftarkan usaha</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <div class="mp">
+    <div class="k">Mulai dari</div>
+    <div class="v">Rp 38 jt</div>
+  </div>
+  <button class="btn btn-primary">Hubungi via WhatsApp</button>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.occ-tab');
+  var panes=document.querySelectorAll('.occ-pane');
+  var crumbOcc=document.getElementById('crumb-occ');
+  var refOcc=document.getElementById('ref-occ');
+  var labels={wedding:['Wedding','acara pernikahan'],corporate:['Corporate','acara kantor'],ultah:['Ulang Tahun','acara ulang tahun'],gathering:['Social Gathering','acara kumpul-kumpul']};
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      var k=t.dataset.occ;
+      tabs.forEach(function(x){x.setAttribute('aria-selected', x===t?'true':'false')});
+      panes.forEach(function(p){p.classList.toggle('on', p.dataset.pane===k)});
+      if(crumbOcc) crumbOcc.textContent=labels[k][0];
+      if(refOcc) refOcc.textContent=labels[k][1];
+    });
+  });
+})();
+</script>
+</body>
+</html>
