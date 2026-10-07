@@ -16,6 +16,22 @@ class CatalogDatabaseTest extends TestCase
         $raw = json_decode(file_get_contents(resource_path('data/catalog.json')), true);
         $built = Catalog::build();
 
+        // Satu perubahan sengaja sejak ekspor: AV / produksi ada di semua jenis acara (CatalogDefaults).
+        foreach ($raw['types'] as $slug => &$t) {
+            if (! in_array('av-produksi', $t['cats'], true)) {
+                $t['cats'][] = 'av-produksi';
+                $raw['categories']['av-produksi']['h1'][$slug] = 'AV dan produksi '.preg_replace('/^Venue /', '', $raw['categories']['venue']['h1'][$slug]);
+            }
+        }
+        unset($t);
+        $raw['categories']['av-produksi']['h1'] = array_merge(array_fill_keys(array_keys($raw['types']), null), $raw['categories']['av-produksi']['h1']);
+        foreach ($raw['vendors'] as &$v) {
+            if ($v['cat'] === 'av-produksi') {
+                $v['types'] = array_keys($raw['types']);
+            }
+        }
+        unset($v);
+
         $strip = fn (array $row) => array_filter($row, fn ($v) => $v !== null && $v !== false);
         $bySlug = fn (array $list) => array_column($list, null, 'slug');
 
@@ -100,5 +116,15 @@ class CatalogDatabaseTest extends TestCase
         $bundle = Bundle::where('slug', 'paket-intimate-wedding-150-pax')->sole();
         $this->get('/go/'.$bundle->ref.'?p=BUNDLE')->assertRedirectContains('wa.me/'.$bundle->wa);
         $this->get('/go/VNU-9999')->assertNotFound();
+    }
+
+    public function test_av_is_listed_under_every_occasion(): void
+    {
+        foreach (Catalog::TYPES as $type) {
+            $this->get('/'.$type.'/av-produksi')->assertOk()->assertSee('Karsa Sound &amp; Light', false);
+            $this->get('/'.$type.'/av-produksi/karsa-sound-dan-light')->assertOk();
+            $this->get('/'.$type)->assertSee('/'.$type.'/av-produksi');
+        }
+        $this->get('/wedding/av-produksi')->assertSee('AV dan produksi pernikahan');
     }
 }
