@@ -188,9 +188,9 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero{padding-block:clamp(28px,5vw,56px) clamp(40px,6vw,72px);position:relative}
 .hero-grid{display:grid;gap:clamp(28px,4vw,48px);grid-template-columns:1fr;align-items:center}
 @media(min-width:940px){.hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr)}}
-/* Pita hero menjorok 12,26vw di bawah foto; pita jenis acara (navy) mulai 2vw sebelum ujung pita,
+/* Pita hero menjorok 10,33vw di bawah foto; pita jenis acara (navy) mulai 2vw sebelum ujung pita,
    jadi bagian bawah pita sedikit menindih tepi atasnya seperti di mockup. */
-.hero{padding-bottom:10.26vw}
+.hero{padding-bottom:8.33vw}
 .hero-art{position:relative;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3;background:linear-gradient(145deg,#0b3a72,#1d6fae 48%,#8EC9F2)}
 @media(min-width:940px){.hero-art{aspect-ratio:11/9}}
 .hero-art .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.72);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
@@ -199,11 +199,11 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero-art .script,.hero-art .vals{z-index:1}
 .hero-art .script{position:absolute;left:26px;top:26px;color:#fff;font-size:clamp(24px,3vw,34px);text-shadow:0 2px 18px rgba(2,42,91,.35)}
 .hero-art .vals{position:absolute;right:22px;bottom:24px;text-align:right;color:rgba(255,255,255,.9);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;line-height:2.1}
-/* Pita hero (public/brand/hero-ribbon-wide.webp, 1821×369): selebar layar, kedua ujungnya di tepi layar.
-   Lingkarannya (x 57%, tinggi penuh) menindih sudut kiri bawah foto hero, sedikit di bawah tepinya
-   supaya tidak menutupi tulisan "Joyful". Tinggi pita = 369/1821 × 100vw = 20,26vw. */
+/* Pita hero (public/brand/hero-ribbon-v3.webp, 1920×327): selebar layar, kedua ujungnya di tepi layar.
+   Lingkarannya (x 47%, tinggi penuh) berpusat ±1,8vw di bawah tepi bawah foto hero, menindih sudut kirinya.
+   Tinggi pita = 327/1920 × 100vw = 17,03vw. */
 .hero-grid{position:relative}
-.ribbon-hero{position:absolute;left:calc(50% - 50vw);top:calc(100% - 8vw);width:100vw;max-width:none;height:auto;z-index:2;pointer-events:none}
+.ribbon-hero{position:absolute;left:calc(50% - 50vw);top:calc(100% - 6.7vw);width:100vw;max-width:none;height:auto;z-index:2;pointer-events:none}
 .hero-copy .btn{position:relative;z-index:3}
 
 /* ---------- occasion tiles ---------- */

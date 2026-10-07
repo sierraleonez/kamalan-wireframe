@@ -43,7 +43,7 @@ The mark is a ribbon tied into a K, in the five brand colours. Files are in
 | `kamalan-mark-512.png` | Large uses (print, decks) |
 | `favicon-32.png`, `/favicon.ico`, `apple-touch-icon.png`, `icon-*.png` | Browser tab, home screen, `/site.webmanifest` |
 | `og.png` | Link preview (WhatsApp, social), 1200×630 on cream |
-| `hero-ribbon-wide.webp` | Home hero ribbon, transparent, 1821×369. Cut from `docs/design/ribbon-source.svg` (the SVG wraps a PNG on white; background removed, cream piece kept). Both ends are cut flat, so it always spans the full screen width; its loop overlaps the bottom-left corner of the hero photo and the button sits on the blue part |
+| `hero-ribbon-v3.webp` | Home hero ribbon, transparent, 1920×327. Cut from `docs/design/ribbon-source.svg` (the SVG wraps a PNG on white; background removed, cream piece kept). Both ends are cut flat, so it always spans the full screen width; its loop overlaps the bottom-left corner of the hero photo and the button sits on the blue part |
 
 Use the full logo where there is room (site header). The short ribbon-K mark is
 for small or square spaces: favicon, home-screen icons, link preview, admin, and
