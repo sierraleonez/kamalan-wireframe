@@ -8,7 +8,10 @@
       <p class="eyebrow">People · Ideas · Places · Possibilities</p>
       <h1 class="display">Acara yang<br>benar-benar<br>jadi.</h1>
       <p class="lead">Venue, catering, EO, dan hiburan di Jabodetabek — semuanya kami datangi sendiri sebelum masuk daftar. Harga dan kapasitas apa adanya.</p>
-      <a class="btn btn-navy" href="#branch">Mulai jelajahi →</a>
+      <div class="hero-cta">
+        <a class="btn btn-navy" href="#branch">Mulai jelajahi →</a>
+        <img class="ribbon-cta" src="/brand/hero-ribbon.webp" width="2400" height="422" alt="" aria-hidden="true" decoding="async">
+      </div>
     </div>
     <div class="hero-art{{ $p['hero'] ? ' has-img' : '' }}">
       @if ($p['hero'])
@@ -20,7 +23,7 @@
       <div class="vals">Creative<br>Inclusive<br>Trusted<br>Inspiring<br>Joyful</div>
     </div>
   </div>
-  <img class="ribbon-hero" src="/brand/ribbon.webp" width="1400" height="422" alt="" aria-hidden="true" decoding="async">
+  <img class="ribbon-hero" src="/brand/hero-ribbon.webp" width="2400" height="422" alt="" aria-hidden="true" decoding="async">
 </div>
 
 {{-- OCCASIONS --}}

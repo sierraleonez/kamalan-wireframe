@@ -1,4 +1,4 @@
-{{-- Pita dekoratif footer. Pita hero beranda memakai gambar public/brand/ribbon.webp. --}}
+{{-- Pita dekoratif footer. Pita hero beranda memakai gambar public/brand/hero-ribbon.webp. --}}
 @props(['class' => 'ribbon-f'])
 <svg class="{{ $class }}" width="320" height="220" viewBox="0 0 320 220" fill="none" aria-hidden="true">
   <path d="M10 160 C 70 60, 130 200, 190 100 S 300 40, 310 120" stroke="#C9D63C" stroke-width="26" stroke-linecap="round"/>

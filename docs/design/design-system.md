@@ -40,7 +40,7 @@ The mark is a ribbon tied into a K, in the five brand colours. Files are in
 | `kamalan-mark-512.png` | Large uses (print, decks) |
 | `favicon-32.png`, `/favicon.ico`, `apple-touch-icon.png`, `icon-*.png` | Browser tab, home screen, `/site.webmanifest` |
 | `og.png` | Link preview (WhatsApp, social), 1200×630 on cream |
-| `ribbon.webp` | Home hero ribbon, transparent. Cut from `docs/design/ribbon-source.jpg` (white background removed, cream piece kept). Its left end is cut flat, so it is placed against the left edge of the screen |
+| `hero-ribbon.webp` | Home hero ribbon, transparent, 2400×422. Cut from `docs/design/ribbon-source.jpg` (white background removed, cream piece kept); the blue tail is extended 1000 px to the left so its cut end always stays off-screen. On desktop the loop sits in the gap between the hero button and the photo |
 
 The mark always sits to the left of the wordmark (*Kamalan* / EVENT HUB), never
 replaces it. Never put the dark-navy version on navy; use the light version.
