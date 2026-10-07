@@ -32,7 +32,7 @@
     intro="Vendor yang sama bisa cocok untuk beberapa acara — tapi yang kami tulis soal tempatnya berbeda-beda, sesuai acaranya." />
   <div class="occs">
     @foreach ($p['occasions'] as $o)
-      <a class="occ {{ $o['tone'] }}" href="{{ $o['href'] }}" wire:navigate>
+      <a class="occ {{ $o['tone'] }}{{ $o['image'] ? ' has-img' : '' }}" href="{{ $o['href'] }}" wire:navigate>
         @if ($o['image'])<img class="bg" src="{{ $o['image']['url'] }}" alt="{{ $o['image']['alt'] }}" loading="lazy" decoding="async">@endif
         <h3>{{ $o['name'] }}</h3>
         <p>{{ $o['blurb'] }}</p>
