@@ -20,7 +20,7 @@
       <div class="vals">Creative<br>Inclusive<br>Trusted<br>Inspiring<br>Joyful</div>
     </div>
   </div>
-  <x-ribbon class="ribbon-hero" variant="hero" />
+  <img class="ribbon-hero" src="/brand/ribbon.webp" width="1400" height="422" alt="" aria-hidden="true" decoding="async">
 </div>
 
 {{-- OCCASIONS --}}

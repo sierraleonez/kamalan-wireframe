@@ -192,7 +192,9 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero-art .script,.hero-art .vals{z-index:1}
 .hero-art .script{position:absolute;left:26px;top:26px;color:#fff;font-size:clamp(24px,3vw,34px);text-shadow:0 2px 18px rgba(2,42,91,.35)}
 .hero-art .vals{position:absolute;right:22px;bottom:24px;text-align:right;color:rgba(255,255,255,.9);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;line-height:2.1}
-.ribbon-hero{position:absolute;left:-90px;bottom:-40px;z-index:2;pointer-events:none}
+/* Ujung kiri pita terpotong rata, jadi ditempel ke tepi kiri layar. */
+.ribbon-hero{position:absolute;left:calc(50% - 50vw);bottom:-12px;width:clamp(340px,44vw,640px);height:auto;z-index:2;pointer-events:none}
+@media(min-width:940px){.ribbon-hero{bottom:-56px}}
 
 /* ---------- occasion tiles ---------- */
 .occs{display:grid;gap:16px;grid-template-columns:1fr}
