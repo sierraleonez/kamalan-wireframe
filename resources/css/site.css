@@ -185,8 +185,8 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero{padding-block:clamp(28px,5vw,56px) clamp(40px,6vw,72px);position:relative}
 .hero-grid{display:grid;gap:clamp(28px,4vw,48px);grid-template-columns:1fr;align-items:center}
 @media(min-width:940px){.hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr)}}
-/* Ruang di bawah tombol untuk pita dekoratif (dulu diisi deretan area). */
-@media(min-width:940px){.hero{padding-bottom:calc(clamp(40px,6vw,72px) + 96px)}}
+/* Pita hero menjorok 12,26vw di bawah foto; beri ruang supaya tidak menabrak bagian berikutnya. */
+.hero{padding-bottom:max(clamp(40px,6vw,72px),calc(12.26vw - 30px))}
 .hero-art{position:relative;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3;background:linear-gradient(145deg,#0b3a72,#1d6fae 48%,#8EC9F2)}
 @media(min-width:940px){.hero-art{aspect-ratio:11/9}}
 .hero-art .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.72);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
@@ -195,19 +195,12 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero-art .script,.hero-art .vals{z-index:1}
 .hero-art .script{position:absolute;left:26px;top:26px;color:#fff;font-size:clamp(24px,3vw,34px);text-shadow:0 2px 18px rgba(2,42,91,.35)}
 .hero-art .vals{position:absolute;right:22px;bottom:24px;text-align:right;color:rgba(255,255,255,.9);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;line-height:2.1}
-/* Pita hero (public/brand/hero-ribbon.webp): ekor biru kirinya diperpanjang 1000 px dari 2400 px gambar,
-   jadi ujungnya selalu di luar layar. --rw = lebar bagian asli (1400 px) di layar; lingkaran di 1605 px. */
-.hero{--rw:clamp(340px,44vw,640px)}
-.ribbon-hero{position:absolute;left:calc(50% - 50vw - var(--rw) * .7143);bottom:-12px;width:calc(var(--rw) * 1.7143);max-width:none;height:auto;z-index:2;pointer-events:none}
-.ribbon-cta{display:none}
-/* Desktop: lingkaran di celah antara tombol dan foto, sejajar atas tombol. */
-@media(min-width:940px){
-  .hero{--rw:clamp(510px,66vw,960px);--g:clamp(28px,4vw,48px);--btn-w:173px} /* --btn-w = lebar tombol "Mulai jelajahi" (DM Sans 600) */
-  .ribbon-hero{display:none}
-  .hero-cta{position:relative}
-  .hero-cta .btn{position:relative;z-index:2}
-  .ribbon-cta{display:block;position:absolute;top:0;left:calc((var(--btn-w) + 100% + var(--g)) / 2 - var(--rw) * 1.1464);width:calc(var(--rw) * 1.7143);max-width:none;height:auto;z-index:1;pointer-events:none}
-}
+/* Pita hero (public/brand/hero-ribbon-wide.webp, 1821×369): selebar layar, kedua ujungnya di tepi layar.
+   Lingkarannya (x 57%, tinggi penuh) menindih sudut kiri bawah foto hero, sedikit di bawah tepinya
+   supaya tidak menutupi tulisan "Joyful". Tinggi pita = 369/1821 × 100vw = 20,26vw. */
+.hero-grid{position:relative}
+.ribbon-hero{position:absolute;left:calc(50% - 50vw);top:calc(100% - 8vw);width:100vw;max-width:none;height:auto;z-index:2;pointer-events:none}
+.hero-copy .btn{position:relative;z-index:3}
 
 /* ---------- occasion tiles ---------- */
 .occs{display:grid;gap:16px;grid-template-columns:1fr}
