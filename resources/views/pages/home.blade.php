@@ -19,7 +19,7 @@
       <div class="script">Momen yang<br>lebih berarti</div>
       <div class="vals">Creative<br>Inclusive<br>Trusted<br>Inspiring<br>Joyful</div>
     </div>
-    <img class="ribbon-hero" src="/brand/hero-ribbon-v3.webp" width="1920" height="327" alt="" aria-hidden="true" decoding="async">
+    <img class="ribbon-hero" src="/brand/hero-ribbon-v3-long.webp" width="2920" height="327" alt="" aria-hidden="true" decoding="async">
   </div>
 </div>
 
