@@ -60,11 +60,16 @@ Dark mode is defined in both pages — three blocks: `:root`, a
 
 ## Type
 
-- **Fraunces** (serif) — headings, prices, card names, numbers in facts strips.
-  Weight 400 for display sizes, 500–600 only for the wordmark. Italic for the
-  script accent.
-- **Jost** (sans) — body, UI, labels, buttons. Body copy is weight **300**;
-  labels and buttons are 500.
+- **DM Serif Display** Regular (serif) — headings, prices, card names, numbers in
+  facts strips. It only has weight 400; never set it bolder. Italic for the
+  script accent ("Momen yang lebih berarti").
+- **DM Sans** (sans) — body, UI, labels, buttons. Body copy is **Regular (400)**;
+  labels 500; buttons **SemiBold (600)**.
+- **Fraunces** italic 600 survives only in the "Kamalan" wordmark next to the logo
+  (loaded for those letters alone).
+- The approved pages (`kamalan-home.html`, `kamalan-vendor-detail.html`) still
+  show Fraunces/Jost; for type, this section supersedes them (hero mockup,
+  October 2026).
 
 ```
 h1   clamp(40px,7vw,72px)   home
