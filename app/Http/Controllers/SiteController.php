@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Catalog\Catalog;
 use App\Catalog\Pages;
 use App\Catalog\Present;
+use App\Models\Lead;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -115,7 +116,8 @@ class SiteController extends Controller
             'wa.regex' => 'Isi nomor WhatsApp yang diawali 08 atau 62, 10–13 digit.',
         ]);
 
-        // Fase ini belum menyimpan ke database; hanya menampilkan konfirmasi.
+        Lead::create($data);
+
         $due = Carbon::now()->locale('id');
         for ($n = 2; $n > 0;) {
             $due->addDay();

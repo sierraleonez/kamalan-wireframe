@@ -14,6 +14,11 @@ final class Copy
     /** Tulisan utama: netral terhadap jenis acara. Semua yang khusus acara ada di occasionNote(). */
     public static function writeup(array $v): array
     {
+        // Tulisan dari tim (admin) menggantikan teks bentukan; paragraf dipisah baris kosong.
+        if (trim((string) ($v['writeup'] ?? '')) !== '') {
+            return array_values(array_filter(array_map('trim', preg_split('/\R\s*\R/', trim($v['writeup'])))));
+        }
+
         $area = Catalog::area($v['area'])['name'];
 
         if ($v['cat'] === 'venue') {

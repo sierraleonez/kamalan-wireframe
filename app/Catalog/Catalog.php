@@ -2,13 +2,24 @@
 
 namespace App\Catalog;
 
+use Illuminate\Support\Facades\DB;
+
 /**
- * Katalog baca-saja dari resources/data/catalog.json (diekspor dari prototipe).
- * Hasil indeks disimpan sebagai file PHP di bootstrap/cache agar ikut opcache.
+ * Katalog baca-saja untuk situs publik. Dibangun dari database (diedit lewat /admin) menjadi
+ * array dengan bentuk yang sama seperti ekspor prototipe dulu, lalu disimpan sebagai file PHP
+ * di bootstrap/cache agar ikut opcache. Model katalog memanggil flush() setiap kali disimpan.
  */
 final class Catalog
 {
+    /**
+     * Jenis acara. Daftarnya tetap karena tulisan dan filter per jenis ada di kode (Copy, Filters);
+     * nama dan teksnya diedit di admin. Dipakai juga untuk pola rute tanpa menyentuh database.
+     */
+    public const TYPES = ['wedding', 'corporate', 'ulang-tahun', 'baby-kids', 'social-gathering', 'perayaan'];
+
     private static ?array $data = null;
+
+    private static bool $flushQueued = false;
 
     public static function data(): array
     {
@@ -16,48 +27,192 @@ final class Catalog
             return self::$data;
         }
 
-        $json = resource_path('data/catalog.json');
-        $cache = base_path('bootstrap/cache/catalog.php');
+        $cache = self::cacheFile();
+        if ($cache === null) {
+            return self::$data = self::build();
+        }
 
-        if (! is_file($cache) || filemtime($cache) < filemtime($json)) {
-            $raw = json_decode(file_get_contents($json), true, 512, JSON_THROW_ON_ERROR);
+        if (! is_file($cache)) {
             $tmp = $cache.'.'.getmypid().'.tmp';
-            file_put_contents($tmp, '<?php return '.var_export(self::index($raw), true).';');
+            file_put_contents($tmp, '<?php return '.var_export(self::build(), true).';');
             rename($tmp, $cache);
+            self::invalidate($cache);
         }
 
         return self::$data = require $cache;
     }
 
-    private static function index(array $raw): array
+    /** Buang cache; permintaan berikutnya membangun ulang dari database. */
+    public static function flush(): void
     {
+        self::dropCache();
+
+        // Admin menyimpan relasi (jenis acara, anggota bundle) setelah model induknya; buang sekali
+        // lagi di akhir permintaan supaya cache tidak dibangun dari data setengah tersimpan.
+        if (! self::$flushQueued && app()->isBooted()) {
+            self::$flushQueued = true;
+            app()->terminating(function () {
+                self::$flushQueued = false;
+                self::dropCache();
+            });
+        }
+    }
+
+    private static function dropCache(): void
+    {
+        self::$data = null;
+        $cache = self::cacheFile();
+        if ($cache !== null && is_file($cache)) {
+            @unlink($cache);
+            self::invalidate($cache);
+        }
+    }
+
+    private static function cacheFile(): ?string
+    {
+        return config('catalog.file_cache', true) ? base_path('bootstrap/cache/catalog.php') : null;
+    }
+
+    /** Dengan opcache.validate_timestamps=0 file baru tidak terbaca tanpa ini. */
+    private static function invalidate(string $file): void
+    {
+        if (function_exists('opcache_invalidate')) {
+            @opcache_invalidate($file, true);
+        }
+    }
+
+    /** Susun katalog dari database. Sepuluh query, tanpa N+1. */
+    public static function build(): array
+    {
+        $occasions = DB::table('occasions')->orderBy('sort')->get()->keyBy('id');
+        $categories = DB::table('categories')->orderBy('sort')->get()->keyBy('id');
+        $areaRows = DB::table('areas')->orderBy('sort')->orderBy('id')->get()->keyBy('id');
+        $links = DB::table('category_occasion')->orderBy('sort')->get();
+
+        $types = [];
+        foreach ($occasions as $o) {
+            $types[$o->slug] = [
+                'slug' => $o->slug, 'name' => $o->name, 'guest' => $o->guest, 'cats' => [],
+                'noun' => $o->noun, 'phrase' => $o->phrase, 'pane' => $o->pane, 'blurb' => $o->blurb,
+            ];
+        }
+
+        $cats = [];
+        foreach ($categories as $c) {
+            $cats[$c->slug] = ['slug' => $c->slug, 'name' => $c->name, 'code' => $c->code, 'unit' => $c->unit, 'h1' => []];
+        }
+        foreach ($links as $l) {
+            $types[$occasions[$l->occasion_id]->slug]['cats'][] = $categories[$l->category_id]->slug;
+        }
+        // h1 berurutan mengikuti jenis acara, seperti di ekspor lama.
+        $byOcc = $links->groupBy('occasion_id');
+        foreach ($occasions as $o) {
+            foreach ($byOcc[$o->id] ?? [] as $l) {
+                $cats[$categories[$l->category_id]->slug]['h1'][$o->slug] = $l->h1;
+            }
+        }
+
         $areas = [];
-        foreach ($raw['areas'] as $i => $a) {
-            $areas[$a['slug']] = $a + ['order' => $i];
+        $i = 0;
+        foreach ($areaRows as $a) {
+            $areas[$a->slug] = [
+                'slug' => $a->slug, 'name' => $a->name, 'short' => $a->short,
+                'hoods' => json_decode($a->hoods, true), 'near' => json_decode($a->near, true), 'order' => $i++,
+            ];
+        }
+
+        $occOf = [];
+        foreach (DB::table('occasion_vendor')->get() as $p) {
+            $occOf[$p->vendor_id][] = $occasions[$p->occasion_id];
         }
 
         $vendors = [];
+        $slugOf = [];
         $refs = [];
-        foreach ($raw['vendors'] as $v) {
-            $vendors[$v['slug']] = $v;
-            $refs[$v['ref']] = ['v', $v['slug']];
+        foreach (DB::table('vendors')->orderBy('id')->get() as $v) {
+            $vt = $occOf[$v->id] ?? [];
+            usort($vt, fn ($a, $b) => $a->sort <=> $b->sort);
+            $slugOf[$v->id] = $v->slug;
+            $vendors[$v->slug] = [
+                'name' => $v->name,
+                'cat' => $categories[$v->category_id]->slug,
+                'area' => $areaRows[$v->area_id]->slug,
+                'hood' => $v->hood,
+                'cap' => $v->cap_min === null ? null : [(int) $v->cap_min, (int) $v->cap_max],
+                'price' => (int) $v->price,
+                'setting' => $v->setting,
+                'types' => array_map(fn ($o) => $o->slug, $vt),
+                'promoted' => (bool) $v->promoted,
+                'rank' => (int) $v->rank,
+                'rooftop' => (bool) $v->rooftop,
+                'cateringBebas' => (bool) $v->catering_bebas,
+                'transit' => (bool) $v->transit,
+                'parkir' => (int) $v->parkir,
+                'bus' => (int) $v->bus,
+                'av' => (bool) $v->av,
+                'pkp' => (bool) $v->pkp,
+                'halal' => (bool) $v->halal,
+                'id' => (int) $v->id,
+                'slug' => $v->slug,
+                'ref' => $v->ref,
+                'wa' => $v->wa,
+                'ig' => $v->ig,
+                'web' => $v->web,
+                'photos' => (int) $v->photos,
+                'writeup' => $v->writeup,
+            ];
+            $refs[$v->ref] = ['v', $v->slug];
         }
 
+        $members = DB::table('bundle_members')->orderBy('sort')->get()->groupBy('bundle_id');
         $bundles = [];
-        foreach ($raw['bundles'] as $b) {
-            $bundles[$b['slug']] = $b;
-            $refs[$b['ref']] = ['b', $b['slug']];
+        foreach (DB::table('bundles')->orderBy('sort')->orderBy('id')->get() as $b) {
+            $bundles[$b->slug] = [
+                'slug' => $b->slug,
+                'type' => $occasions[$b->occasion_id]->slug,
+                'title' => $b->title,
+                'area' => $areaRows[$b->area_id]->slug,
+                'promoted' => (bool) $b->promoted,
+                'eo' => $b->eo_vendor_id ? ($slugOf[$b->eo_vendor_id] ?? null) : null,
+                'guests' => (int) $b->guests,
+                'minGuests' => $b->min_guests === null ? null : (int) $b->min_guests,
+                'priceMin' => (int) $b->price_min,
+                'priceMax' => $b->price_max === null ? null : (int) $b->price_max,
+                'perHead' => (bool) $b->per_head,
+                'members' => array_values(array_filter(array_map(
+                    fn ($m) => isset($slugOf[$m->vendor_id]) ? [$categories[$m->category_id]->slug, $slugOf[$m->vendor_id]] : null,
+                    ($members[$b->id] ?? collect())->all(),
+                ))),
+                'included' => json_decode($b->included, true),
+                'excluded' => json_decode($b->excluded, true),
+                'ref' => $b->ref,
+                'wa' => $b->wa,
+                'validity' => $b->validity,
+            ];
+            $refs[$b->ref] = ['b', $b->slug];
         }
 
+        $picks = DB::table('collection_picks')->orderBy('sort')->get()->groupBy('collection_id');
         $collections = [];
-        foreach ($raw['collections'] as $c) {
-            $collections[$c['slug']] = $c;
+        foreach (DB::table('collections')->orderBy('sort')->orderBy('id')->get() as $c) {
+            $collections[$c->slug] = [
+                'slug' => $c->slug,
+                'type' => $occasions[$c->occasion_id]->slug,
+                'cat' => $categories[$c->category_id]->slug,
+                'area' => $c->area_id ? $areaRows[$c->area_id]->slug : null,
+                'title' => $c->title,
+                'short' => $c->short,
+                'locks' => json_decode($c->locks, true),
+                'intro' => $c->intro,
+                'picks' => array_values(array_filter(array_map(fn ($p) => $slugOf[$p->vendor_id] ?? null, ($picks[$c->id] ?? collect())->all()))),
+                'sponsor' => $c->sponsor,
+            ];
         }
 
         return [
             'areas' => $areas,
-            'types' => $raw['types'],
-            'categories' => $raw['categories'],
+            'types' => $types,
+            'categories' => $cats,
             'vendors' => $vendors,
             'bundles' => $bundles,
             'collections' => $collections,

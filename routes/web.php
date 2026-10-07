@@ -4,7 +4,7 @@ use App\Catalog\Catalog;
 use App\Http\Controllers\SiteController as S;
 use Illuminate\Support\Facades\Route;
 
-$type = implode('|', array_keys(Catalog::types())); // wedding|corporate|ulang-tahun|…
+$type = implode('|', Catalog::TYPES); // wedding|corporate|ulang-tahun|… (tanpa query database)
 $slug = '[a-z0-9-]+';
 
 Route::get('/', [S::class, 'home']);
