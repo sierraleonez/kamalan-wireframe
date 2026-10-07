@@ -71,7 +71,6 @@ final class Pages
         ], fn ($x) => $x[0] !== null);
 
         return self::base('Vendor acara di Jabodetabek', 'home', [
-            'areas' => ['Jakarta Selatan', 'Jakarta Pusat', 'BSD & Tangerang', 'Bekasi', 'Depok'],
             'hero' => Catalog::image('hero'),
             'occasions' => self::occasions(),
             'cats' => self::catRow(null),

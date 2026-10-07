@@ -9,9 +9,6 @@
       <h1 class="display">Acara yang<br>benar-benar<br>jadi.</h1>
       <p class="lead">Venue, catering, EO, dan hiburan di Jabodetabek — semuanya kami datangi sendiri sebelum masuk daftar. Harga dan kapasitas apa adanya.</p>
       <a class="btn btn-navy" href="#branch">Mulai jelajahi →</a>
-      <div class="chips">
-        @foreach ($p['areas'] as $a)<span class="chip">{{ $a }}</span>@endforeach
-      </div>
     </div>
     <div class="hero-art{{ $p['hero'] ? ' has-img' : '' }}">
       @if ($p['hero'])
