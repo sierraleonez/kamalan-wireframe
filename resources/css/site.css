@@ -215,8 +215,12 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .cat{text-align:center;position:relative;display:block;width:100%;background:none;border:0;padding:0;cursor:pointer;color:inherit}
 .cat .ic{height:92px;border-radius:var(--r-lg);display:grid;place-items:center;margin-bottom:11px;border:1px solid var(--line-soft)}
 .cat .ic svg{stroke:var(--text)}
-.cat .ic.has-img{overflow:hidden}
-.cat .ic img{width:100%;height:100%;object-fit:cover;display:block}
+.cat .ic.has-img{position:relative;overflow:hidden;height:118px}
+.cat .ic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.cat .ic.has-img::after{content:"";position:absolute;inset:0;background:rgba(2,42,91,.5);transition:background .2s}
+.cat:hover .ic.has-img::after{background:rgba(2,42,91,.62)}
+.cat .ic .on{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;font-size:14.5px;font-weight:500;text-shadow:0 1px 8px rgba(2,42,91,.5)}
+.cat .ic .on svg{stroke:#fff}
 .cat .nm{font-size:14.5px;font-weight:400;color:var(--text-2)}
 .cat-pop{position:relative}
 .menu{
@@ -224,6 +228,7 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
   background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
   padding:8px;display:flex;flex-direction:column;box-shadow:0 20px 50px -30px rgba(2,42,91,.45);text-align:left;
 }
+.cat-pop:has(.has-img) .menu{top:calc(100% + 6px)}
 .menu .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);padding:6px 10px 4px}
 .menu a{padding:9px 10px;border-radius:10px;font-size:14.5px}
 .menu a:hover{background:var(--tint)}
