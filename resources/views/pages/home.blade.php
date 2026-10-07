@@ -24,9 +24,9 @@
 </div>
 
 {{-- OCCASIONS --}}
-<div class="shell sec" id="branch">
-  <x-sec-head eyebrow="Mulai dari sini" title="Acaranya yang mana?"
-    intro="Vendor yang sama bisa cocok untuk beberapa acara — tapi yang kami tulis soal tempatnya berbeda-beda, sesuai acaranya." />
+<section class="occ-band" id="branch">
+<div class="shell sec">
+  <div class="sec-head"><h2 class="display">Pilih Jenis Acaramu</h2></div>
   <div class="occs">
     @foreach ($p['occasions'] as $o)
       <a class="occ {{ $o['tone'] }}{{ $o['image'] ? ' has-img' : '' }}" href="{{ $o['href'] }}" wire:navigate>
@@ -38,9 +38,10 @@
     @endforeach
   </div>
 </div>
+</section>
 
 {{-- CATEGORIES --}}
-<div class="shell sec tight">
+<div class="shell sec">
   <x-sec-head eyebrow="Kategori" title="Cari per kebutuhan" />
   <x-cats :items="$p['cats']" />
 </div>

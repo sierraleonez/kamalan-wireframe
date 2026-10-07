@@ -188,8 +188,9 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero{padding-block:clamp(28px,5vw,56px) clamp(40px,6vw,72px);position:relative}
 .hero-grid{display:grid;gap:clamp(28px,4vw,48px);grid-template-columns:1fr;align-items:center}
 @media(min-width:940px){.hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr)}}
-/* Pita hero menjorok 12,26vw di bawah foto; beri ruang supaya tidak menabrak bagian berikutnya. */
-.hero{padding-bottom:max(clamp(40px,6vw,72px),calc(12.26vw - 30px))}
+/* Pita hero menjorok 12,26vw di bawah foto; pita jenis acara (navy) mulai 2vw sebelum ujung pita,
+   jadi bagian bawah pita sedikit menindih tepi atasnya seperti di mockup. */
+.hero{padding-bottom:10.26vw}
 .hero-art{position:relative;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3;background:linear-gradient(145deg,#0b3a72,#1d6fae 48%,#8EC9F2)}
 @media(min-width:940px){.hero-art{aspect-ratio:11/9}}
 .hero-art .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.72);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
@@ -206,6 +207,12 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero-copy .btn{position:relative;z-index:3}
 
 /* ---------- occasion tiles ---------- */
+/* Jenis acara di pita navy selebar layar (mockup beranda, Okt 2026). */
+.occ-band{background:var(--navy);color:#fff}
+.occ-band .sec-head{margin-bottom:24px}
+.occ-band .display{color:#fff;font-size:clamp(28px,3.4vw,40px)}
+:root[data-theme="dark"] .occ-band{background:#03234A}
+:root:not([data-theme="light"]) .occ-band{@media (prefers-color-scheme: dark){background:#03234A}}
 .occs{display:grid;gap:16px;grid-template-columns:1fr}
 @media(min-width:620px){.occs{grid-template-columns:1fr 1fr}}
 @media(min-width:960px){.occs{grid-template-columns:repeat(3,1fr)}}
