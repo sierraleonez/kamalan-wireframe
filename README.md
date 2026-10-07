@@ -23,20 +23,38 @@ Enam jenis acara: Wedding, Corporate, Ulang Tahun, Baby & Kids, Social Gathering
 vendor punya satu URL per jenis acara yang dilayaninya; di halaman detail, tab jenis acara mengganti
 URL, breadcrumb, dan pesan WhatsApp tanpa memuat ulang halaman.
 
-Backend (database, Filament, cache, pencatatan klik) belum dibuat; data dibaca dari
-`resources/data/catalog.json`, hasil ekspor `prototype/export.js`. Foto masih placeholder gradien.
+Data katalog ada di MySQL dan diedit tim lewat panel admin Filament di `/admin`: vendor, bundle,
+koleksi, area, serta teks jenis acara dan kategori. Daftar jenis acara dan kategori tetap
+(`Catalog::TYPES`), karena tulisan dan filter per jenis/kategori ada di kode; namanya bisa diedit,
+tapi tidak bisa ditambah atau dihapus. Kiriman form "Kasih tau kami" tersimpan sebagai permintaan
+dan bisa ditandai sudah ditangani. Pencatatan klik WhatsApp belum ada. Foto masih placeholder gradien.
 
 ## Menjalankan
 
 ```sh
 composer install
 npm install
-cp .env.example .env && php artisan key:generate
+cp .env.example .env && php artisan key:generate   # isi DB_PASSWORD dan DB_ROOT_PASSWORD
+docker compose up -d       # MySQL 8.4 di 127.0.0.1:3306
+php artisan migrate --seed # tabel + katalog awal dari resources/data/catalog.json
+php artisan make:filament-user                     # akun admin
 npm run build
-php artisan serve          # http://127.0.0.1:8000
+php artisan serve          # http://127.0.0.1:8000, admin di /admin
 ```
 
-Tidak perlu database. Untuk mencoba di HP pada Wi-Fi yang sama: `php artisan serve --host=0.0.0.0`.
+Untuk mencoba di HP pada Wi-Fi yang sama: `php artisan serve --host=0.0.0.0`.
+
+`catalog.json` hanya dipakai seeder untuk mengisi database pertama kali; setelah itu database yang
+jadi sumber data. `php artisan migrate:fresh --seed` mengembalikan katalog ke isi awal (dan
+menghapus semua editan serta akun admin).
+
+### Cache katalog
+
+Situs tidak membaca database di setiap permintaan. `App\Catalog\Catalog` membangun seluruh katalog
+sekali, menyimpannya di `bootstrap/cache/catalog.php` (ikut opcache), dan setiap kali model katalog
+disimpan dari admin file itu dihapus sehingga permintaan berikutnya membangunnya ulang. Kalau data
+diubah langsung lewat SQL, hapus file itu (`rm bootstrap/cache/catalog.php`). Rute tidak bergantung
+pada database, jadi `php artisan route:cache` aman dijalankan saat build.
 
 ## Rute
 
@@ -55,30 +73,36 @@ penempatan tombol (`VNU-0104-DETAIL`; penempatan: HOME, LIST, DETAIL, KOLEKSI, S
 
 ```
 app/Catalog/          data dan logika katalog
-  Catalog.php         baca catalog.json (di-cache sebagai PHP di bootstrap/cache)
+  Catalog.php         bangun katalog dari database (di-cache sebagai PHP di bootstrap/cache)
   Filters.php         definisi filter per jenis × kategori
   Pages.php           props siap-tampil per halaman
   Present.php         format harga, kartu, tautan WhatsApp
   Copy.php            tulisan vendor (netral + per jenis acara), fakta, yang termasuk, FAQ
+app/Models/           model katalog + Lead; setiap simpan membuang cache katalog
+app/Filament/         panel admin (/admin): resource vendor, bundle, koleksi, area, jenis acara,
+                      kategori, permintaan
 app/Http/Controllers/SiteController.php
+database/             migrasi; CatalogSeeder memuat catalog.json
 app/Livewire/Listing.php + resources/views/livewire/listing.blade.php
 resources/views/      layout, komponen, halaman
 resources/css/site.css  token design system + komponen
 resources/js/blade.js   Livewire + Alpine (tersimpan, bagikan, tab jenis acara)
 bench/                benchmark performa (run.mjs) dan pembuat tabel (report.mjs)
-prototype/            prototipe JS asli + export.js (sumber catalog.json)
+prototype/            prototipe JS asli + export.js (sumber catalog.json awal)
 docs/design/          design system dan halaman yang disetujui
 docs/                 lembar sketsa wireframe dan catatan keputusan
 ```
 
-Data diperbarui dengan `node prototype/export.js`.
 
 ## Tes
 
 ```sh
-php artisan test                                          # rute, filter, hasil kosong, form, Livewire
+php artisan test                                          # rute, filter, form, Livewire, database, admin
 BASE=http://127.0.0.1:8000 node tests/browser/smoke.mjs   # alur di browser, desktop + HP
 ```
+
+`php artisan test` memakai SQLite di memori yang diisi `CatalogSeeder` di setiap tes, jadi tidak
+perlu MySQL.
 
 Membandingkan dengan halaman yang disetujui (situs di port 8123):
 

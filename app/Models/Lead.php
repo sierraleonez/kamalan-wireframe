@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /** Kiriman form "Kasih tau kami". */
 class Lead extends Model
 {
-    protected $fillable = ['jenis', 'wa', 'tanggal', 'area', 'tamu', 'budget', 'kategori', 'cari', 'asal'];
+    protected $fillable = ['jenis', 'wa', 'tanggal', 'area', 'tamu', 'budget', 'kategori', 'cari', 'asal', 'handled_at'];
 
     protected function casts(): array
     {

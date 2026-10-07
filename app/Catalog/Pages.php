@@ -437,7 +437,10 @@ final class Pages
                 'messageName' => $v['name'],
                 'phrase' => Catalog::type($type)['phrase'],
                 'foot' => null,
-                'socials' => [['label' => 'Instagram', 'href' => 'https://instagram.com/'.ltrim($v['ig'], '@')], ['label' => 'Website', 'href' => 'https://'.$v['web']]],
+                'socials' => array_values(array_filter([
+                    $v['ig'] !== '' ? ['label' => 'Instagram', 'href' => 'https://instagram.com/'.ltrim($v['ig'], '@')] : null,
+                    $v['web'] !== '' ? ['label' => 'Website', 'href' => 'https://'.$v['web']] : null,
+                ])),
             ],
             'mbar' => ['label' => 'Mulai dari', 'price' => P::priceFrom($v), 'wa' => P::goHref($v['ref'], $type, 'DETAIL'), 'waLabel' => 'Hubungi via WhatsApp'],
             'bundlesTitle' => 'Paket yang memakai '.mb_strtolower($cat['name']).' ini',

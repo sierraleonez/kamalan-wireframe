@@ -13,6 +13,17 @@ class Category extends Model
 
     protected $guarded = ['id', 'slug', 'code'];
 
+    /** Satuan kolom harga vendor, untuk label di admin. Sama dengan Present::priceFrom(). */
+    public function priceUnitLabel(): string
+    {
+        return match ($this->unit) {
+            'pax' => 'ribu rupiah per pax',
+            'hari' => 'juta rupiah per hari',
+            'acara' => 'juta rupiah per acara',
+            default => 'juta rupiah',
+        };
+    }
+
     public function occasionLinks(): HasMany
     {
         return $this->hasMany(CategoryOccasion::class);

@@ -120,6 +120,10 @@ final class Catalog
                 'hoods' => json_decode($a->hoods, true), 'near' => json_decode($a->near, true), 'order' => $i++,
             ];
         }
+        foreach ($areas as &$a) {
+            $a['near'] = array_values(array_filter($a['near'], fn ($s) => isset($areas[$s])));
+        }
+        unset($a);
 
         $occOf = [];
         foreach (DB::table('occasion_vendor')->get() as $p) {
