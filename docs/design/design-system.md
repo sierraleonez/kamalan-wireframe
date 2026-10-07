@@ -44,6 +44,7 @@ The mark is a ribbon tied into a K, in the five brand colours. Files are in
 | `favicon-32.png`, `/favicon.ico`, `apple-touch-icon.png`, `icon-*.png` | Browser tab, home screen, `/site.webmanifest` |
 | `og.png` | Link preview (WhatsApp, social), 1200×630 on cream |
 | `hero-ribbon-v3-long.webp` | Home hero ribbon, transparent, 2920×327: the supplied ribbon (`docs/design/ribbon-source.svg`, a PNG on white; background removed, cream piece kept) plus its blue tail extended 1000 px to the left. Shown at 90% height. Up to 1500 px screens it spans the full width; wider screens keep it at 1500 px, with its loop at the hero photo's bottom-left corner and the blue tail reaching the left edge |
+| `footer-ribbon.webp` | Footer ribbon, transparent, 900×612. From `footer-ribbon-source.png`; its navy pieces are recoloured cream so they show on the navy footer. Sits in the footer's top-right corner (flat top end on the footer's top edge), sized to stay clear of the text: 140 px on phones, up to 280 px on desktop |
 
 Use the full logo where there is room (site header). The short ribbon-K mark is
 for small or square spaces: favicon, home-screen icons, link preview, admin, and
