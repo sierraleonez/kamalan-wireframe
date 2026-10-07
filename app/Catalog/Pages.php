@@ -379,7 +379,7 @@ final class Pages
         // Satu panel per jenis acara yang dilayani; hanya kalau ada catatan spesifik.
         $occasions = [];
         foreach ($v['types'] as $o) {
-            $note = Copy::occasionNote($v, $o);
+            $note = $v['occasionNotes'] !== null ? ($v['occasionNotes'][$o] ?? ['title' => '', 'paras' => []]) : Copy::occasionNote($v, $o);
             if (! $note['paras']) {
                 continue;
             }
@@ -423,14 +423,14 @@ final class Pages
             'active' => $type,
             'refused' => Copy::refusedLine($v),
             'includedNote' => 'Rincian dari pengelola, per September 2026.',
-            'included' => Copy::included($v),
+            'included' => $v['included'] ?? Copy::included($v),
             'location' => Copy::locationLine($v),
             'mapLabel' => $v['hood'].', '.$area['name'],
-            'faqs' => Copy::faqs($v),
+            'faqs' => $v['faqs'] ?? Copy::faqs($v),
             'cta' => [
                 'label' => 'Mulai dari',
                 'price' => P::priceLong($v),
-                'note' => P::priceNote($v),
+                'note' => $v['priceNote'] ?? P::priceNote($v),
                 'wa' => P::goHref($v['ref'], $type, 'DETAIL'),
                 'waLabel' => 'Hubungi via WhatsApp',
                 'refCode' => P::refCode($v['ref'], 'DETAIL'),

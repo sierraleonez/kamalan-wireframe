@@ -29,7 +29,8 @@ class CatalogDatabaseTest extends TestCase
             $old = $bySlug($raw[$kind]);
             $this->assertSame(array_keys($old), array_keys($built[$kind]), $kind.' order');
             foreach ($old as $slug => $row) {
-                $this->assertEquals($strip($row), $strip($built[$kind][$slug]), "$kind.$slug");
+                // Hanya kolom ekspor lama; kolom baru (teks vendor, rincian) diuji terpisah.
+                $this->assertEquals($strip($row), $strip(array_intersect_key($built[$kind][$slug], $row)), "$kind.$slug");
             }
         }
     }

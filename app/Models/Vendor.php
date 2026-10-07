@@ -23,6 +23,10 @@ class Vendor extends Model
             'av' => 'boolean',
             'pkp' => 'boolean',
             'halal' => 'boolean',
+            'specs' => 'array',
+            'included' => 'array',
+            'faqs' => 'array',
+            'occasion_notes' => 'array',
         ];
     }
 

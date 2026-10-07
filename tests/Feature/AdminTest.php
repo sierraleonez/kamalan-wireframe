@@ -14,6 +14,7 @@ use App\Models\Lead;
 use App\Models\Occasion;
 use App\Models\User;
 use App\Models\Vendor;
+use Filament\Forms\Components\Repeater;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -93,8 +94,84 @@ class AdminTest extends TestCase
 
         $v = Vendor::where('slug', 'pendopo-cipete')->sole();
         $this->assertSame('VNU-'.str_pad((string) $v->id, 4, '0', STR_PAD_LEFT), $v->ref);
-        $this->get('/wedding/venue/pendopo-cipete')->assertOk()->assertSee('Pendopo Cipete');
+        $this->assertNotNull($v->faqs);
+        $this->assertSame(6, $v->specs['duration_hours']);
+        $this->get('/wedding/venue/pendopo-cipete')->assertOk()->assertSee('Pendopo Cipete')->assertSee('Boleh bawa catering sendiri?');
         $this->get('/go/'.$v->ref.'?t=wedding&p=DETAIL')->assertRedirectContains('wa.me/628120001111');
+    }
+
+    public function test_form_shows_only_the_fields_of_the_chosen_category(): void
+    {
+        $id = fn (string $slug) => Category::where('slug', $slug)->value('id');
+
+        Livewire::test(CreateVendor::class)
+            ->fillForm(['category_id' => $id('venue')])
+            ->assertFormFieldIsVisible('specs.duration_hours')->assertFormFieldIsVisible('parkir')->assertFormFieldIsVisible('setting')
+            ->assertFormFieldIsHidden('halal')->assertFormFieldIsHidden('specs.duration_min')
+            ->fillForm(['category_id' => $id('catering')])
+            ->assertFormFieldIsVisible('halal')->assertFormFieldIsVisible('specs.waiter_ratio')->assertFormFieldIsVisible('cap_min')
+            ->assertFormFieldIsHidden('parkir')->assertFormFieldIsHidden('rooftop')->assertFormFieldIsHidden('specs.duration_hours')
+            ->fillForm(['category_id' => $id('eo')])
+            ->assertFormFieldIsVisible('specs.crew_max')->assertFormFieldIsVisible('bus')->assertFormFieldIsHidden('transit')
+            ->fillForm(['category_id' => $id('hiburan')])
+            ->assertFormFieldIsVisible('specs.duration_min')->assertFormFieldIsHidden('cap_min')->assertFormFieldIsHidden('av')
+            ->assertFormFieldIsVisible('pkp')->assertFormFieldIsVisible('specs.dp_percent')
+            ->fillForm(['category_id' => $id('dokumentasi')])
+            ->assertFormFieldIsVisible('specs.delivery_days')->assertFormFieldIsHidden('specs.setup_hours');
+    }
+
+    public function test_venue_duration_updates_facts_and_rewrite_updates_text(): void
+    {
+        $this->get('/wedding/venue/ballroom-kebayoran')->assertSee('Sewa 6 jam');
+
+        Livewire::test(EditVendor::class, ['record' => 104])
+            ->fillForm(['specs.duration_hours' => 8])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        // Fakta langsung ikut; teks yang sudah disalin tetap sampai ditulis ulang.
+        $this->get('/wedding/venue/ballroom-kebayoran')->assertSee('8 jam')->assertSee('Sewa 6 jam');
+
+        Livewire::test(EditVendor::class, ['record' => 104])->callAction('regenerate');
+
+        $this->get('/wedding/venue/ballroom-kebayoran')->assertSee('Sewa 8 jam')->assertDontSee('Sewa 6 jam');
+    }
+
+    public function test_page_text_edits_show_on_the_site(): void
+    {
+        $undo = Repeater::fake();
+
+        Livewire::test(EditVendor::class, ['record' => 104])
+            ->fillForm([
+                'price_note' => 'Sewa 8 jam termasuk kursi.',
+                'faqs' => [['q' => 'Boleh bawa kembang api?', 'a' => 'Tidak boleh di dalam gedung.']],
+                'included' => [['label' => 'Kursi tiffany', 'note' => '300 unit']],
+                'occasion_notes' => [['occasion' => 'wedding', 'title' => 'Untuk resepsi', 'text' => "Paragraf satu.\n\nParagraf dua."]],
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+        $undo();
+
+        $this->get('/wedding/venue/ballroom-kebayoran')
+            ->assertSee('Sewa 8 jam termasuk kursi.')
+            ->assertSee('Boleh bawa kembang api?')->assertSee('Tidak boleh di dalam gedung.')->assertDontSee('Boleh bawa catering sendiri?')
+            ->assertSee('Kursi tiffany')
+            ->assertSee('Untuk resepsi')->assertSee('Paragraf dua.');
+    }
+
+    public function test_added_occasion_gets_a_starting_panel(): void
+    {
+        $v = Vendor::find(104);
+        $this->assertNotContains('ulang-tahun', array_column($v->occasion_notes, 'occasion'));
+
+        $ids = $v->occasions->pluck('id')->push(Occasion::where('slug', 'ulang-tahun')->value('id'))->all();
+        Livewire::test(EditVendor::class, ['record' => 104])
+            ->fillForm(['occasions' => $ids])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertContains('ulang-tahun', array_column(Vendor::find(104)->occasion_notes, 'occasion'));
+        $this->get('/ulang-tahun/venue/ballroom-kebayoran')->assertOk()->assertSee('Untuk ulang tahun');
     }
 
     public function test_vendor_form_rejects_bad_whatsapp_and_capacity(): void

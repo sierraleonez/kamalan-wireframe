@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources\Vendors;
 
+use App\Catalog\Specs;
 use App\Filament\Resources\Vendors\Pages\CreateVendor;
 use App\Filament\Resources\Vendors\Pages\EditVendor;
 use App\Filament\Resources\Vendors\Pages\ListVendors;
 use App\Models\Area;
 use App\Models\Category;
+use App\Models\Occasion;
 use App\Models\Vendor;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -55,6 +58,36 @@ class VendorResource extends Resource
         return $occ ? url('/'.$occ->slug.'/'.$v->category->slug.'/'.$v->slug) : null;
     }
 
+    /** Kategori yang punya kapasitas (min/maks). */
+    private const WITH_CAPACITY = ['venue', 'catering', 'eo'];
+
+    private static function cat(Get $get): ?string
+    {
+        return self::category($get)?->slug;
+    }
+
+    /** Isian rincian dari Specs: satu per kunci, tampil kalau kunci itu dipakai kategori terpilih. */
+    private static function specInputs(): array
+    {
+        $keys = [];
+        foreach (Category::pluck('slug') as $slug) {
+            $keys += Specs::fields($slug);
+        }
+        $keys += array_splice($keys, array_search('dp_percent', array_keys($keys), true), 1); // DP paling akhir
+
+        return array_map(fn (string $key) => TextInput::make('specs.'.$key)
+            ->numeric()->minValue(0)
+            ->label(fn (Get $get) => Specs::fields(self::cat($get) ?? '')[$key]['label'] ?? $key)
+            ->suffix(fn (Get $get) => Specs::fields(self::cat($get) ?? '')[$key]['unit'] ?? null)
+            ->visible(fn (Get $get) => isset(Specs::fields(self::cat($get) ?? '')[$key])
+                && ! ($key === 'corkage' && $get('catering_bebas')))
+            ->helperText(match ($key) {
+                'overtime' => 'Kosongkan untuk 8% dari harga sewa.',
+                'setup_hours', 'delivery_days' => 'Opsional; tampil di fakta kalau diisi.',
+                default => null,
+            }), array_keys($keys));
+    }
+
     private static function category(Get $get): ?Category
     {
         return $get('category_id') ? Category::find($get('category_id')) : null;
@@ -84,29 +117,46 @@ class VendorResource extends Resource
                     ->helperText('Hanya jenis acara yang menampilkan kategori ini. Yang pertama dipakai sebagai default tautan WhatsApp.'),
             ]),
 
-            Section::make('Kapasitas dan harga')->columns(3)->components([
-                TextInput::make('cap_min')->label('Kapasitas min.')->numeric()->minValue(1)
-                    ->helperText(fn (Get $get) => self::category($get)?->slug === 'catering' ? 'Minimum pax' : 'Kosongkan untuk hiburan, dekorasi, dokumentasi, AV'),
-                TextInput::make('cap_max')->label('Kapasitas maks.')->numeric()->minValue(1)->gte('cap_min')->requiredWith('cap_min'),
+            Section::make('Kapasitas dan harga')->columns(3)->visible(fn (Get $get) => filled($get('category_id')))->components([
+                TextInput::make('cap_min')->numeric()->minValue(1)
+                    ->label(fn (Get $get) => match (self::cat($get)) {
+                        'catering' => 'Minimum pax', 'eo' => 'Skala acara dari', default => 'Kapasitas dari'
+                    })
+                    ->visible(fn (Get $get) => in_array(self::cat($get), self::WITH_CAPACITY, true))
+                    ->required(fn (Get $get) => in_array(self::cat($get), self::WITH_CAPACITY, true)),
+                TextInput::make('cap_max')->numeric()->minValue(1)->gte('cap_min')
+                    ->label(fn (Get $get) => match (self::cat($get)) {
+                        'catering' => 'Maksimum pax per sesi', 'eo' => 'Skala acara sampai', default => 'Kapasitas sampai'
+                    })
+                    ->visible(fn (Get $get) => in_array(self::cat($get), self::WITH_CAPACITY, true))
+                    ->required(fn (Get $get) => in_array(self::cat($get), self::WITH_CAPACITY, true)),
                 TextInput::make('price')->label('Harga mulai')->numeric()->required()->minValue(0)
                     ->helperText(fn (Get $get) => self::category($get)?->priceUnitLabel()),
-                Select::make('setting')->label('Suasana')->options(['indoor' => 'Indoor', 'outdoor' => 'Outdoor', 'both' => 'Indoor + outdoor'])
-                    ->visible(fn (Get $get) => self::category($get)?->slug === 'venue')
-                    ->required(fn (Get $get) => self::category($get)?->slug === 'venue'),
             ]),
 
-            Section::make('Fasilitas')->columns(3)->components([
-                TextInput::make('parkir')->label('Parkir mobil')->numeric()->default(0)->minValue(0),
-                TextInput::make('bus')->label('Parkir bus')->numeric()->default(0)->minValue(0),
-                Grid::make(3)->columnSpanFull()->components([
-                    Toggle::make('rooftop')->label('Rooftop'),
-                    Toggle::make('catering_bebas')->label('Catering bebas'),
-                    Toggle::make('transit')->label('Ada ruang transit'),
-                    Toggle::make('av')->label('Sound & lighting sendiri'),
-                    Toggle::make('pkp')->label('PKP (faktur pajak)'),
-                    Toggle::make('halal')->label('Sertifikat halal'),
+            Section::make('Rincian')
+                ->heading(fn (Get $get) => 'Rincian '.(self::category($get)?->name ?? ''))
+                ->description('Yang ditanyakan untuk kategori ini. Fakta di halaman vendor dibaca dari sini.')
+                ->columns(3)
+                ->visible(fn (Get $get) => filled($get('category_id')))
+                ->components([
+                    Select::make('setting')->label('Suasana')->options(['indoor' => 'Indoor', 'outdoor' => 'Outdoor', 'both' => 'Indoor + outdoor'])
+                        ->visible(fn (Get $get) => self::cat($get) === 'venue')->required(fn (Get $get) => self::cat($get) === 'venue'),
+                    ...self::specInputs(),
+                    TextInput::make('parkir')->label('Parkir mobil')->numeric()->default(0)->minValue(0)
+                        ->visible(fn (Get $get) => self::cat($get) === 'venue'),
+                    TextInput::make('bus')->numeric()->default(0)->minValue(0)
+                        ->label(fn (Get $get) => self::cat($get) === 'eo' ? 'Parkir bus di venue rekanan' : 'Parkir bus')
+                        ->visible(fn (Get $get) => in_array(self::cat($get), ['venue', 'eo'], true)),
+                    Grid::make(3)->columnSpanFull()->components([
+                        Toggle::make('rooftop')->label('Rooftop')->visible(fn (Get $get) => self::cat($get) === 'venue'),
+                        Toggle::make('transit')->label('Ada ruang transit')->visible(fn (Get $get) => self::cat($get) === 'venue'),
+                        Toggle::make('catering_bebas')->label('Catering bebas')->live()->visible(fn (Get $get) => self::cat($get) === 'venue'),
+                        Toggle::make('halal')->label('Sertifikat halal')->visible(fn (Get $get) => self::cat($get) === 'catering'),
+                        Toggle::make('av')->label('Sound & lighting sendiri')->visible(fn (Get $get) => in_array(self::cat($get), ['venue', 'eo'], true)),
+                        Toggle::make('pkp')->label('PKP (faktur pajak)'),
+                    ]),
                 ]),
-            ]),
 
             Section::make('Penempatan')->columns(3)->components([
                 Toggle::make('promoted')->label('Dipromosikan')->helperText('Ditandai di kartu dan diutamakan di beranda.'),
@@ -123,10 +173,39 @@ class VendorResource extends Resource
                     ->helperText('Dipakai di pesan WhatsApp. Tetap selamanya.'),
             ]),
 
-            Section::make('Tulisan')->components([
-                Textarea::make('writeup')->label('Deskripsi dari tim')->rows(8)
-                    ->helperText('Kosongkan untuk memakai deskripsi yang dibentuk dari data di atas. Pisahkan paragraf dengan baris kosong.'),
-            ]),
+            Section::make('Teks halaman')
+                ->description('Semua teks di halaman vendor. Diisi dari template saat vendor dibuat; setelah itu bebas diedit. "Tulis ulang dari rincian" di atas menimpa semuanya.')
+                ->visibleOn('edit')
+                ->collapsible()
+                ->components([
+                    Textarea::make('writeup')->label('Deskripsi')->rows(6)
+                        ->helperText('Paragraf pertama jadi pembuka. Pisahkan paragraf dengan baris kosong.'),
+                    TextInput::make('price_note')->label('Catatan harga')->maxLength(200)
+                        ->helperText('Tampil di bawah harga: apa yang belum termasuk.'),
+                    Repeater::make('occasion_notes')->label('Panel per jenis acara')
+                        ->schema([
+                            Select::make('occasion')->label('Jenis acara')->required()->distinct()
+                                ->options(fn () => Occasion::orderBy('sort')->pluck('name', 'slug')),
+                            TextInput::make('title')->label('Judul panel')->required()->maxLength(80),
+                            Textarea::make('text')->label('Isi')->rows(3)->required()->columnSpanFull(),
+                        ])
+                        ->columns(2)->collapsible()->reorderable(false)->addActionLabel('Tambah panel')
+                        ->itemLabel(fn (array $state) => Occasion::where('slug', $state['occasion'] ?? '')->value('name'))
+                        ->helperText('Hanya panel untuk jenis acara yang dicentang di atas yang tampil.'),
+                    Repeater::make('included')->label('Yang termasuk')
+                        ->schema([
+                            TextInput::make('label')->label('Poin')->required()->maxLength(120),
+                            TextInput::make('note')->label('Keterangan')->maxLength(160),
+                        ])
+                        ->columns(2)->reorderable()->addActionLabel('Tambah poin'),
+                    Repeater::make('faqs')->label('Tanya jawab')
+                        ->schema([
+                            TextInput::make('q')->label('Pertanyaan')->required()->maxLength(160),
+                            Textarea::make('a')->label('Jawaban')->required()->rows(2),
+                        ])
+                        ->reorderable()->collapsible()->addActionLabel('Tambah pertanyaan')
+                        ->itemLabel(fn (array $state) => $state['q'] ?? null),
+                ]),
         ]);
     }
 

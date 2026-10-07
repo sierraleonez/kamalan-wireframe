@@ -55,8 +55,8 @@ final class Present
 
         return match ($v['cat']) {
             'venue' => $v['cateringBebas']
-                ? 'Sewa venue 6 jam, belum termasuk catering dan dekorasi'
-                : 'Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah',
+                ? 'Sewa venue '.self::num(Specs::get($v, 'duration_hours')).' jam, belum termasuk catering dan dekorasi'
+                : 'Sewa venue '.self::num(Specs::get($v, 'duration_hours')).' jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah',
             'catering' => 'Per pax untuk menu standar, belum termasuk stall tambahan',
             'eo' => 'Jasa koordinasi, belum termasuk venue dan vendor lain',
             default => 'Harga dasar, belum termasuk transport di luar '.$area,

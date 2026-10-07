@@ -16,7 +16,7 @@ final class Copy
     {
         // Tulisan dari tim (admin) menggantikan teks bentukan; paragraf dipisah baris kosong.
         if (trim((string) ($v['writeup'] ?? '')) !== '') {
-            return array_values(array_filter(array_map('trim', preg_split('/\R\s*\R/', trim($v['writeup'])))));
+            return VendorText::paras($v['writeup']);
         }
 
         $area = Catalog::area($v['area'])['name'];
@@ -70,11 +70,11 @@ final class Copy
         $a = $v['cap'][0] ?? 0;
         $b = $v['cap'][1] ?? 0;
         $title = Catalog::type($occ)['pane'];
-        $catering = $v['cateringBebas'] ?? false
-            ? 'Catering bebas tanpa biaya tambahan, jadi katering langganan keluarga bisa dipakai.'
-            : 'Catering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.';
 
         if ($v['cat'] === 'venue') {
+            $catering = $v['cateringBebas'] ?? false
+                ? 'Catering bebas tanpa biaya tambahan, jadi katering langganan keluarga bisa dipakai.'
+                : 'Catering dari empat rekanan venue, atau bawa sendiri dengan biaya '.P::num(Specs::get($v, 'corkage')).' rb per pax.';
             $paras = match ($occ) {
                 'wedding' => [
                     'Format duduk sekitar '.P::num(round($b * 0.6)).' tamu dengan round table, atau '.P::num($b).' berdiri. '
@@ -112,7 +112,7 @@ final class Copy
         if ($v['cat'] === 'catering') {
             $paras = match ($occ) {
                 'corporate' => ['Nasi kotak dan prasmanan untuk kantor, sampai '.P::num($b).' porsi sekali antar.'.($v['pkp'] ? ' Bisa menerbitkan faktur pajak.' : '')],
-                'wedding' => ['Prasmanan dan stall untuk '.P::num($a).'–'.P::num($b).' tamu dalam satu sesi, termasuk pramusaji satu per 25 tamu.'],
+                'wedding' => ['Prasmanan dan stall untuk '.P::num($a).'–'.P::num($b).' tamu dalam satu sesi, termasuk pramusaji satu per '.P::num(Specs::get($v, 'waiter_ratio')).' tamu.'],
                 default => ['Minimum pesan '.P::num($a).' pax. '.($v['halal'] ? 'Halal bersertifikat, aman untuk tamu keluarga besar.' : 'Belum bersertifikat halal; pastikan dulu kalau tamumu membutuhkannya.')],
             };
 
@@ -156,7 +156,7 @@ final class Copy
                 ['Kapasitas', P::num($v['cap'][0]).'–'.P::num($v['cap'][1])],
                 ['Suasana', P::settingText($v['setting'])],
                 ['Parkir', $v['parkir'].' mobil'],
-                ['Jam sewa', '6 jam'],
+                ['Jam sewa', P::num(Specs::get($v, 'duration_hours')).' jam'],
             ],
             'catering' => [
                 ['Minimum', P::num($v['cap'][0]).' pax'],
@@ -168,11 +168,13 @@ final class Copy
                 ['Sound & lighting', $v['av'] ? 'Milik sendiri' : 'Sewa'],
                 ['Faktur pajak', $v['pkp'] ? 'Bisa' : 'Tidak'],
             ],
-            default => [
+            default => array_values(array_filter([
                 ['Basis', $v['hood']],
                 ['Area layanan', 'Jabodetabek'],
-                ['Durasi standar', '3–4 jam'],
-            ],
+                ['Durasi standar', Specs::range($v, 'duration_min', 'duration_max', 'jam')],
+                Specs::get($v, 'setup_hours') !== null ? ['Waktu pasang', P::num(Specs::get($v, 'setup_hours')).' jam'] : null,
+                Specs::get($v, 'delivery_days') !== null ? ['Hasil jadi', P::num(Specs::get($v, 'delivery_days')).' hari'] : null,
+            ])),
         };
     }
 
@@ -184,42 +186,49 @@ final class Copy
         $area = Catalog::area($v['area'])['name'];
 
         if ($v['cat'] === 'venue') {
-            $ot = round($v['price'] * 0.8) / 10;
+            $hours = P::num(Specs::get($v, 'duration_hours'));
+            $ot = Specs::get($v, 'overtime');
             $ot = fmod($ot, 1.0) == 0.0 ? (string) (int) $ot : str_replace('.', ',', (string) $ot);
 
             return [
-                ['Sewa 6 jam', 'termasuk waktu loading dan bongkar'],
+                ['Sewa '.$hours.' jam', 'termasuk waktu loading dan bongkar'],
                 ['Kapasitas', P::num(round($b * 0.6)).' round table · '.P::num(round($b * 0.8)).' teater · '.P::num($b).' berdiri'],
                 [$v['av'] ? 'Sound, layar LED, dan operator' : 'Sound system dan lighting dasar', $v['av'] ? 'cukup untuk presentasi dan live music akustik' : 'untuk band atau presentasi besar, bawa vendor AV'],
                 ['Parkir '.$v['parkir'].' mobil', $v['bus'] ? 'ditambah '.$v['bus'].' bus' : 'tanpa area bus'],
-                $v['cateringBebas'] ? ['Catering bebas', 'tanpa biaya tambahan'] : ['Catering dari 4 rekanan', 'atau bawa sendiri dengan biaya 25 rb / pax'],
-                ['Overtime Rp '.$ot.' jt / jam', 'di luar 6 jam sewa'],
+                $v['cateringBebas'] ? ['Catering bebas', 'tanpa biaya tambahan'] : ['Catering dari 4 rekanan', 'atau bawa sendiri dengan biaya '.P::num(Specs::get($v, 'corkage')).' rb / pax'],
+                ['Overtime Rp '.$ot.' jt / jam', 'di luar '.$hours.' jam sewa'],
             ];
         }
         if ($v['cat'] === 'catering') {
             return [
                 ['Minimum '.P::num($a).' pax', 'maksimum '.P::num($b).' pax per sesi'],
-                ['Alat saji dan pramusaji', 'satu pramusaji untuk setiap 25 tamu'],
+                ['Alat saji dan pramusaji', 'satu pramusaji untuk setiap '.P::num(Specs::get($v, 'waiter_ratio')).' tamu'],
                 [$v['halal'] ? 'Halal bersertifikat' : 'Belum bersertifikat halal', $v['halal'] ? 'sertifikat masih berlaku saat kami datang' : 'tanyakan bahan langsung ke vendor'],
-                ['Tes rasa', 'gratis untuk 2 orang'],
+                ['Tes rasa', 'gratis untuk '.P::num(Specs::get($v, 'tasting_people')).' orang'],
                 ['Ongkos kirim', 'gratis dalam '.$area],
             ];
         }
         if ($v['cat'] === 'eo') {
             return [
-                ['Rapat teknis dan rundown', 'dua kali sebelum hari-H'],
-                ['Kru hari-H', '4–10 orang, tergantung skala'],
+                ['Rapat teknis dan rundown', self::times((int) Specs::get($v, 'meetings')).' sebelum hari-H'],
+                ['Kru hari-H', Specs::range($v, 'crew_min', 'crew_max', 'orang').', tergantung skala'],
                 [$v['av'] ? 'Sound dan lighting' : 'Koordinasi vendor AV', $v['av'] ? 'milik sendiri' : 'dari rekanan'],
                 ['Faktur pajak', $v['pkp'] ? 'bisa diterbitkan' : 'tidak tersedia'],
             ];
         }
 
         return [
-            ['Durasi standar 3–4 jam', 'tambahan jam dihitung per jam'],
+            ['Durasi standar '.Specs::range($v, 'duration_min', 'duration_max', 'jam'), 'tambahan jam dihitung per jam'],
             ['Transport', 'gratis dalam '.$area],
             ['Kru dan peralatan', 'dibawa sendiri'],
-            ['DP 30%', 'pelunasan H-7'],
+            ['DP '.P::num(Specs::get($v, 'dp_percent')).'%', 'pelunasan H-7'],
         ];
+    }
+
+    /** 2 → "dua kali". */
+    private static function times(int $n): string
+    {
+        return ([1 => 'satu', 2 => 'dua', 3 => 'tiga', 4 => 'empat', 5 => 'lima'][$n] ?? (string) $n).' kali';
     }
 
     public static function locationLine(array $v): string
@@ -233,19 +242,19 @@ final class Copy
         $area = Catalog::area($v['area'])['name'];
         $pairs = match ($v['cat']) {
             'venue' => [
-                ['Boleh bawa catering sendiri?', $v['cateringBebas'] ? 'Boleh, tanpa biaya tambahan.' : 'Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.'],
-                ['Berapa DP dan kapan pelunasan?', 'DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.'],
+                ['Boleh bawa catering sendiri?', $v['cateringBebas'] ? 'Boleh, tanpa biaya tambahan.' : 'Boleh dengan biaya '.P::num(Specs::get($v, 'corkage')).' rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.'],
+                ['Berapa DP dan kapan pelunasan?', 'DP '.P::num(Specs::get($v, 'dp_percent')).'% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.'],
                 [$v['setting'] === 'indoor' ? 'Ada ruang transit?' : 'Kalau hujan bagaimana?', $v['setting'] === 'indoor'
                     ? ($v['transit'] ? 'Ada, satu ruang dengan kamar mandi.' : 'Tidak ada. Biasanya tamu utama memakai kamar hotel terdekat.')
                     : ($v['setting'] === 'both' ? 'Acara bisa pindah ke ruang dalam yang bersebelahan.' : 'Tidak ada area indoor yang muat seluruh tamu. Sebagian besar acara di sini memasang tenda dari awal.')],
             ],
             'catering' => [
-                ['Bisa tes rasa?', 'Bisa, gratis untuk 2 orang, bayar untuk orang ketiga dan seterusnya.'],
+                ['Bisa tes rasa?', 'Bisa, gratis untuk '.P::num($tasting = (int) Specs::get($v, 'tasting_people')).' orang, bayar untuk orang '.($tasting === 2 ? 'ketiga' : 'ke-'.($tasting + 1)).' dan seterusnya.'],
                 ['Berapa minimum pesan?', 'Minimum '.P::num($v['cap'][0]).' pax.'],
-                ['Termasuk pramusaji?', 'Termasuk, satu pramusaji untuk setiap 25 tamu.'],
+                ['Termasuk pramusaji?', 'Termasuk, satu pramusaji untuk setiap '.P::num(Specs::get($v, 'waiter_ratio')).' tamu.'],
             ],
             default => [
-                ['Berapa DP?', 'DP 30% saat tanda jadi.'],
+                ['Berapa DP?', 'DP '.P::num(Specs::get($v, 'dp_percent')).'% saat tanda jadi.'],
                 ['Melayani di luar '.$area.'?', 'Ya, seluruh Jabodetabek. Transport dihitung terpisah.'],
                 ['Berapa lama sebelumnya harus pesan?', 'Idealnya 2–3 bulan sebelum acara.'],
             ],

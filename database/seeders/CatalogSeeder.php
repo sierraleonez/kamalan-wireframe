@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Catalog\VendorText;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -107,5 +108,8 @@ class CatalogSeeder extends Seeder
             }
             DB::table('collection_picks')->insert($picks);
         });
+
+        // Salin teks halaman vendor dari template ke database supaya bisa diedit di admin.
+        VendorText::fillAll();
     }
 }

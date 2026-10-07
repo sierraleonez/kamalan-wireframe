@@ -164,6 +164,15 @@ final class Catalog
                 'web' => $v->web,
                 'photos' => (int) $v->photos,
                 'writeup' => $v->writeup,
+                'specs' => $v->specs === null ? [] : json_decode($v->specs, true),
+                // Teks yang diedit di admin; null = pakai template (Copy, Present).
+                'priceNote' => $v->price_note,
+                'included' => $v->included === null ? null : array_map(fn ($i) => [$i['label'], $i['note'] ?? ''], json_decode($v->included, true)),
+                'faqs' => $v->faqs === null ? null : json_decode($v->faqs, true),
+                'occasionNotes' => $v->occasion_notes === null ? null : array_column(array_map(
+                    fn ($n) => ['occasion' => $n['occasion'], 'title' => $n['title'], 'paras' => VendorText::paras($n['text'] ?? '')],
+                    json_decode($v->occasion_notes, true),
+                ), null, 'occasion'),
             ];
             $refs[$v->ref] = ['v', $v->slug];
         }
