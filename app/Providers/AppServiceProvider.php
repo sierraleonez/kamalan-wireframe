@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Foundation\Console\ServeCommand;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +12,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // kamalan.service menambah deploy/php/uploads.ini lewat PHP_INI_SCAN_DIR; teruskan ke `artisan serve`.
+        ServeCommand::$passthroughVariables[] = 'PHP_INI_SCAN_DIR';
     }
 
     /**

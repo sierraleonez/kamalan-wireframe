@@ -186,6 +186,9 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero-art{position:relative;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3;background:linear-gradient(145deg,#0b3a72,#1d6fae 48%,#8EC9F2)}
 @media(min-width:940px){.hero-art{aspect-ratio:11/9}}
 .hero-art .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.72);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.hero-art .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-art.has-img::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(2,42,91,.5),rgba(2,42,91,0) 42%,rgba(2,42,91,0) 58%,rgba(2,42,91,.55))}
+.hero-art .script,.hero-art .vals{z-index:1}
 .hero-art .script{position:absolute;left:26px;top:26px;color:#fff;font-size:clamp(24px,3vw,34px);text-shadow:0 2px 18px rgba(2,42,91,.35)}
 .hero-art .vals{position:absolute;right:22px;bottom:24px;text-align:right;color:rgba(255,255,255,.9);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;line-height:2.1}
 .ribbon-hero{position:absolute;left:-90px;bottom:-40px;z-index:2;pointer-events:none}
@@ -197,6 +200,7 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .occ{position:relative;border-radius:var(--r-xl);overflow:hidden;min-height:210px;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;color:#fff}
 .occ::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(2,42,91,.86),rgba(2,42,91,.12) 66%)}
 .occ>*{position:relative;z-index:2}
+.occ>img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .occ h3{font-family:Fraunces,serif;font-size:26px;margin:0 0 5px;letter-spacing:-.01em}
 .occ p{color:rgba(255,255,255,.84);margin:0 0 12px;font-size:14px;max-width:30ch;line-height:1.5}
 .occ .go{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
@@ -210,6 +214,8 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .cat{text-align:center;position:relative;display:block;width:100%;background:none;border:0;padding:0;cursor:pointer;color:inherit}
 .cat .ic{height:92px;border-radius:var(--r-lg);display:grid;place-items:center;margin-bottom:11px;border:1px solid var(--line-soft)}
 .cat .ic svg{stroke:var(--text)}
+.cat .ic.has-img{overflow:hidden}
+.cat .ic img{width:100%;height:100%;object-fit:cover;display:block}
 .cat .nm{font-size:14.5px;font-weight:400;color:var(--text-2)}
 .cat-pop{position:relative}
 .menu{

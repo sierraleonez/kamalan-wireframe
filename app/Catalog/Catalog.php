@@ -2,7 +2,9 @@
 
 namespace App\Catalog;
 
+use App\Support\ImageStore;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Katalog baca-saja untuk situs publik. Dibangun dari database (diedit lewat /admin) menjadi
@@ -222,7 +224,18 @@ final class Catalog
             ];
         }
 
+        // Foto beranda (diatur di admin → Konten beranda): [url, alt] per tempat.
+        // Migrasi lama juga membangun katalog, sebelum tabel/kolom foto ada.
+        $photo = fn ($row) => ($row->image ?? null) ? ['url' => ImageStore::url($row->image), 'alt' => (string) $row->image_alt] : null;
+        $settings = Schema::hasTable('settings') ? DB::table('settings')->pluck('value', 'key') : collect();
+        $images = [
+            'hero' => ($settings['home.hero_image'] ?? null) ? ['url' => ImageStore::url($settings['home.hero_image']), 'alt' => (string) ($settings['home.hero_alt'] ?? '')] : null,
+            'occasions' => array_filter($occasions->mapWithKeys(fn ($o) => [$o->slug => $photo($o)])->all()),
+            'categories' => array_filter($categories->mapWithKeys(fn ($c) => [$c->slug => $photo($c)])->all()),
+        ];
+
         return [
+            'images' => $images,
             'areas' => $areas,
             'types' => $types,
             'categories' => $cats,
@@ -231,6 +244,14 @@ final class Catalog
             'collections' => $collections,
             'refs' => $refs,
         ];
+    }
+
+    /** Foto untuk 'hero', atau untuk jenis acara / kategori: ['url' => …, 'alt' => …] atau null. */
+    public static function image(string $kind, ?string $slug = null): ?array
+    {
+        $images = self::data()['images'] ?? [];
+
+        return $slug === null ? ($images[$kind] ?? null) : ($images[$kind][$slug] ?? null);
     }
 
     public static function areas(): array

@@ -13,8 +13,12 @@
         @foreach ($p['areas'] as $a)<span class="chip">{{ $a }}</span>@endforeach
       </div>
     </div>
-    <div class="hero-art">
-      <div class="ph">foto acara</div>
+    <div class="hero-art{{ $p['hero'] ? ' has-img' : '' }}">
+      @if ($p['hero'])
+        <img class="hero-img" src="{{ $p['hero']['url'] }}" alt="{{ $p['hero']['alt'] }}" fetchpriority="high" decoding="async">
+      @else
+        <div class="ph">foto acara</div>
+      @endif
       <div class="script">Momen yang<br>lebih berarti</div>
       <div class="vals">Creative<br>Inclusive<br>Trusted<br>Inspiring<br>Joyful</div>
     </div>
@@ -29,6 +33,7 @@
   <div class="occs">
     @foreach ($p['occasions'] as $o)
       <a class="occ {{ $o['tone'] }}" href="{{ $o['href'] }}" wire:navigate>
+        @if ($o['image'])<img class="bg" src="{{ $o['image']['url'] }}" alt="{{ $o['image']['alt'] }}" loading="lazy" decoding="async">@endif
         <h3>{{ $o['name'] }}</h3>
         <p>{{ $o['blurb'] }}</p>
         <span class="go">Lihat vendor →</span>

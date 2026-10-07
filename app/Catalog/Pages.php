@@ -32,7 +32,7 @@ final class Pages
         $cats = $type ? Catalog::type($type)['cats'] : self::HOME_CATS;
 
         return array_map(function ($cat, $i) use ($type) {
-            $item = ['name' => Catalog::category($cat)['name'], 'icon' => $cat, 'tone' => 'c'.($i % 6 + 1), 'href' => null, 'choices' => []];
+            $item = ['name' => Catalog::category($cat)['name'], 'icon' => $cat, 'tone' => 'c'.($i % 6 + 1), 'image' => Catalog::image('categories', $cat), 'href' => null, 'choices' => []];
             if ($type) {
                 $item['href'] = '/'.$type.'/'.$cat;
 
@@ -54,7 +54,7 @@ final class Pages
         $out = [];
         $i = 0;
         foreach (Catalog::types() as $slug => $t) {
-            $out[] = ['name' => $t['name'], 'href' => '/'.$slug, 'blurb' => $t['blurb'], 'tone' => 'o'.(++$i)];
+            $out[] = ['name' => $t['name'], 'href' => '/'.$slug, 'blurb' => $t['blurb'], 'tone' => 'o'.(++$i), 'image' => Catalog::image('occasions', $slug)];
         }
 
         return $out;
@@ -72,6 +72,7 @@ final class Pages
 
         return self::base('Vendor acara di Jabodetabek', 'home', [
             'areas' => ['Jakarta Selatan', 'Jakarta Pusat', 'BSD & Tangerang', 'Bekasi', 'Depok'],
+            'hero' => Catalog::image('hero'),
             'occasions' => self::occasions(),
             'cats' => self::catRow(null),
             'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted']), 'HOME'), $bundles),

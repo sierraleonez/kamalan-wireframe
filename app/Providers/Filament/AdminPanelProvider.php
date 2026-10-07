@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::hex('#022A5B'), // navy design system
             ])
-            ->navigationGroups(['Katalog', 'Data acuan', 'Pengunjung'])
+            ->navigationGroups(['Konten', 'Katalog', 'Data acuan', 'Pengunjung'])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

@@ -48,6 +48,21 @@ Untuk mencoba di HP pada Wi-Fi yang sama: `php artisan serve --host=0.0.0.0`.
 jadi sumber data. `php artisan migrate:fresh --seed` mengembalikan katalog ke isi awal (dan
 menghapus semua editan serta akun admin).
 
+### Foto beranda
+
+Admin → **Konten beranda** mengatur foto hero, kartu jenis acara, dan kartu kategori. Foto bisa
+diunggah (klik atau seret) atau diambil dari link; server memperkecilnya dan menyimpannya sebagai
+WebP di `storage/app/public/content` (perlu `php artisan storage:link`). Tanpa foto, tampil gradien
+dan ikon seperti sebelumnya.
+
+Batas unggah PHP bawaan 2 MB. `deploy/php/uploads.ini` menaikkannya ke 16 MB; di server, unit
+`kamalan.service` memuatnya lewat drop-in `/etc/systemd/system/kamalan.service.d/uploads.conf`:
+
+```ini
+[Service]
+Environment=PHP_INI_SCAN_DIR=:/home/ubuntu/kamalan-wireframe/deploy/php
+```
+
 ### Cache katalog
 
 Situs tidak membaca database di setiap permintaan. `App\Catalog\Catalog` membangun seluruh katalog
