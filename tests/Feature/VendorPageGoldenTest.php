@@ -38,8 +38,12 @@ class VendorPageGoldenTest extends TestCase
         $this->assertGreaterThan(20, count($pages));
 
         foreach ($pages as $path) {
-            // Token CSRF berbeda di setiap sesi.
-            $html = preg_replace(['/"csrf":"[^"]+"/', '/(name="(?:_token|csrf-token)" (?:value|content)=")[^"]+/'], ['"csrf":""', '$1'], $this->get($path)->assertOk()->getContent());
+            // Token CSRF berbeda di setiap sesi; hash nama file build berubah setiap CSS/JS diubah.
+            $html = preg_replace(
+                ['/"csrf":"[^"]+"/', '/(name="(?:_token|csrf-token)" (?:value|content)=")[^"]+/', '#(/build/assets/[a-z]+)-[A-Za-z0-9_-]+\.(css|js)#'],
+                ['"csrf":""', '$1', '$1.$2'],
+                $this->get($path)->assertOk()->getContent(),
+            );
             $file = $dir.'/'.trim(str_replace('/', '__', $path), '_').'.html';
             if (getenv('GOLDEN_WRITE')) {
                 file_put_contents($file, $html);

@@ -28,6 +28,23 @@ Orange discipline matters: it's the only orange on the page, which is what makes
 the CTA findable without a size or position trick. If orange starts appearing on
 decorative elements, the conversion signal dies.
 
+## Logo
+
+The mark is a ribbon tied into a K, in the five brand colours. Files are in
+`public/brand/`:
+
+| File | Use |
+|---|---|
+| `kamalan-mark.png` | Header on light backgrounds (shown at 38 px) |
+| `kamalan-mark-light.png` | Navy parts recoloured cream: dark mode, the navy footer, admin dark mode |
+| `kamalan-mark-512.png` | Large uses (print, decks) |
+| `favicon-32.png`, `/favicon.ico`, `apple-touch-icon.png`, `icon-*.png` | Browser tab, home screen, `/site.webmanifest` |
+| `og.png` | Link preview (WhatsApp, social), 1200×630 on cream |
+
+The mark always sits to the left of the wordmark (*Kamalan* / EVENT HUB), never
+replaces it. Never put the dark-navy version on navy; use the light version.
+The logo is the one place orange appears outside the WhatsApp CTA.
+
 ## Semantic tokens
 
 ```css

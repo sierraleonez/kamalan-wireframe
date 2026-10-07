@@ -4,7 +4,7 @@
 <footer>
   <x-ribbon />
   <div class="shell">
-    <div class="brand"><em>Kamalan</em><small>EVENT HUB</small></div>
+    <div class="brand"><img class="mark" src="/brand/kamalan-mark-light.png" width="38" height="38" alt="" loading="lazy"><span><em>Kamalan</em><small>EVENT HUB</small></span></div>
     <p>Venue, catering, EO, dan hiburan di Jabodetabek — semuanya kami datangi sendiri sebelum masuk daftar.</p>
     <div class="fcols">
       @if ($home)
