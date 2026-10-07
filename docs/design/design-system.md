@@ -35,15 +35,19 @@ The mark is a ribbon tied into a K, in the five brand colours. Files are in
 
 | File | Use |
 |---|---|
-| `kamalan-mark.png` | Header on light backgrounds (shown at 38 px) |
-| `kamalan-mark-light.png` | Navy parts recoloured cream: dark mode, the navy footer, admin dark mode |
+| `kamalan-logo.webp` | **Full logo** (ribbon K + "amalan" + EVENT HUB) in the site header, 52 px tall (44 px on phones). Cut from `kamalan-logo-full-source.png` |
+| `kamalan-logo-light.webp` | Full logo with navy recoloured cream, for the header in dark mode |
+| `kamalan-logo-full.png` | Full logo, transparent, 1979×721, for large uses |
+| `kamalan-mark.png` | Short version (ribbon K only): admin on light backgrounds |
+| `kamalan-mark-light.png` | Short version, navy recoloured cream: the navy footer, admin dark mode |
 | `kamalan-mark-512.png` | Large uses (print, decks) |
 | `favicon-32.png`, `/favicon.ico`, `apple-touch-icon.png`, `icon-*.png` | Browser tab, home screen, `/site.webmanifest` |
 | `og.png` | Link preview (WhatsApp, social), 1200×630 on cream |
 | `hero-ribbon-wide.webp` | Home hero ribbon, transparent, 1821×369. Cut from `docs/design/ribbon-source.svg` (the SVG wraps a PNG on white; background removed, cream piece kept). Both ends are cut flat, so it always spans the full screen width; its loop overlaps the bottom-left corner of the hero photo and the button sits on the blue part |
 
-The mark always sits to the left of the wordmark (*Kamalan* / EVENT HUB), never
-replaces it. Never put the dark-navy version on navy; use the light version.
+Use the full logo where there is room (site header). The short ribbon-K mark is
+for small or square spaces: favicon, home-screen icons, link preview, admin, and
+the footer (where it sits next to the text wordmark). Never put the dark-navy version on navy; use the light version.
 The logo is the one place orange appears outside the WhatsApp CTA.
 
 ## Semantic tokens

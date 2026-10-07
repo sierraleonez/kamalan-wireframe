@@ -36,9 +36,8 @@
 @php($path = '/'.ltrim(request()->path(), '/'))
 <header class="nav">
   <div class="shell nav-in">
-    <a class="brand" href="/" wire:navigate>
-      <picture><source srcset="/brand/kamalan-mark-light.png" media="(prefers-color-scheme: dark)"><img class="mark" src="/brand/kamalan-mark.png" width="38" height="38" alt=""></picture>
-      <span><em>Kamalan</em><small>EVENT HUB</small></span>
+    <a class="brand brand-logo" href="/" wire:navigate aria-label="Kamalan Event Hub — beranda">
+      <picture><source srcset="/brand/kamalan-logo-light.webp" media="(prefers-color-scheme: dark)"><img src="/brand/kamalan-logo.webp" width="461" height="168" alt="Kamalan Event Hub"></picture>
     </a>
     <nav class="nav-links" aria-label="Utama">
       <a href="/bundle" wire:navigate @if(str_contains($path, '/bundle')) aria-current="page" @endif>Bundle</a>
