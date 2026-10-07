@@ -24,9 +24,9 @@ vendor punya satu URL per jenis acara yang dilayaninya; di halaman detail, tab j
 URL, breadcrumb, dan pesan WhatsApp tanpa memuat ulang halaman.
 
 Data katalog ada di MySQL dan diedit tim lewat panel admin Filament di `/admin`: vendor, bundle,
-koleksi, area, serta teks jenis acara dan kategori. Daftar jenis acara dan kategori tetap
-(`Catalog::TYPES`), karena tulisan dan filter per jenis/kategori ada di kode; namanya bisa diedit,
-tapi tidak bisa ditambah atau dihapus. Kiriman form "Kasih tau kami" tersimpan sebagai permintaan
+koleksi, area, dan jenis acara (bisa ditambah; jenis acara baru memakai teks umum di halaman
+vendor). Daftar kategori tetap, karena filter dan tulisan per kategori ada di kode; namanya bisa
+diedit, tapi tidak bisa ditambah atau dihapus. Kiriman form "Kasih tau kami" tersimpan sebagai permintaan
 dan bisa ditandai sudah ditangani. Pencatatan klik WhatsApp belum ada. Foto masih placeholder gradien.
 
 ## Menjalankan
@@ -50,7 +50,8 @@ menghapus semua editan serta akun admin).
 
 ### Foto beranda
 
-Admin → **Konten beranda** mengatur foto hero, kartu jenis acara, dan kartu kategori. Foto bisa
+Foto hero diatur di Admin → **Konten beranda**; foto sampul kartu jenis acara (wajib) di
+**Jenis acara**; foto kotak kategori di **Kategori**. Foto bisa
 diunggah (klik atau seret) atau diambil dari link; server memperkecilnya dan menyimpannya sebagai
 WebP di `storage/app/public/content` (perlu `php artisan storage:link`). Tanpa foto, tampil gradien
 dan ikon seperti sebelumnya.
@@ -78,7 +79,9 @@ pada database, jadi `php artisan route:cache` aman dijalankan saat build.
 Filter listing ada di query string, mis.
 `/wedding/venue/jakarta-selatan?kapasitas=500-plus&harga=lt30&tipe=outdoor` (hasil kosong).
 
-`{jenis}`: `wedding`, `corporate`, `ulang-tahun`, `baby-kids`, `social-gathering`, `perayaan`.
+`{jenis}`: slug jenis acara di database (awalnya `wedding`, `corporate`, `ulang-tahun`, `baby-kids`,
+`social-gathering`, `perayaan`). Kata di `Catalog::RESERVED` (admin, bundle, koleksi, …) tidak bisa
+jadi slug.
 
 Pendukung: `/go/{ref}?t={jenis}&p={penempatan}` meneruskan ke wa.me dengan kode referral plus
 penempatan tombol (`VNU-0104-DETAIL`; penempatan: HOME, LIST, DETAIL, KOLEKSI, SAVED, BUNDLE),

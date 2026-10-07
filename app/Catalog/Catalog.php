@@ -14,10 +14,19 @@ use Illuminate\Support\Facades\Schema;
 final class Catalog
 {
     /**
-     * Jenis acara. Daftarnya tetap karena tulisan dan filter per jenis ada di kode (Copy, Filters);
-     * nama dan teksnya diedit di admin. Dipakai juga untuk pola rute tanpa menyentuh database.
+     * Kata yang sudah dipakai halaman lain di awal URL, jadi tidak boleh jadi slug jenis acara.
+     * Rute jenis acara menerima slug apa pun selain ini; yang tidak ada di database jadi 404.
      */
-    public const TYPES = ['wedding', 'corporate', 'ulang-tahun', 'baby-kids', 'social-gathering', 'perayaan'];
+    public const RESERVED = [
+        'admin', 'livewire', 'filament', 'storage', 'build', 'brand', 'css', 'js', 'fonts', 'up',
+        'go', 'bundle', 'koleksi', 'tersimpan', 'kasih-tau-kami',
+    ];
+
+    /** Pola rute untuk {type}: slug, kecuali kata di RESERVED. */
+    public static function typePattern(): string
+    {
+        return '(?!(?:'.implode('|', array_map('preg_quote', self::RESERVED)).')(?![a-z0-9-]))[a-z0-9-]+';
+    }
 
     private static ?array $data = null;
 

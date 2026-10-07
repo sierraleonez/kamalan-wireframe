@@ -3,19 +3,22 @@
 namespace App\Filament\Resources\Categories;
 
 use App\Filament\Resources\Categories\Pages\ManageCategories;
+use App\Filament\Support\PhotoField;
 use App\Models\Category;
 use BackedEnum;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
  * Kategori vendor. Daftarnya tetap: filter, satuan harga, dan tulisan per kategori ada di kode.
- * Judul H1 per jenis acara diatur di Jenis acara.
+ * Judul H1 per jenis acara diatur di Jenis acara. Foto kotak kategori diatur di sini.
  */
 class CategoryResource extends Resource
 {
@@ -43,6 +46,9 @@ class CategoryResource extends Resource
     {
         return $schema->components([
             TextInput::make('name')->label('Nama')->required()->maxLength(40),
+            Section::make('Foto')
+                ->description('Kotak kategori di beranda dan di beranda tiap jenis acara. Dipotong persegi panjang pendek, jadi pilih foto yang objeknya di tengah. Tanpa foto, tampil ikon.')
+                ->components(PhotoField::make()),
         ]);
     }
 
@@ -52,13 +58,16 @@ class CategoryResource extends Resource
             ->defaultSort('sort')
             ->paginated(false)
             ->columns([
+                ImageColumn::make('image')->label('Foto')->disk('public')->height(40)->width(64),
                 TextColumn::make('name')->label('Nama'),
                 TextColumn::make('slug'),
                 TextColumn::make('code')->label('Kode ref'),
                 TextColumn::make('unit')->label('Satuan harga')->formatStateUsing(fn ($state, Category $record) => $record->priceUnitLabel()),
                 TextColumn::make('vendors_count')->label('Vendor')->counts('vendors'),
             ])
-            ->recordActions([EditAction::make()]);
+            ->recordActions([
+                EditAction::make()->mutateDataUsing(fn (array $data, Category $record) => PhotoField::apply($data, 'kategori-'.$record->slug, 500, $record->image)),
+            ]);
     }
 
     public static function getPages(): array

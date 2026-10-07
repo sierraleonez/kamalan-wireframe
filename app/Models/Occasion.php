@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/** Jenis acara (wedding, corporate, …). Daftarnya tetap, lihat Catalog::TYPES. */
+/** Jenis acara (wedding, corporate, …). Dibuat dan diedit di admin; slug tidak berubah setelah dibuat. */
 class Occasion extends Model
 {
     use FlushesCatalog;
 
-    protected $guarded = ['id', 'slug'];
+    protected $guarded = ['id'];
 
     /** Kategori yang tampil di jenis acara ini, berurutan, dengan judul H1. */
     public function categoryLinks(): HasMany

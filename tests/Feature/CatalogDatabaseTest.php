@@ -120,7 +120,7 @@ class CatalogDatabaseTest extends TestCase
 
     public function test_av_is_listed_under_every_occasion(): void
     {
-        foreach (Catalog::TYPES as $type) {
+        foreach (array_keys(Catalog::types()) as $type) {
             $this->get('/'.$type.'/av-produksi')->assertOk()->assertSee('Karsa Sound &amp; Light', false);
             $this->get('/'.$type.'/av-produksi/karsa-sound-dan-light')->assertOk();
             $this->get('/'.$type)->assertSee('/'.$type.'/av-produksi');

@@ -4,7 +4,8 @@ use App\Catalog\Catalog;
 use App\Http\Controllers\SiteController as S;
 use Illuminate\Support\Facades\Route;
 
-$type = implode('|', Catalog::TYPES); // wedding|corporate|ulang-tahun|… (tanpa query database)
+$type = Catalog::typePattern(); // slug apa pun selain kata yang dipakai halaman lain (tanpa query database)
+
 $slug = '[a-z0-9-]+';
 
 Route::get('/', [S::class, 'home']);
