@@ -2,6 +2,7 @@
 
 use App\Catalog\Catalog;
 use App\Http\Controllers\SiteController as S;
+use App\Http\Controllers\VendorSignupController;
 use Illuminate\Support\Facades\Route;
 
 $type = Catalog::typePattern(); // slug apa pun selain kata yang dipakai halaman lain (tanpa query database)
@@ -17,6 +18,9 @@ Route::get('/tersimpan/data', [S::class, 'savedData']);
 Route::get('/kasih-tau-kami', [S::class, 'form']);
 Route::post('/kasih-tau-kami', [S::class, 'submit']);
 Route::get('/kasih-tau-kami/terkirim', [S::class, 'success']);
+Route::get('/daftarkan-usaha', [VendorSignupController::class, 'form']);
+Route::post('/daftarkan-usaha', [VendorSignupController::class, 'submit']);
+Route::get('/daftarkan-usaha/terkirim', [VendorSignupController::class, 'done']);
 Route::get('/go/{ref}', [S::class, 'go'])->where('ref', '[A-Z]{3}-[0-9]{4}');
 
 Route::get('/{type}', [S::class, 'branch'])->where('type', $type);

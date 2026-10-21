@@ -684,6 +684,20 @@ final class Pages
         return self::base('Terkirim', 'form', ['sent' => $sent]);
     }
 
+    /** Form pendaftaran vendor: pilihan kategori dan area. */
+    public static function vendorForm(): array
+    {
+        $cats = array_values(array_map(fn ($c) => ['value' => $c['slug'], 'label' => $c['name']], Catalog::data()['categories']));
+        $cats[] = ['value' => 'lainnya', 'label' => 'Lainnya'];
+
+        return self::base('Daftarkan usaha', 'form', ['options' => ['categories' => $cats, 'areas' => self::formOptions()['areas']]]);
+    }
+
+    public static function vendorDone(?array $sent): array
+    {
+        return self::base('Pendaftaran terkirim', 'form', ['sent' => $sent]);
+    }
+
     public static function notFound(): array
     {
         return self::base('Tidak ditemukan', 'notfound', ['cats' => self::catRow(null), 'bandHref' => '/kasih-tau-kami']);
@@ -712,7 +726,7 @@ final class Pages
             'about' => [
                 ['label' => 'Tentang kami', 'href' => '/#tentang'],
                 ['label' => 'Kasih tau kami', 'href' => '/kasih-tau-kami'],
-                ['label' => 'Daftarkan usaha', 'href' => '/kasih-tau-kami?jenis=lainnya'],
+                ['label' => 'Daftarkan usaha', 'href' => '/daftarkan-usaha'],
             ],
         ];
     }

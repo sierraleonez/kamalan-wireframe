@@ -102,9 +102,15 @@
   </div>
 </div>
 
-{{-- NGGA NEMU --}}
+{{-- NGGA NEMU: disembunyikan di beranda (Okt 2026), diganti ajakan untuk vendor. Halaman lain masih memakainya.
 <div class="shell sec tight">
   <x-nemu :href="$p['bandHref']" />
+</div>
+--}}
+
+{{-- UNTUK VENDOR --}}
+<div class="shell sec tight">
+  <x-vendor-band />
 </div>
 
 @endsection

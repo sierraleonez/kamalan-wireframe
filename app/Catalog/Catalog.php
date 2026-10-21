@@ -19,7 +19,7 @@ final class Catalog
      */
     public const RESERVED = [
         'admin', 'livewire', 'filament', 'storage', 'build', 'brand', 'css', 'js', 'fonts', 'up',
-        'go', 'bundle', 'koleksi', 'tersimpan', 'kasih-tau-kami',
+        'go', 'bundle', 'koleksi', 'tersimpan', 'kasih-tau-kami', 'daftarkan-usaha',
     ];
 
     /** Pola rute untuk {type}: slug, kecuali kata di RESERVED. */
