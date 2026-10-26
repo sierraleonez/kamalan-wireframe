@@ -724,7 +724,7 @@ final class Pages
                 ['label' => 'Depok', 'href' => '/wedding/venue/depok'],
             ],
             'about' => [
-                ['label' => 'Tentang kami', 'href' => '/#tentang'],
+                // 'Tentang kami' (/#tentang) disembunyikan bersama bagiannya di beranda, sampai ada halaman Tentang.
                 ['label' => 'Kasih tau kami', 'href' => '/kasih-tau-kami'],
                 ['label' => 'Daftarkan usaha', 'href' => '/daftarkan-usaha'],
             ],

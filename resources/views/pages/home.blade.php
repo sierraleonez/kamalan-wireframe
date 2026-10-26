@@ -66,7 +66,7 @@
   <x-colls :items="$p['collections']" />
 </div>
 
-{{-- ABOUT --}}
+{{-- ABOUT ("Tentang Kamalan"): disembunyikan di beranda (Okt 2026). Hapus komentar ini untuk menampilkannya lagi.
 <div class="shell sec tight" id="tentang">
   <div class="band">
     <div class="band-grid">
@@ -101,6 +101,7 @@
     </div>
   </div>
 </div>
+--}}
 
 {{-- NGGA NEMU: disembunyikan di beranda (Okt 2026), diganti ajakan untuk vendor. Halaman lain masih memakainya.
 <div class="shell sec tight">
