@@ -47,6 +47,21 @@ return [
             'report' => false,
         ],
 
+        // Cloudflare R2 (S3-compatible) untuk foto vendor dan foto beranda. Dipakai kalau MEDIA_DISK=r2.
+        // R2_PUBLIC_URL = alamat publik bucket (r2.dev atau subdomain sendiri), tanpa garis miring di akhir.
+        'r2' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => 'auto',
+            'bucket' => env('R2_BUCKET'),
+            'endpoint' => env('R2_ENDPOINT'),   // https://<account-id>.r2.cloudflarestorage.com
+            'url' => env('R2_PUBLIC_URL'),
+            'use_path_style_endpoint' => true,
+            'throw' => true,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

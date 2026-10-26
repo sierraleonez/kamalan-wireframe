@@ -6,6 +6,7 @@ use App\Models\Concerns\FlushesCatalog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vendor extends Model
 {
@@ -32,6 +33,9 @@ class Vendor extends Model
 
     protected static function booted(): void
     {
+        // Hapus file foto di penyimpanan; baris DB-nya ikut terhapus lewat cascade.
+        static::deleting(fn (Vendor $v) => $v->vendorPhotos->each->delete());
+
         // Kode referral dibentuk dari kode kategori + id, sama seperti di prototipe (VNU-0104).
         static::created(function (Vendor $v) {
             if (! $v->ref) {
@@ -39,6 +43,12 @@ class Vendor extends Model
                 $v->saveQuietly();
             }
         });
+    }
+
+    /** Foto berurutan; yang pertama sampul. (Kolom `photos` = jumlah foto lama dari prototipe.) */
+    public function vendorPhotos(): HasMany
+    {
+        return $this->hasMany(VendorPhoto::class)->orderBy('sort')->orderBy('id');
     }
 
     public function category(): BelongsTo

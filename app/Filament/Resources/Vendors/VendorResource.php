@@ -10,15 +10,18 @@ use App\Models\Area;
 use App\Models\Category;
 use App\Models\Occasion;
 use App\Models\Vendor;
+use App\Support\ImageStore;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ViewField;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -27,6 +30,7 @@ use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
@@ -116,6 +120,52 @@ class VendorResource extends Resource
                         ->whereHas('categoryLinks', fn ($l) => $l->where('category_id', $get('category_id') ?: 0)))
                     ->helperText('Hanya jenis acara yang menampilkan kategori ini. Yang pertama dipakai sebagai default tautan WhatsApp.'),
             ]),
+
+            Section::make('Foto')
+                ->description('Foto pertama jadi sampul di kartu vendor. Seret untuk mengubah urutan; urutan, keterangan dan penghapusan berlaku setelah Simpan.')
+                ->visibleOn('edit')
+                ->collapsible()
+                ->components([
+                    Grid::make(['default' => 1, 'lg' => 2])->components([
+                        FileUpload::make('new_photos')
+                            ->label('Tambah foto')
+                            ->multiple()
+                            ->image()
+                            ->disk('public')
+                            ->directory(ImageStore::DIR.'/uploads')
+                            ->maxSize(15 * 1024)
+                            ->maxFiles(config('media.vendor_max_photos'))
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/avif'])
+                            ->helperText('Klik atau seret beberapa foto sekaligus (JPG, PNG, WebP; maks. 15 MB per foto). Diproses saat Simpan.'),
+                        Textarea::make('new_photo_urls')
+                            ->label('Atau tempel link gambar')
+                            ->rows(4)
+                            ->placeholder("https://…\nhttps://…")
+                            ->helperText('Satu link per baris. Gambar diunduh ke penyimpanan saat Simpan.'),
+                    ]),
+                    Repeater::make('vendorPhotos')
+                        ->hiddenLabel()
+                        ->relationship()
+                        ->orderColumn('sort')
+                        ->reorderable()
+                        ->addable(false)
+                        ->grid(['default' => 1, 'md' => 2, 'xl' => 4])
+                        ->itemLabel(fn (array $state) => filled($state['caption'] ?? null) ? $state['caption'] : 'Foto')
+                        ->extraItemActions([
+                            Action::make('makeCover')
+                                ->label('Jadikan sampul')
+                                ->icon(Heroicon::OutlinedStar)
+                                ->action(function (array $arguments, Repeater $component) {
+                                    $items = $component->getState();
+                                    $key = $arguments['item'];
+                                    $component->state([$key => $items[$key]] + $items);
+                                }),
+                        ])
+                        ->schema([
+                            ViewField::make('preview')->view('filament.vendor-photo-preview')->dehydrated(false),
+                            TextInput::make('caption')->label('Keterangan')->maxLength(160)->placeholder('mis. Ruang utama, setup round table'),
+                        ]),
+                ]),
 
             Section::make('Kapasitas dan harga')->columns(3)->visible(fn (Get $get) => filled($get('category_id')))->components([
                 TextInput::make('cap_min')->numeric()->minValue(1)
@@ -212,14 +262,20 @@ class VendorResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with(['category', 'area', 'occasions']))
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(['category', 'area', 'occasions', 'vendorPhotos'])->withCount('vendorPhotos'))
             ->defaultSort('name')
             ->columns([
+                ImageColumn::make('cover')->label('Sampul')
+                    ->disk(fn () => config('media.disk'))
+                    ->state(fn (Vendor $record) => $record->vendorPhotos->first()?->file('card'))
+                    ->width(72)->height(48)->extraImgAttributes(['style' => 'object-fit:cover;border-radius:6px'])
+                    ->placeholder('Belum ada'),
                 TextColumn::make('name')->label('Nama')->searchable()->sortable(),
                 TextColumn::make('category.name')->label('Kategori')->badge(),
                 TextColumn::make('area.name')->label('Area')->sortable(),
                 TextColumn::make('price')->label('Harga')->sortable()->numeric(),
                 TextColumn::make('rank')->label('Urutan')->sortable()->toggleable(),
+                TextColumn::make('vendor_photos_count')->label('Foto')->sortable()->formatStateUsing(fn ($state) => $state ? $state.' foto' : '—'),
                 IconColumn::make('promoted')->label('Promo')->boolean(),
                 TextColumn::make('ref')->searchable()->toggleable(),
                 TextColumn::make('updated_at')->label('Diubah')->since()->sortable()->toggleable(isToggledHiddenByDefault: true),
@@ -229,6 +285,12 @@ class VendorResource extends Resource
                 SelectFilter::make('area')->label('Area')->relationship('area', 'name'),
                 SelectFilter::make('occasions')->label('Jenis acara')->relationship('occasions', 'name'),
                 TernaryFilter::make('promoted')->label('Dipromosikan'),
+                TernaryFilter::make('has_photos')->label('Foto')
+                    ->trueLabel('Ada foto')->falseLabel('Belum ada foto')
+                    ->queries(
+                        true: fn (Builder $query) => $query->whereHas('vendorPhotos'),
+                        false: fn (Builder $query) => $query->whereDoesntHave('vendorPhotos'),
+                    ),
             ])
             ->recordActions([
                 EditAction::make(),

@@ -2,14 +2,17 @@
 
 namespace App\Support;
 
+use GdImage;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RuntimeException;
 
 /**
- * Foto konten: diperkecil ke lebar maksimum dan disimpan sebagai WebP di disk public,
- * supaya foto 5 MB dari HP tidak membuat beranda lambat.
+ * Foto konten: diperkecil ke lebar maksimum dan disimpan sebagai WebP di penyimpanan media
+ * (config media.disk: server ini atau Cloudflare R2), supaya foto 5 MB dari HP tidak membuat
+ * halaman lambat. Unggahan admin masuk dulu ke disk public, lalu diproses ke sini.
  */
 final class ImageStore
 {
@@ -17,18 +20,30 @@ final class ImageStore
 
     private const MAX_DOWNLOAD = 15 * 1024 * 1024;
 
-    /** File yang sudah ada di disk public (hasil unggah) → WebP teroptimasi; file asli dihapus. */
+    /** Penyimpanan foto konten. */
+    public static function disk(): Filesystem
+    {
+        return Storage::disk(config('media.disk', 'public'));
+    }
+
+    /** File unggahan di disk public → satu WebP teroptimasi; file asli dihapus. */
     public static function fromUpload(string $path, string $name, int $maxWidth): string
     {
-        $disk = Storage::disk('public');
-        $out = self::store($disk->get($path), $name, $maxWidth);
-        $disk->delete($path);
+        $bytes = Storage::disk('public')->get($path);
+        $out = self::store($bytes, $name, $maxWidth);
+        Storage::disk('public')->delete($path);
 
         return $out;
     }
 
     /** Unduh gambar dari link (http/https) lalu simpan seperti unggahan. */
     public static function fromUrl(string $url, string $name, int $maxWidth): string
+    {
+        return self::store(self::download($url), $name, $maxWidth);
+    }
+
+    /** Isi file gambar dari link (http/https), maks. 15 MB. */
+    public static function download(string $url): string
     {
         if (! preg_match('#^https?://#i', $url)) {
             throw new RuntimeException('Link harus diawali http:// atau https://');
@@ -41,47 +56,87 @@ final class ImageStore
             throw new RuntimeException('Gambar lebih dari 15 MB.');
         }
 
-        return self::store($res->body(), $name, $maxWidth);
+        return $res->body();
+    }
+
+    /**
+     * Satu gambar → beberapa ukuran WebP: "{base}-{nama}.webp" untuk tiap [nama => lebar].
+     *
+     * @return array{width:int, height:int} ukuran asli
+     */
+    public static function storeVariants(string $bytes, string $base, array $widths): array
+    {
+        $src = self::decode($bytes);
+        $w = imagesx($src);
+        $h = imagesy($src);
+        foreach ($widths as $name => $width) {
+            self::disk()->put($base.'-'.$name.'.webp', self::encode(self::scaled($src, $width)));
+        }
+        imagedestroy($src);
+
+        return ['width' => $w, 'height' => $h];
     }
 
     public static function delete(?string $path): void
     {
         if ($path && str_starts_with($path, self::DIR.'/')) {
-            Storage::disk('public')->delete($path);
+            self::disk()->delete($path);
         }
     }
 
-    /** URL publik untuk path di disk public (relatif, supaya sama di lokal dan domain). */
+    /** URL publik untuk path di penyimpanan media (relatif kalau masih di server ini). */
     public static function url(?string $path): ?string
     {
-        return $path ? '/storage/'.ltrim($path, '/') : null;
+        if (! $path) {
+            return null;
+        }
+
+        return config('media.disk', 'public') === 'public' ? '/storage/'.ltrim($path, '/') : self::disk()->url($path);
     }
 
     private static function store(string $bytes, string $name, int $maxWidth): string
+    {
+        $src = self::decode($bytes);
+        $webp = self::encode(self::scaled($src, $maxWidth));
+        imagedestroy($src);
+
+        $path = self::DIR.'/'.Str::slug($name).'-'.substr(sha1($webp), 0, 10).'.webp';
+        self::disk()->put($path, $webp);
+
+        return $path;
+    }
+
+    private static function decode(string $bytes): GdImage
     {
         $src = @imagecreatefromstring($bytes);
         if (! $src) {
             throw new RuntimeException('File itu bukan gambar yang bisa dibaca (pakai JPG, PNG, atau WebP).');
         }
+
+        return $src;
+    }
+
+    /** Salinan selebar maks. $maxWidth (tidak diperbesar). */
+    private static function scaled(GdImage $src, int $maxWidth): GdImage
+    {
         $w = imagesx($src);
         $h = imagesy($src);
-        if ($w > $maxWidth) {
-            $nh = (int) round($h * $maxWidth / $w);
-            $dst = imagecreatetruecolor($maxWidth, $nh);
-            imagealphablending($dst, false);
-            imagesavealpha($dst, true);
-            imagecopyresampled($dst, $src, 0, 0, 0, 0, $maxWidth, $nh, $w, $h);
-            imagedestroy($src);
-            $src = $dst;
-        }
+        $nw = min($w, $maxWidth);
+        $nh = (int) round($h * $nw / $w);
+        $dst = imagecreatetruecolor($nw, $nh);
+        imagealphablending($dst, false);
+        imagesavealpha($dst, true);
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $nw, $nh, $w, $h);
+
+        return $dst;
+    }
+
+    private static function encode(GdImage $img): string
+    {
         ob_start();
-        imagewebp($src, null, 80);
-        $webp = ob_get_clean();
-        imagedestroy($src);
+        imagewebp($img, null, 80);
+        imagedestroy($img);
 
-        $path = self::DIR.'/'.Str::slug($name).'-'.substr(sha1($webp), 0, 10).'.webp';
-        Storage::disk('public')->put($path, $webp);
-
-        return $path;
+        return ob_get_clean();
     }
 }

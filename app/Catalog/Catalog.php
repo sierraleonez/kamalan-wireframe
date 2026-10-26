@@ -141,6 +141,13 @@ final class Catalog
             $occOf[$p->vendor_id][] = $occasions[$p->occasion_id];
         }
 
+        // Foto vendor (admin → Vendor → Foto): urutan pertama sampul. Migrasi lama membangun katalog
+        // sebelum tabelnya ada.
+        $photosOf = Schema::hasTable('vendor_photos')
+            ? DB::table('vendor_photos')->orderBy('sort')->orderBy('id')->get()->groupBy('vendor_id')
+            : collect();
+        $sizes = array_keys(config('media.vendor_sizes'));
+
         $vendors = [];
         $slugOf = [];
         $refs = [];
@@ -175,6 +182,8 @@ final class Catalog
                 'web' => $v->web,
                 'photos' => (int) $v->photos,
                 'writeup' => $v->writeup,
+                'images' => array_map(fn ($ph) => array_combine($sizes, array_map(fn ($sz) => ImageStore::url($ph->path.'-'.$sz.'.webp'), $sizes))
+                    + ['caption' => (string) $ph->caption, 'width' => (int) $ph->width, 'height' => (int) $ph->height], ($photosOf[$v->id] ?? collect())->all()),
                 'specs' => $v->specs === null ? [] : json_decode($v->specs, true),
                 // Teks yang diedit di admin; null = pakai template (Copy, Present).
                 'priceNote' => $v->price_note,

@@ -64,6 +64,23 @@ Batas unggah PHP bawaan 2 MB. `deploy/php/uploads.ini` menaikkannya ke 16 MB; di
 Environment=PHP_INI_SCAN_DIR=:/home/ubuntu/kamalan-wireframe/deploy/php
 ```
 
+### Foto vendor dan penyimpanan media
+
+Admin → Vendor → Ubah → **Foto**: unggah beberapa foto sekaligus atau tempel link (satu per baris),
+seret untuk mengurutkan (yang pertama sampul, atau pakai tombol bintang), keterangan per foto, hapus.
+Setiap foto disimpan dalam tiga ukuran WebP (`card` 640, `gallery` 1280, `full` 2048 px) di
+`content/vendors/{id}/`. Daftar vendor punya kolom sampul dan filter "Foto: belum ada". Halaman
+publik belum menampilkan foto (fase 2, lihat `docs/plans/vendor-photos.md`).
+
+Semua foto konten (vendor, hero, jenis acara, kategori) ada di penyimpanan `MEDIA_DISK`: `public`
+(server ini, default) atau `r2` (Cloudflare R2). Pindah ke R2:
+
+```sh
+# isi R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_ENDPOINT, R2_PUBLIC_URL di .env
+php artisan media:copy public r2   # salin foto yang dipakai
+# lalu set MEDIA_DISK=r2 dan hapus bootstrap/cache/catalog.php
+```
+
 ### Cache katalog
 
 Situs tidak membaca database di setiap permintaan. `App\Catalog\Catalog` membangun seluruh katalog
