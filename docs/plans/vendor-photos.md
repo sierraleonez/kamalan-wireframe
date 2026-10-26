@@ -1,6 +1,10 @@
 # Plan: real vendor photos, stored on Cloudflare R2
 
-**Effort:** medium, about 1 day of work, plus ~15 minutes for you to set up the R2 bucket.
+Split into two phases. Phase 1 comes first; phase 2 starts once phase 1 is done.
+
+## Phase 1: admin panel and backend
+
+**Effort:** about half a day to a day, plus ~15 minutes for you to set up the R2 bucket.
 
 **Admin**
 - New "Foto" section on the vendor edit page. Drop in several photos at once, or paste image links.
@@ -8,30 +12,30 @@
 - Vendor list shows a small cover thumbnail, and a filter for "belum ada foto" so the team can see
   which vendors still need photos.
 
-**Site**
-- Vendor page gallery shows the real photos: the cover large, the next four small. "+N foto" opens a
-  full-screen viewer to swipe through all of them (keyboard and swipe on phones).
-- Vendor cards everywhere (home, listings, collections, Tersimpan, bundle member thumbnails) use the
-  cover photo.
-- A vendor without photos keeps today's coloured placeholder, so nothing breaks while photos are
-  added gradually.
+**Backend**
+- Photos are saved in a new table linked to each vendor (order, caption) and stored in an R2 bucket,
+  served from its public address (or your own subdomain, e.g. `img.kamalan…`).
+- Each upload is resized once into three WebP sizes (card, gallery, full screen), so a 6 MB phone
+  photo becomes small files. Deleting a photo, or a vendor, also deletes its files from R2.
+- The catalog data that pages read gets each vendor's photo list and cover, ready for phase 2.
+- The existing home photos (hero, occasion covers, category tiles) move to R2 too, so every image
+  lives in one place. They look the same on the site, only served from R2. The local folder stays as
+  the storage for development and tests.
+
+**Site in phase 1:** no visible change. Vendor pages and cards keep their placeholders until phase 2.
+
+**Needed from you:** an R2 bucket with public access turned on, plus an API token with read/write on
+that bucket (Account ID, Access Key ID, Secret Access Key, bucket name and its public URL). I'll give
+step-by-step instructions; nothing goes into git.
+
+**Check:** tests for upload, order, cover, captions, delete (files removed from storage) and link
+import, with storage faked. Then live: add photos to one vendor in the admin and confirm the files land
+in R2 in all three sizes.
+
+## Phase 2: show photos on the site (later)
+
+- Vendor page gallery: cover large, the next four small; "+N foto" opens a full-screen viewer
+  (swipe on phones, keyboard on desktop).
+- Vendor cards everywhere (home, listings, collections, Tersimpan, bundle member thumbnails) use the cover.
+- Vendors without photos keep today's coloured placeholder.
 - Link previews (WhatsApp) of a vendor page show its cover photo.
-
-**Storage and speed**
-- Photos go to an R2 bucket and are served from a public R2 address (or your own subdomain, e.g.
-  `img.kamalan…`), not from this server.
-- Each upload is resized once into three sizes (card, gallery, full screen) in WebP, so a 6 MB phone
-  photo becomes small files and pages stay fast. Images load lazily, except the vendor page cover.
-- The existing home photos (hero, occasion covers, category tiles) move to R2 too, so all images
-  live in one place. The local folder stays as a fallback for development and tests.
-
-**Needed from you**
-- An R2 bucket with public access turned on, plus an API token with read/write on that bucket
-  (Account ID, Access Key ID, Secret Access Key, bucket name and its public URL). I'll give
-  step-by-step instructions; nothing goes into git.
-
-**Check**
-- Tests: upload, order, cover, delete (and the file is removed from storage), placeholder fallback,
-  and cards using the cover. Storage is faked in tests.
-- Live: add photos to one vendor from a phone, check the vendor page, a listing card and the full-screen
-  viewer, and confirm the image URLs come from R2.
