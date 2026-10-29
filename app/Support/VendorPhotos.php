@@ -4,7 +4,6 @@ namespace App\Support;
 
 use App\Models\Vendor;
 use App\Models\VendorPhoto;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RuntimeException;
 
@@ -30,10 +29,10 @@ final class VendorPhotos
         ]);
     }
 
-    /** Unggahan Filament di disk public; file sementara dihapus setelah diproses. */
+    /** Unggahan lama berupa path di penyimpanan media; file sementara dihapus setelah diproses. */
     public static function addUpload(Vendor $vendor, string $uploadPath): VendorPhoto
     {
-        $disk = Storage::disk('public');
+        $disk = ImageStore::disk();
         try {
             return self::addBytes($vendor, $disk->get($uploadPath));
         } finally {

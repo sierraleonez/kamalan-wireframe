@@ -99,7 +99,7 @@ class OccasionResource extends Resource
             ->reorderable('sort')
             ->paginated(false)
             ->columns([
-                ImageColumn::make('image')->label('Sampul')->disk('public')->height(40)->width(64),
+                ImageColumn::make('image')->label('Sampul')->disk(fn () => config('media.disk'))->height(40)->width(64),
                 TextColumn::make('name')->label('Nama'),
                 TextColumn::make('slug'),
                 TextColumn::make('blurb')->label('Ringkasan')->wrap(),

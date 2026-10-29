@@ -27,7 +27,7 @@ final class PhotoField
             FileUpload::make($prefix.'image')
                 ->label('Foto')
                 ->image()
-                ->disk('public')
+                ->disk(fn () => config('media.disk'))
                 ->directory(ImageStore::DIR.'/uploads')
                 ->maxSize(15 * 1024)
                 ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/avif'])

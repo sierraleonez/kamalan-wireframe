@@ -58,7 +58,7 @@ class CategoryResource extends Resource
             ->defaultSort('sort')
             ->paginated(false)
             ->columns([
-                ImageColumn::make('image')->label('Foto')->disk('public')->height(40)->width(64),
+                ImageColumn::make('image')->label('Foto')->disk(fn () => config('media.disk'))->height(40)->width(64),
                 TextColumn::make('name')->label('Nama'),
                 TextColumn::make('slug'),
                 TextColumn::make('code')->label('Kode ref'),

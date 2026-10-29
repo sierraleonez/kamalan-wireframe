@@ -12,7 +12,7 @@ use RuntimeException;
 /**
  * Foto konten: diperkecil ke lebar maksimum dan disimpan sebagai WebP di penyimpanan media
  * (config media.disk: server ini atau Cloudflare R2), supaya foto 5 MB dari HP tidak membuat
- * halaman lambat. Unggahan admin masuk dulu ke disk public, lalu diproses ke sini.
+ * halaman lambat. Unggahan admin masuk dulu ke content/uploads di penyimpanan yang sama, lalu diproses.
  */
 final class ImageStore
 {
@@ -26,12 +26,12 @@ final class ImageStore
         return Storage::disk(config('media.disk', 'public'));
     }
 
-    /** File unggahan di disk public → satu WebP teroptimasi; file asli dihapus. */
+    /** File unggahan admin (di penyimpanan media) → satu WebP teroptimasi; file asli dihapus. */
     public static function fromUpload(string $path, string $name, int $maxWidth): string
     {
-        $bytes = Storage::disk('public')->get($path);
+        $bytes = self::disk()->get($path);
         $out = self::store($bytes, $name, $maxWidth);
-        Storage::disk('public')->delete($path);
+        self::disk()->delete($path);
 
         return $out;
     }
