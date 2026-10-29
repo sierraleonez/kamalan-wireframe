@@ -56,32 +56,20 @@ diunggah (klik atau seret) atau diambil dari link; server memperkecilnya dan men
 WebP di `storage/app/public/content` (perlu `php artisan storage:link`). Tanpa foto, tampil gradien
 dan ikon seperti sebelumnya.
 
-Batas unggah PHP bawaan 2 MB. `deploy/php/uploads.ini` menaikkannya ke 16 MB; di server, unit
-`kamalan.service` memuatnya lewat drop-in `/etc/systemd/system/kamalan.service.d/uploads.conf`:
+### Server (kamalan.eventaries.cloud)
 
-```ini
-[Service]
-Environment=PHP_INI_SCAN_DIR=:/home/ubuntu/kamalan-wireframe/deploy/php
-```
-
-### Foto vendor dan penyimpanan media
-
-Admin → Vendor → Ubah → **Foto**: unggah beberapa foto sekaligus atau tempel link (satu per baris),
-seret untuk mengurutkan (yang pertama sampul, atau pakai tombol bintang), keterangan per foto, hapus.
-Foto langsung diproses begitu selesai diunggah (atau saat "Tambah dari link" ditekan); urutan,
-keterangan dan penghapusan berlaku saat Simpan.
-Setiap foto disimpan dalam tiga ukuran WebP (`card` 640, `gallery` 1280, `full` 2048 px) di
-`content/vendors/{id}/`. Daftar vendor punya kolom sampul dan filter "Foto: belum ada". Halaman
-publik belum menampilkan foto (fase 2, lihat `docs/plans/vendor-photos.md`).
-
-Semua foto konten (vendor, hero, jenis acara, kategori) ada di penyimpanan `MEDIA_DISK`: `public`
-(server ini, default) atau `r2` (Cloudflare R2). Pindah ke R2:
+Caddy (HTTPS, file statis dari `public/`) → PHP-FPM pool `kamalan` (`/etc/php/8.4/fpm/pool.d/kamalan.conf`,
+berjalan sebagai `ubuntu`, unggahan maks. 16 MB) → Laravel. `.env` produksi: `APP_ENV=production`,
+`APP_DEBUG=false`. Memasang perubahan:
 
 ```sh
-# isi R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_ENDPOINT, R2_PUBLIC_URL di .env
-php artisan media:copy public r2   # salin foto yang dipakai
-# lalu set MEDIA_DISK=r2 dan hapus bootstrap/cache/catalog.php
+deploy/deploy.sh          # atau deploy/deploy.sh --pull untuk git pull --ff-only dulu
 ```
+
+Skrip itu menjalankan composer, migrasi, build aset, cache rute/view/event/Filament, lalu reload
+PHP-FPM. Config sengaja tidak di-cache supaya `php artisan test` di server tetap memakai SQLite dan
+penyimpanan tes. Layanan lama `kamalan.service` (`artisan serve`) dimatikan; untuk kembali sementara:
+`sudo systemctl enable --now kamalan.service` dan kembalikan blok `reverse_proxy 127.0.0.1:8125` di Caddyfile.
 
 ### Cache katalog
 
