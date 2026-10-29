@@ -68,6 +68,8 @@ Environment=PHP_INI_SCAN_DIR=:/home/ubuntu/kamalan-wireframe/deploy/php
 
 Admin → Vendor → Ubah → **Foto**: unggah beberapa foto sekaligus atau tempel link (satu per baris),
 seret untuk mengurutkan (yang pertama sampul, atau pakai tombol bintang), keterangan per foto, hapus.
+Foto langsung diproses begitu selesai diunggah (atau saat "Tambah dari link" ditekan); urutan,
+keterangan dan penghapusan berlaku saat Simpan.
 Setiap foto disimpan dalam tiga ukuran WebP (`card` 640, `gallery` 1280, `full` 2048 px) di
 `content/vendors/{id}/`. Daftar vendor punya kolom sampul dan filter "Foto: belum ada". Halaman
 publik belum menampilkan foto (fase 2, lihat `docs/plans/vendor-photos.md`).

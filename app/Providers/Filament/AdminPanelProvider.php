@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('Kamalan Admin')
             ->brandLogo(fn () => view('filament.brand'))
             ->brandLogoHeight('2.25rem')
-            ->favicon(asset('brand/favicon-32.png'))
+            ->favicon('/brand/favicon-32.png') // relatif: asset() di sini dibangun sebelum proxy HTTPS dipercaya
             ->colors([
                 'primary' => Color::hex('#022A5B'), // navy design system
             ])

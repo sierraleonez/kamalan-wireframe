@@ -40,16 +40,20 @@ class VendorPhotoTest extends TestCase
         return Vendor::find(104);
     }
 
-    public function test_uploads_are_stored_in_three_sizes_on_save(): void
+    public function test_uploads_become_photos_right_away_in_three_sizes(): void
     {
-        Livewire::test(EditVendor::class, ['record' => 104])
+        $lw = Livewire::test(EditVendor::class, ['record' => 104])
+            ->fillForm(['name' => 'Ballroom Kebayoran Baru'])   // belum disimpan
             ->fillForm(['new_photos' => [UploadedFile::fake()->image('a.jpg', 3000, 2000), UploadedFile::fake()->image('b.jpg', 800, 600)]])
-            ->call('save')
-            ->assertHasNoFormErrors()
-            ->assertNotified('2 foto ditambahkan');
+            ->assertNotified('2 foto ditambahkan')
+            ->assertFormSet(['name' => 'Ballroom Kebayoran Baru']);
 
+        // Tanpa Simpan: foto sudah tersimpan dan muncul di daftar.
         $photos = $this->vendor()->vendorPhotos;
         $this->assertCount(2, $photos);
+        $this->assertCount(2, $lw->get('data.vendorPhotos'));
+        $this->assertSame('Ballroom Kebayoran', $this->vendor()->name, 'perubahan lain belum disimpan');
+
         $disk = Storage::disk('public');
         foreach ($photos[0]->files() as $file) {
             $disk->assertExists($file);
@@ -58,20 +62,23 @@ class VendorPhotoTest extends TestCase
         $this->assertSame(640, getimagesizefromstring($disk->get($photos[0]->file('card')))[0]);
         $this->assertSame(2048, getimagesizefromstring($disk->get($photos[0]->file('full')))[0]);
         $this->assertSame(800, getimagesizefromstring($disk->get($photos[1]->file('full')))[0], 'tidak diperbesar');
-        $this->assertSame([], $disk->files('content/uploads'), 'unggahan sementara dihapus');
+
+        // Simpan kemudian: nama ikut tersimpan, foto tetap dua (tidak dobel).
+        $lw->call('save')->assertHasNoFormErrors();
+        $this->assertSame('Ballroom Kebayoran Baru', $this->vendor()->name);
+        $this->assertSame(2, $this->vendor()->vendorPhotos()->count());
     }
 
-    public function test_links_are_downloaded_and_bad_links_reported(): void
+    public function test_link_button_downloads_images_and_reports_bad_links(): void
     {
         Http::fake([
             'img.example.test/*' => Http::response($this->png(1600, 1000), 200, ['Content-Type' => 'image/png']),
             'bad.example.test/*' => Http::response('<html>bukan gambar</html>', 200),
         ]);
 
-        Livewire::test(EditVendor::class, ['record' => 104])
+        $lw = Livewire::test(EditVendor::class, ['record' => 104])
             ->fillForm(['new_photo_urls' => "https://img.example.test/a.png\nhttps://bad.example.test/x"])
-            ->call('save')
-            ->assertHasNoFormErrors()
+            ->callAction(TestAction::make('addPhotoLinks')->schemaComponent('photo-link-actions', schema: 'form'))
             ->assertFormSet(['new_photo_urls' => null]);
 
         // assertNotified() menghabiskan notifikasi, jadi baca sekali dan cek keduanya.
@@ -80,6 +87,20 @@ class VendorPhotoTest extends TestCase
         $titles = $notifications->notifications->map(fn ($n) => $n->getTitle())->values()->all();
         $this->assertContains('1 foto ditambahkan', $titles);
         $this->assertContains('Sebagian foto tidak tersimpan', $titles);
+
+        $this->assertSame(1, $this->vendor()->vendorPhotos()->count());
+        $this->assertCount(1, $lw->get('data.vendorPhotos'));
+    }
+
+    public function test_links_left_in_the_box_are_added_on_save(): void
+    {
+        Http::fake(['img.example.test/*' => Http::response($this->png(1200, 800), 200, ['Content-Type' => 'image/png'])]);
+
+        Livewire::test(EditVendor::class, ['record' => 104])
+            ->fillForm(['new_photo_urls' => 'https://img.example.test/a.png'])
+            ->call('save')
+            ->assertHasNoFormErrors()
+            ->assertFormSet(['new_photo_urls' => null]);
 
         $this->assertSame(1, $this->vendor()->vendorPhotos()->count());
     }

@@ -10,7 +10,6 @@ use App\Models\Area;
 use App\Models\Category;
 use App\Models\Occasion;
 use App\Models\Vendor;
-use App\Support\ImageStore;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
@@ -23,7 +22,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ViewField;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
@@ -122,7 +123,7 @@ class VendorResource extends Resource
             ]),
 
             Section::make('Foto')
-                ->description('Foto pertama jadi sampul di kartu vendor. Seret untuk mengubah urutan; urutan, keterangan dan penghapusan berlaku setelah Simpan.')
+                ->description('Foto langsung masuk begitu selesai diunggah. Foto pertama jadi sampul di kartu vendor; seret untuk mengubah urutan. Urutan, keterangan dan penghapusan berlaku setelah Simpan.')
                 ->visibleOn('edit')
                 ->collapsible()
                 ->components([
@@ -131,17 +132,34 @@ class VendorResource extends Resource
                             ->label('Tambah foto')
                             ->multiple()
                             ->image()
-                            ->disk('public')
-                            ->directory(ImageStore::DIR.'/uploads')
+                            ->storeFiles(false)
                             ->maxSize(15 * 1024)
                             ->maxFiles(config('media.vendor_max_photos'))
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/avif'])
-                            ->helperText('Klik atau seret beberapa foto sekaligus (JPG, PNG, WebP; maks. 15 MB per foto). Diproses saat Simpan.'),
-                        Textarea::make('new_photo_urls')
-                            ->label('Atau tempel link gambar')
-                            ->rows(4)
-                            ->placeholder("https://…\nhttps://…")
-                            ->helperText('Satu link per baris. Gambar diunduh ke penyimpanan saat Simpan.'),
+                            ->helperText('Klik atau seret beberapa foto sekaligus (JPG, PNG, WebP; maks. 15 MB per foto).')
+                            ->live()
+                            // Raw state memakai kunci yang sama dengan serverId FilePond (state biasa sudah dinomori ulang).
+                            ->afterStateUpdated(fn (FileUpload $component, $livewire) => $livewire->addPhotoFiles((array) $component->getRawState()))
+                            // Server mengirim kunci file yang sudah diproses; hanya file itu yang dibuang dari kotak unggah
+                            // (diulang sebentar kalau FilePond belum menandainya selesai). File yang masih diunggah dibiarkan.
+                            ->extraAlpineAttributes(['x-on:vendor-photos-processed.window' => 'const keys = $event.detail.keys || []; const clean = () => pond && pond.getFiles().filter((f) => keys.includes(f.serverId) && f.status === 5).forEach((f) => pond.removeFile(f.id)); clean(); setTimeout(clean, 500); setTimeout(clean, 1500)']),
+                        Group::make([
+                            Textarea::make('new_photo_urls')
+                                ->label('Atau tempel link gambar')
+                                ->rows(3)
+                                ->placeholder("https://…\nhttps://…")
+                                ->helperText('Satu link per baris.'),
+                            Actions::make([
+                                Action::make('addPhotoLinks')
+                                    ->label('Tambah dari link')
+                                    ->icon(Heroicon::OutlinedArrowDownTray)
+                                    ->color('gray')
+                                    ->action(function (Get $get, Set $set, $livewire) {
+                                        $livewire->addPhotoLinks((string) $get('new_photo_urls'));
+                                        $set('new_photo_urls', null);
+                                    }),
+                            ])->key('photo-link-actions'),
+                        ]),
                     ]),
                     Repeater::make('vendorPhotos')
                         ->hiddenLabel()
