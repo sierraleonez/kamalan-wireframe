@@ -12,7 +12,7 @@ class SiteTest extends TestCase
     public static function routes(): array
     {
         return [
-            ['/', 'Acara yang'],
+            ['/', 'Vendor Terpercaya,'],
             ['/wedding', 'Vendor pernikahan dengan harga yang kami tanyakan sendiri.'],
             ['/corporate', 'Vendor acara kantor'],
             ['/ulang-tahun', 'Vendor ulang tahun'],
@@ -46,7 +46,7 @@ class SiteTest extends TestCase
     {
         $res = $this->get('/')->assertOk()
             ->assertSee('<title>Kamalan Event Hub — Vendor acara di Jabodetabek</title>', false)
-            ->assertSeeInOrder(['Pilih Jenis Acaramu', 'Cari per kebutuhan', 'Satu kontak, semua vendornya', 'Baru kami datangi', 'Sudah kami pilihkan', 'Punya usaha vendor acara?']);
+            ->assertSeeInOrder(['Vendor Terpercaya,', 'Acara Apa yang Kamu Rencanakan?', 'Dari Tiup Lilin Pertama sampai Setengah Abad', 'Temukan Vendor Pilihanmu', 'Nggak Perlu Hubungi Vendor Satu per Satu', 'Baru kami datangi', 'Sudah kami pilihkan', 'Punya usaha vendor acara?']);
         $res->assertDontSee('id="tentang"', false);
         foreach (['Wedding', 'Corporate', 'Ulang Tahun', 'Baby &amp; Kids', 'Social Gathering', 'Perayaan'] as $occ) {
             $res->assertSee('<h3>'.$occ.'</h3>', false);

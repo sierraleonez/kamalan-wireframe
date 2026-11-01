@@ -6,7 +6,7 @@
   <div class="hero-grid">
     <div class="hero-copy">
       <p class="eyebrow">People · Ideas · Places · Possibilities</p>
-      <h1 class="display">Acara yang<br>benar-benar<br>jadi.</h1>
+      <h1 class="display">Vendor Terpercaya,<br>Acara Lebih Tenang.</h1>
       <p class="lead">Venue, catering, EO, dan hiburan di Jabodetabek — semuanya kami datangi sendiri sebelum masuk daftar. Harga dan kapasitas apa adanya.</p>
       <a class="btn btn-navy" href="#branch">Mulai jelajahi →</a>
     </div>
@@ -26,7 +26,7 @@
 {{-- OCCASIONS --}}
 <section class="occ-band" id="branch">
 <div class="shell sec">
-  <div class="sec-head"><h2 class="display">Pilih Jenis Acaramu</h2></div>
+  <div class="sec-head"><h2 class="display">Acara Apa yang Kamu Rencanakan?</h2></div>
   <div class="occs">
     @foreach ($p['occasions'] as $o)
       <a class="occ {{ $o['tone'] }}{{ $o['image'] ? ' has-img' : '' }}" href="{{ $o['href'] }}" wire:navigate>
@@ -42,14 +42,14 @@
 
 {{-- CATEGORIES --}}
 <div class="shell sec">
-  <x-sec-head eyebrow="Kategori" title="Cari per kebutuhan" />
+  <x-sec-head eyebrow="Kategori" title="Temukan Vendor Pilihanmu" />
   <x-cats :items="$p['cats']" />
 </div>
 
 {{-- BUNDLES --}}
 <div class="shell sec" id="bundle">
-  <x-sec-head eyebrow="Paket bundle" title="Satu kontak, semua vendornya"
-    intro="Paket yang disusun EO dari vendor rekanan mereka sendiri. Kamu bicara ke satu orang, bukan lima."
+  <x-sec-head eyebrow="Paket bundle" title="Nggak Perlu Hubungi Vendor Satu per Satu"
+    intro="Venue, dekorasi, catering, dan kebutuhan lainnya bisa dikoordinasikan melalui satu EO dalam paket yang lebih praktis."
     more="Semua bundle →" more-href="/bundle" />
   <x-row :items="$p['bundles']" />
 </div>
