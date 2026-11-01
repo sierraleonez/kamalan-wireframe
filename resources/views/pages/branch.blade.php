@@ -10,12 +10,12 @@
 </div>
 
 <div class="shell sec">
-  <x-sec-head eyebrow="Kategori" title="Cari per kebutuhan" />
+  <x-sec-head eyebrow="Kategori" title="Temukan Vendor Pilihanmu" />
   <x-cats :items="$p['cats']" />
 </div>
 
 <div class="shell sec tight">
-  <x-sec-head eyebrow="Area" title="Venue per area" />
+  <x-sec-head eyebrow="Area" title="Temukan Venue di Area Pilihanmu" />
   <div class="chips">
     @foreach ($p['areas'] as $a)<a class="chip" href="{{ $a['href'] }}" wire:navigate>{{ $a['label'] }}<small>{{ $a['count'] }}</small></a>@endforeach
   </div>
@@ -23,20 +23,20 @@
 
 @if ($p['bundles'])
 <div class="shell sec">
-  <x-sec-head eyebrow="Paket bundle" :title="$p['perHead'] ? 'Dihargai per peserta' : 'Satu kontak, semua vendornya'"
+  <x-sec-head eyebrow="Paket bundle" :title="$p['perHead'] ? 'Dihargai per peserta' : 'Satu Pintu untuk Semua Kebutuhan Acara'"
     intro="Paket yang disusun EO dari vendor rekanan mereka sendiri." more="Semua bundle →" :more-href="'/'.$p['type'].'/bundle'" />
   <x-row :items="$p['bundles']" />
 </div>
 @endif
 
 <div class="shell sec tight" @if (! $p['bundles']) style="padding-top:clamp(40px,6vw,72px)" @endif>
-  <x-sec-head eyebrow="Vendor pilihan" title="Baru kami datangi" more="Semua venue →" :more-href="'/'.$p['type'].'/venue'" />
+  <x-sec-head eyebrow="Vendor pilihan" title="Sudah Kami Kunjungi" more="Semua venue →" :more-href="'/'.$p['type'].'/venue'" />
   <x-row :items="$p['vendors']" />
 </div>
 
 @if ($p['collections'])
 <div class="shell sec tight">
-  <x-sec-head eyebrow="Koleksi" title="Sudah kami pilihkan" more="Semua koleksi →" more-href="/koleksi" />
+  <x-sec-head eyebrow="Koleksi" title="Sudah Kami Kurasi" more="Semua koleksi →" more-href="/koleksi" />
   <x-colls :items="$p['collections']" />
 </div>
 @endif

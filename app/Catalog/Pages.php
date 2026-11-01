@@ -107,7 +107,7 @@ final class Pages
 
         $h1 = match ($type) {
             'corporate' => 'Vendor acara kantor, dengan kapasitas, AV, dan faktur yang jelas.',
-            'wedding' => 'Vendor pernikahan dengan harga yang kami tanyakan sendiri.',
+            'wedding' => 'Harga Lebih Jelas, Persiapan Pernikahan Lebih Tenang',
             default => 'Vendor '.$t['noun'].' yang sudah kami datangi.',
         };
 
@@ -116,7 +116,7 @@ final class Pages
             'crumb' => P::crumb([['Beranda', '/'], [$t['name']]]),
             'eyebrow' => $t['name'].' · Jabodetabek',
             'h1' => $h1,
-            'lead' => $t['blurb'].' Harga dan kapasitas dari pengelola, termasuk yang belum termasuk.',
+            'lead' => $t['blurb'].' Informasi harga, kapasitas, dan detail paket dikonfirmasi langsung kepada vendor.',
             'cats' => self::catRow($type),
             'areas' => $areas,
             'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted'])), array_slice($bundles, 0, 3)),

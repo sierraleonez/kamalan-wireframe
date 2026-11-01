@@ -13,7 +13,7 @@ class SiteTest extends TestCase
     {
         return [
             ['/', 'Vendor Terpercaya,'],
-            ['/wedding', 'Vendor pernikahan dengan harga yang kami tanyakan sendiri.'],
+            ['/wedding', 'Harga Lebih Jelas, Persiapan Pernikahan Lebih Tenang'],
             ['/corporate', 'Vendor acara kantor'],
             ['/ulang-tahun', 'Vendor ulang tahun'],
             ['/baby-kids', 'Vendor acara bayi &amp; anak'],

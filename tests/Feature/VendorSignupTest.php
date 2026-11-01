@@ -19,12 +19,12 @@ class VendorSignupTest extends TestCase
     public function test_home_shows_the_vendor_band_instead_of_the_request_band(): void
     {
         $this->get('/')->assertSee('Punya usaha vendor acara?')->assertSee('href="/daftarkan-usaha"', false)
-            ->assertDontSee('Ngga nemu yang kamu cari?')->assertDontSee('Isi kebutuhan');
+            ->assertDontSee('Belum Menemukan yang Cocok?')->assertDontSee('Isi kebutuhan');
     }
 
     public function test_other_pages_keep_the_request_band(): void
     {
-        $this->get('/wedding')->assertSee('Ngga nemu yang kamu cari?')->assertDontSee('Punya usaha vendor acara?');
+        $this->get('/wedding')->assertSee('Belum Menemukan yang Cocok?')->assertDontSee('Punya usaha vendor acara?');
         $this->get('/kasih-tau-kami')->assertOk();
     }
 
