@@ -355,6 +355,14 @@ final class Pages
         ];
     }
 
+    /** Foto untuk pratinjau link (WhatsApp dll.): ukuran gallery, dengan dimensinya. */
+    private static function ogImage(array $img): array
+    {
+        $w = min($img['width'], (int) config('media.vendor_sizes.gallery'));
+
+        return ['url' => url($img['gallery']), 'width' => $w, 'height' => $img['width'] ? (int) round($img['height'] * $w / $img['width']) : 0];
+    }
+
     /* ---------------- detail ---------------- */
 
     public static function detail(string $type, array $v): array
@@ -407,13 +415,19 @@ final class Pages
 
         $words = Copy::writeup($v);
 
-        return self::base($v['name'], 'detail', self::share(P::vendorPath($v, $type), $v['name'], $summary) + [
+        $share = self::share(P::vendorPath($v, $type), $v['name'], $summary);
+        if ($v['images']) {
+            $share['og']['image'] = self::ogImage($v['images'][0]);
+        }
+
+        return self::base($v['name'], 'detail', $share + [
             'type' => $type,
             'saveKey' => P::savedKey('v', $type, $v['slug']),
             'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($type)['name'], '/'.$type], [$cat['name'], '/'.$type.'/'.$v['cat']], [$area['name'], P::listingPath($type, $v['cat'], $v['area'])], [$v['name']]]),
             'eyebrow' => $cat['name'].' · '.$v['hood'].', '.$area['name'],
             'name' => $v['name'],
             'photos' => $v['photos'],
+            'gallery' => $v['images'],
             'tones' => ['s1', 's2', 's3', 's4'],
             'tags' => $tags,
             'lead' => $words[0],
@@ -467,6 +481,7 @@ final class Pages
                 'name' => $v['name'],
                 'href' => P::vendorPath($v, $b['type']),
                 'tone' => P::tone($v['slug']),
+                'img' => P::cover($v),
                 'meta' => implode(' · ', array_filter([$v['hood'], P::capText($v, $b['type'])])),
                 'more' => 'Lihat '.mb_strtolower(Catalog::category($mcat)['name']).' →',
             ];
@@ -480,7 +495,18 @@ final class Pages
         ]));
         $price = $b['perHead'] ? 'Rp '.$b['priceMin'].' rb' : 'Rp '.$b['priceMin'].' – '.$b['priceMax'].' juta';
 
-        return self::base($b['title'], 'bundle', self::share(P::bundlePath($b), $b['title'], $summary) + [
+        $share = self::share(P::bundlePath($b), $b['title'], $summary);
+        $cover = null;
+        foreach ($b['members'] as [, $slug]) {
+            if ($slug && ($mv = Catalog::vendor($slug)) && $mv['images']) {
+                $cover = $mv['images'][0];
+                $share['og']['image'] = self::ogImage($cover);
+                break;
+            }
+        }
+
+        return self::base($b['title'], 'bundle', $share + [
+            'cover' => $cover,
             'type' => $b['type'],
             'saveKey' => P::savedKey('b', $b['type'], $b['slug']),
             'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($b['type'])['name'], '/'.$b['type']], ['Bundle', '/'.$b['type'].'/bundle'], [$b['title']]]),
@@ -581,6 +607,7 @@ final class Pages
                 'name' => $v['name'],
                 'href' => P::vendorPath($v, $c['type']),
                 'tone' => P::tone($v['slug']),
+                'img' => P::cover($v),
                 'meta' => implode(' · ', array_filter([$v['hood'].', '.Catalog::area($v['area'])['short'], P::capText($v, $c['type'])])),
                 'price' => 'Mulai '.P::priceFrom($v),
                 'blurb' => Copy::highlight($v, $c['type']),
@@ -628,7 +655,7 @@ final class Pages
             [$kind, $type, $slug] = $p;
             if ($kind === 'v' && ($v = Catalog::vendor($slug)) && in_array($type, $v['types'], true)) {
                 $out[] = [
-                    'key' => $key, 'name' => $v['name'], 'href' => P::vendorPath($v, $type), 'tone' => P::tone($v['slug']),
+                    'key' => $key, 'name' => $v['name'], 'href' => P::vendorPath($v, $type), 'tone' => P::tone($v['slug']), 'img' => P::cover($v),
                     'kind' => Catalog::type($type)['name'].' · '.Catalog::category($v['cat'])['name'],
                     'area' => $v['hood'].', '.Catalog::area($v['area'])['short'],
                     'capacity' => P::capText($v, $type) ?: '—',
@@ -637,7 +664,7 @@ final class Pages
                 ];
             } elseif ($kind === 'b' && ($b = Catalog::bundle($slug)) && $b['type'] === $type) {
                 $out[] = [
-                    'key' => $key, 'name' => $b['title'], 'href' => P::bundlePath($b), 'tone' => P::tone($b['slug']),
+                    'key' => $key, 'name' => $b['title'], 'href' => P::bundlePath($b), 'tone' => P::tone($b['slug']), 'img' => P::bundleCover($b),
                     'kind' => Catalog::type($type)['name'].' · Bundle',
                     'area' => Catalog::area($b['area'])['name'],
                     'capacity' => $b['guests'].' '.P::guestWord($type),

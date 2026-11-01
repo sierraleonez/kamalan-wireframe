@@ -2,7 +2,7 @@
 @props(['c', 'cta' => 'orange', 'save' => false, 'chip' => true])
 <article class="card{{ $c['promo'] ? ' promoted' : '' }}">
   <a class="thumb-wrap" href="{{ $c['href'] }}" wire:navigate tabindex="-1" aria-hidden="true">
-    <div class="thumb {{ $c['tone'] }}">foto</div>
+    <div class="thumb {{ $c['tone'] }}{{ $c['img'] ?? null ? ' has-img' : '' }}">@if ($c['img'] ?? null)<img src="{{ $c['img'] }}" alt="" loading="lazy" decoding="async">@else{{ 'foto' }}@endif</div>
     @if ($c['promo'])<span class="chip-promo">Promoted</span>@elseif ($chip && $c['chip'])<span class="chip-area">{{ $c['chip'] }}</span>@endif
   </a>
   @if ($save)

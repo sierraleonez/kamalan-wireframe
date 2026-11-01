@@ -27,7 +27,7 @@ Data katalog ada di MySQL dan diedit tim lewat panel admin Filament di `/admin`:
 koleksi, area, dan jenis acara (bisa ditambah; jenis acara baru memakai teks umum di halaman
 vendor). Daftar kategori tetap, karena filter dan tulisan per kategori ada di kode; namanya bisa
 diedit, tapi tidak bisa ditambah atau dihapus. Kiriman form "Kasih tau kami" tersimpan sebagai permintaan
-dan bisa ditandai sudah ditangani. Pencatatan klik WhatsApp belum ada. Foto masih placeholder gradien.
+dan bisa ditandai sudah ditangani. Pencatatan klik WhatsApp belum ada. Vendor tanpa foto tampil dengan placeholder gradien.
 
 ## Menjalankan
 
@@ -55,6 +55,14 @@ Foto hero diatur di Admin → **Konten beranda**; foto sampul kartu jenis acara 
 diunggah (klik atau seret) atau diambil dari link; server memperkecilnya dan menyimpannya sebagai
 WebP di `storage/app/public/content` (perlu `php artisan storage:link`). Tanpa foto, tampil gradien
 dan ikon seperti sebelumnya.
+
+### Foto vendor
+
+Diatur di Admin → **Vendor** → ubah → bagian **Foto** (unggah beberapa sekaligus atau tempel link;
+urutan, keterangan, sampul). Tiap foto disimpan dalam tiga ukuran WebP (card 640, gallery 1280,
+full 2048 px). Di situs: halaman vendor memakai galeri (sampul + empat kecil, "+N foto", penampil
+layar penuh dengan panah/geser); kartu vendor, isi paket, koleksi, dan Tersimpan memakai sampul;
+paket memakai foto vendor anggota pertama yang punya foto; pratinjau link (WhatsApp) memakai sampul.
 
 ### Server (kamalan.eventaries.cloud)
 

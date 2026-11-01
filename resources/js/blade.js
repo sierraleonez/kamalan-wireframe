@@ -154,4 +154,35 @@ Alpine.data('occasionPage', (cfg) => ({
     },
 }));
 
+// Halaman vendor: foto layar penuh. <dialog> menangani Esc dan fokus; panah kiri/kanan dan geser di HP.
+Alpine.data('gallery', (items) => ({
+    items,
+    i: 0,
+    open: false,
+    tx: null,
+    get photo() {
+        return this.items[this.i];
+    },
+    show(i) {
+        this.i = i;
+        this.open = true;
+        this.$refs.dlg.showModal();
+    },
+    close() {
+        this.$refs.dlg.close();
+    },
+    prev() {
+        this.i = (this.i - 1 + this.items.length) % this.items.length;
+    },
+    next() {
+        this.i = (this.i + 1) % this.items.length;
+    },
+    swipe(x) {
+        if (this.tx === null) return;
+        const dx = x - this.tx;
+        this.tx = null;
+        if (Math.abs(dx) > 40) dx < 0 ? this.next() : this.prev();
+    },
+}));
+
 Livewire.start();

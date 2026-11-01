@@ -175,6 +175,24 @@ final class Present
         return $kind.':'.$type.':'.$slug;
     }
 
+    /** URL foto sampul vendor (foto pertama) di ukuran card/gallery/full; null = belum ada foto. */
+    public static function cover(array $v, string $size = 'card'): ?string
+    {
+        return $v['images'][0][$size] ?? null;
+    }
+
+    /** Sampul paket: foto sampul vendor anggota pertama yang punya foto. */
+    public static function bundleCover(array $b, string $size = 'card'): ?string
+    {
+        foreach ($b['members'] as [, $slug]) {
+            if ($slug && ($v = Catalog::vendor($slug)) && ($url = self::cover($v, $size))) {
+                return $url;
+            }
+        }
+
+        return null;
+    }
+
     public static function vendorCard(array $v, string $type, bool $promo = false, string $placement = 'LIST'): array
     {
         return [
@@ -182,6 +200,7 @@ final class Present
             'name' => $v['name'],
             'href' => self::vendorPath($v, $type),
             'tone' => self::tone($v['slug']),
+            'img' => self::cover($v),
             'chip' => $v['cat'] === 'venue' ? self::settingText($v['setting']) : Catalog::category($v['cat'])['name'],
             'meta' => implode(' · ', array_filter(array_merge([$v['hood'], self::capText($v, $type)], self::extras($v, $type)))),
             // Tanpa chip foto (kartu "serupa" di halaman detail), suasana pindah ke meta.
@@ -203,6 +222,7 @@ final class Present
             'name' => $b['title'],
             'href' => self::bundlePath($b),
             'tone' => self::tone($b['slug']),
+            'img' => self::bundleCover($b),
             'chip' => null,
             'meta' => ($eo ? 'oleh '.$eo['name'].' · ' : '').$parts,
             'metaNoChip' => ($eo ? 'oleh '.$eo['name'].' · ' : '').$parts,

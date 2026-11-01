@@ -12,6 +12,45 @@
     <span class="here">{{ $p['name'] }}</span>
   </nav>
 
+@if ($p['gallery'])
+    @php($g = $p['gallery'])
+    @php($side = array_slice($g, 1, 4))
+    {{-- Foto vendor: sampul besar + sampai empat kecil; klik membuka penampil layar penuh. --}}
+    <div x-data="gallery(@js(array_map(fn ($i) => ['src' => $i['full'], 'srcset' => $i['gallery'].' '.min($i['width'], 1280).'w, '.$i['full'].' '.min($i['width'], 2048).'w', 'caption' => $i['caption'], 'width' => $i['width'], 'height' => $i['height']], $g)))">
+      <div class="gallery has-img side-{{ count($side) }}">
+        <button type="button" class="shot shot-main" @click="show(0)" aria-label="Lihat foto 1 dari {{ count($g) }}">
+          <img src="{{ $g[0]['gallery'] }}" srcset="{{ $g[0]['card'] }} {{ min($g[0]['width'], 640) }}w, {{ $g[0]['gallery'] }} {{ min($g[0]['width'], 1280) }}w, {{ $g[0]['full'] }} {{ min($g[0]['width'], 2048) }}w" sizes="(min-width:800px) 760px, 100vw" alt="{{ $g[0]['caption'] ?: 'Foto '.$p['name'] }}" decoding="async" fetchpriority="high">
+        </button>
+        @if ($side)
+          <div class="gal-side">
+            @foreach ($side as $i => $img)
+              <button type="button" class="shot shot-s" @click="show({{ $i + 1 }})" aria-label="Lihat foto {{ $i + 2 }} dari {{ count($g) }}">
+                <img src="{{ $img['card'] }}" alt="{{ $img['caption'] ?: 'Foto '.$p['name'] }}" loading="lazy" decoding="async">
+                @if ($loop->last && count($g) > 5)<span class="more-shot">+{{ count($g) - 5 }} foto</span>@endif
+              </button>
+            @endforeach
+          </div>
+        @endif
+      </div>
+      <dialog class="viewer" x-ref="dlg" aria-label="Foto {{ $p['name'] }}" @close="open = false" @keydown.left.prevent="prev()" @keydown.right.prevent="next()"
+        @touchstart.passive="tx = $event.touches[0].clientX" @touchend="swipe($event.changedTouches[0].clientX)" @click.self="close()">
+        <div class="viewer-bar">
+          <span class="viewer-count" x-text="(i + 1) + ' / ' + items.length"></span>
+          <button type="button" class="viewer-x" @click="close()" aria-label="Tutup">×</button>
+        </div>
+        <figure class="viewer-fig" @click.self="close()">
+          <template x-if="open"><img :src="photo.src" :srcset="photo.srcset" sizes="100vw" :alt="photo.caption || @js('Foto '.$p['name'])" :width="photo.width" :height="photo.height"></template>
+          <figcaption x-show="photo.caption" x-text="photo.caption"></figcaption>
+        </figure>
+        <template x-if="items.length > 1">
+          <div>
+            <button type="button" class="viewer-nav prev" @click="prev()" aria-label="Foto sebelumnya">‹</button>
+            <button type="button" class="viewer-nav next" @click="next()" aria-label="Foto berikutnya">›</button>
+          </div>
+        </template>
+      </dialog>
+    </div>
+@else
   <div class="gallery">
     <div class="shot shot-main">foto utama</div>
     <div class="gal-side">
@@ -21,6 +60,7 @@
       <div class="shot shot-s s4">foto<div class="more-shot">+{{ $p['photos'] - 4 }} foto</div></div>
     </div>
   </div>
+@endif
 
   <div class="split">
     <main>

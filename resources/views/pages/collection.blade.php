@@ -15,7 +15,7 @@
     @foreach ($p['items'] as $it)
       <li class="rank">
         <span class="num" aria-hidden="true">{{ str_pad($it['rank'], 2, '0', STR_PAD_LEFT) }}</span>
-        <a class="thumb-wrap" href="{{ $it['href'] }}" wire:navigate tabindex="-1" aria-hidden="true"><div class="thumb {{ $it['tone'] }}">foto</div></a>
+        <a class="thumb-wrap" href="{{ $it['href'] }}" wire:navigate tabindex="-1" aria-hidden="true"><div class="thumb {{ $it['tone'] }}{{ $it['img'] ?? null ? ' has-img' : '' }}">@if ($it['img'] ?? null)<img src="{{ $it['img'] }}" alt="" loading="lazy" decoding="async">@else{{ 'foto' }}@endif</div></a>
         <div class="rb">
           <h3><a href="{{ $it['href'] }}" wire:navigate>{{ $it['name'] }}</a></h3>
           <p class="muted" style="margin:0">{{ $it['meta'] }}</p>

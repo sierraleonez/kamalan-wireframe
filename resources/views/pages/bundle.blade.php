@@ -3,7 +3,11 @@
 <div x-data="{ wa: @js($p['cta']['wa']), phrase: @js($p['cta']['phrase']) }">
 <div class="shell">
   <x-crumb :items="$p['crumb']" />
-  <div class="cover t3">foto sampul paket</div>
+  @if ($p['cover'])
+    <div class="cover has-img"><img src="{{ $p['cover']['gallery'] }}" srcset="{{ $p['cover']['card'] }} {{ min($p['cover']['width'], 640) }}w, {{ $p['cover']['gallery'] }} {{ min($p['cover']['width'], 1280) }}w, {{ $p['cover']['full'] }} {{ min($p['cover']['width'], 2048) }}w" sizes="(min-width:1200px) 1160px, 100vw" alt="{{ $p['cover']['caption'] ?: 'Foto '.$p['name'] }}" decoding="async"></div>
+  @else
+    <div class="cover t3">foto sampul paket</div>
+  @endif
 
   <div class="split">
     <main>
@@ -23,7 +27,7 @@
         <div class="row">
           @foreach ($p['members'] as $m)
             <a class="card" href="{{ $m['href'] }}" wire:navigate>
-              <div class="thumb-wrap"><div class="thumb {{ $m['tone'] }}">foto</div><span class="chip-area">{{ $m['chip'] }}</span></div>
+              <div class="thumb-wrap"><div class="thumb {{ $m['tone'] }}{{ $m['img'] ?? null ? ' has-img' : '' }}">@if ($m['img'] ?? null)<img src="{{ $m['img'] }}" alt="" loading="lazy" decoding="async">@else{{ 'foto' }}@endif</div><span class="chip-area">{{ $m['chip'] }}</span></div>
               <div class="body"><div class="nm">{{ $m['name'] }}</div><div class="mt">{{ $m['meta'] }}</div><div class="more">{{ $m['more'] }}</div></div>
             </a>
           @endforeach

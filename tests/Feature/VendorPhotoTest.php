@@ -200,9 +200,51 @@ class VendorPhotoTest extends TestCase
         }
     }
 
-    public function test_public_pages_are_unchanged_in_phase_one(): void
+    public function test_vendor_page_shows_gallery_viewer_and_link_preview(): void
+    {
+        foreach (range(1, 7) as $n) {
+            VendorPhotos::addBytes($this->vendor(), $this->png(900, 600));
+        }
+        $this->vendor()->vendorPhotos()->orderBy('sort')->first()->update(['caption' => 'Ruang utama']);
+        $cover = $this->vendor()->vendorPhotos()->orderBy('sort')->first();
+
+        $this->get('/wedding/venue/ballroom-kebayoran')->assertOk()
+            ->assertDontSee('foto utama')
+            ->assertSee('/storage/'.$cover->path.'-gallery.webp', false)
+            ->assertSee('alt="Ruang utama"', false)
+            ->assertSee('+2 foto')                       // 7 foto: sampul + 4 kecil, sisanya di penampil
+            ->assertSee('<dialog class="viewer"', false)
+            ->assertSee('<meta property="og:image" content="'.url('/storage/'.$cover->path.'-gallery.webp').'">', false)
+            ->assertSee('<meta property="og:image:width" content="900">', false);
+    }
+
+    public function test_cards_and_lists_use_the_cover_photo(): void
     {
         VendorPhotos::addBytes($this->vendor(), $this->png(900, 600));
-        $this->get('/wedding/venue/ballroom-kebayoran')->assertOk()->assertSee('foto utama')->assertDontSee('-card.webp');
+        $card = '/storage/'.$this->vendor()->vendorPhotos()->first()->path.'-card.webp';
+
+        $this->get('/wedding/venue')->assertSee($card, false);
+        $items = $this->getJson('/tersimpan/data?keys=v:wedding:ballroom-kebayoran')->json('items');
+        $this->assertSame($card, $items[0]['img']);
+    }
+
+    public function test_bundle_uses_first_member_photo_for_cover_and_member_card(): void
+    {
+        $b = Catalog::bundles()[array_key_first(Catalog::bundles())];
+        $slug = collect($b['members'])->pluck(1)->filter()->first();
+        VendorPhotos::addBytes(Vendor::where('slug', $slug)->first(), $this->png(900, 600));
+        $base = '/storage/'.Vendor::where('slug', $slug)->first()->vendorPhotos()->first()->path;
+
+        $this->get(\App\Catalog\Present::bundlePath($b))->assertOk()
+            ->assertSee('<div class="cover has-img">', false)
+            ->assertSee($base.'-card.webp', false)
+            ->assertDontSee('foto sampul paket');
+    }
+
+    public function test_vendors_without_photos_keep_the_placeholder(): void
+    {
+        $this->get('/wedding/venue/ballroom-kebayoran')->assertOk()->assertSee('foto utama')
+            ->assertSee(url('/brand/og.png'), false);
+        $this->get('/wedding/venue')->assertDontSee('-card.webp');
     }
 }

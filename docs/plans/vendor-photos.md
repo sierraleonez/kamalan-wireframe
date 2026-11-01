@@ -2,7 +2,7 @@
 
 Split into two phases. Phase 1 comes first; phase 2 starts once phase 1 is done.
 
-## Phase 1: admin panel and backend
+## Phase 1: admin panel and backend (done)
 
 **Effort:** about half a day to a day, plus ~15 minutes for you to set up the R2 bucket.
 
@@ -32,10 +32,13 @@ step-by-step instructions; nothing goes into git.
 import, with storage faked. Then live: add photos to one vendor in the admin and confirm the files land
 in R2 in all three sizes.
 
-## Phase 2: show photos on the site (later)
+## Phase 2: show photos on the site (done)
 
 - Vendor page gallery: cover large, the next four small; "+N foto" opens a full-screen viewer
   (swipe on phones, keyboard on desktop).
 - Vendor cards everywhere (home, listings, collections, Tersimpan, bundle member thumbnails) use the cover.
 - Vendors without photos keep today's coloured placeholder.
 - Link previews (WhatsApp) of a vendor page show its cover photo.
+
+Done in phase 2 as listed. Also: a bundle's cover (page header and card) uses the cover of its first
+member vendor that has photos.

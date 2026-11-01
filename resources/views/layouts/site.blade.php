@@ -12,9 +12,15 @@
 <meta property="og:title" content="{{ $p['og']['title'] }}">
 <meta property="og:description" content="{{ $p['og']['description'] }}">
 <meta property="og:url" content="{{ $p['og']['url'] }}">
+@if (isset($p['og']['image']))
+<meta property="og:image" content="{{ $p['og']['image']['url'] }}">
+<meta property="og:image:width" content="{{ $p['og']['image']['width'] }}">
+<meta property="og:image:height" content="{{ $p['og']['image']['height'] }}">
+@else
 <meta property="og:image" content="{{ url('/brand/og.png') }}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+@endif
 <meta name="twitter:card" content="summary_large_image">
 @endif
 <link rel="icon" href="/favicon.ico" sizes="48x48">

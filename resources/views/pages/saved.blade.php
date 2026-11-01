@@ -22,7 +22,7 @@
       <table class="cmp">
         <thead><tr><th scope="col"><span class="sr">Item</span></th><template x-for="it in items" :key="it.key"><th scope="col"><a :href="it.href" wire:navigate x-text="it.name"></a></th></template></tr></thead>
         <tbody>
-          <tr><th scope="row">Foto</th><template x-for="it in items" :key="it.key"><td><div class="thumb" :class="it.tone">foto</div></td></template></tr>
+          <tr><th scope="row">Foto</th><template x-for="it in items" :key="it.key"><td><div class="thumb" :class="[it.tone, it.img ? 'has-img' : '']"><template x-if="it.img"><img :src="it.img" alt="" loading="lazy" decoding="async"></template><span x-show="!it.img">foto</span></div></td></template></tr>
           <tr><th scope="row">Jenis</th><template x-for="it in items" :key="it.key"><td x-text="it.kind"></td></template></tr>
           <tr><th scope="row">Area</th><template x-for="it in items" :key="it.key"><td x-text="it.area"></td></template></tr>
           <tr><th scope="row">Kapasitas</th><template x-for="it in items" :key="it.key"><td x-text="it.capacity"></td></template></tr>
