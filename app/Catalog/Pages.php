@@ -106,9 +106,23 @@ final class Pages
         }
 
         $h1 = match ($type) {
-            'corporate' => 'Vendor acara kantor, dengan kapasitas, AV, dan faktur yang jelas.',
+            'corporate' => 'Dari meeting hingga gathering perusahaan, temukan venue dan vendor dengan informasi kapasitas, fasilitas AV, dan faktur yang jelas.',
             'wedding' => 'Harga Lebih Jelas, Persiapan Pernikahan Lebih Tenang',
-            default => 'Vendor '.$t['noun'].' yang sudah kami datangi.',
+            'ulang-tahun' => 'Vendor Ulang Tahun yang Sudah Kami Kunjungi',
+            'baby-kids' => 'Pilihan Vendor untuk Momen Si Kecil',
+            'social-gathering' => 'Pilihan Vendor untuk Momen Kebersamaan',
+            'perayaan' => 'Pilihan untuk Setiap Perayaan',
+            default => 'Vendor '.$t['noun'].' yang sudah kami kunjungi.',
+        };
+        // Jenis acara baru (dibuat di admin): deskripsinya + kalimat umum.
+        $lead = match ($type) {
+            'wedding' => 'Gedung, catering, dekorasi, hingga dokumentasi untuk akad dan resepsi. Informasi harga, kapasitas, dan detail paket dikonfirmasi langsung kepada vendor.',
+            'corporate' => 'Temukan venue untuk berbagai acara perusahaan, mulai dari seminar hingga corporate gathering. Cek kapasitas, harga, dan rincian paket sebelum menentukan pilihan.',
+            'ulang-tahun' => 'Setiap usia punya alasan untuk dirayakan. Temukan venue dan vendor untuk ulang tahun anak hingga perayaan setengah abad, dengan informasi harga dan kapasitas yang jelas.',
+            'baby-kids' => 'Rayakan momen si kecil, dari baby shower hingga aqiqah dan acara sekolah. Temukan venue dan vendor dengan informasi harga, kapasitas, serta biaya tambahan yang jelas.',
+            'social-gathering' => 'Dari arisan santai hingga reuni keluarga besar, temukan venue dan vendor yang cocok untuk momen kebersamaanmu, lengkap dengan informasi harga dan kapasitas.',
+            'perayaan' => 'Rayakan setiap momen spesial, dari lamaran hingga wisuda dan anniversary. Temukan venue dan vendor dengan informasi harga, kapasitas, serta biaya tambahan yang jelas.',
+            default => $t['blurb'].' Informasi harga, kapasitas, dan detail paket dikonfirmasi langsung kepada vendor.',
         };
 
         return self::base($t['name'], 'branch', [
@@ -116,7 +130,7 @@ final class Pages
             'crumb' => P::crumb([['Beranda', '/'], [$t['name']]]),
             'eyebrow' => $t['name'].' · Jabodetabek',
             'h1' => $h1,
-            'lead' => $t['blurb'].' Informasi harga, kapasitas, dan detail paket dikonfirmasi langsung kepada vendor.',
+            'lead' => $lead,
             'cats' => self::catRow($type),
             'areas' => $areas,
             'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted'])), array_slice($bundles, 0, 3)),

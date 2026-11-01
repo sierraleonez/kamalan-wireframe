@@ -23,8 +23,8 @@
 
 @if ($p['bundles'])
 <div class="shell sec">
-  <x-sec-head eyebrow="Paket bundle" :title="$p['perHead'] ? 'Dihargai per peserta' : 'Satu Pintu untuk Semua Kebutuhan Acara'"
-    intro="Paket yang disusun EO dari vendor rekanan mereka sendiri." more="Semua bundle →" :more-href="'/'.$p['type'].'/bundle'" />
+  <x-sec-head eyebrow="Paket bundle" :title="$p['perHead'] ? 'Biaya Sesuai Jumlah Peserta' : 'Satu Pintu untuk Semua Kebutuhan Acara'"
+    :intro="$p['perHead'] ? 'Paket lengkap dari EO dan vendor pilihan mereka.' : 'Paket yang disusun EO dari vendor rekanan mereka sendiri.'" more="Semua bundle →" :more-href="'/'.$p['type'].'/bundle'" />
   <x-row :items="$p['bundles']" />
 </div>
 @endif

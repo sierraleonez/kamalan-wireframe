@@ -56,13 +56,13 @@
 
 {{-- VENDORS --}}
 <div class="shell sec tight">
-  <x-sec-head eyebrow="Vendor pilihan" title="Baru kami datangi" more="Semua vendor →" more-href="/wedding/venue" />
+  <x-sec-head eyebrow="Vendor pilihan" title="Sudah Kami Kunjungi" more="Semua vendor →" more-href="/wedding/venue" />
   <x-row :items="$p['vendors']" />
 </div>
 
 {{-- COLLECTIONS --}}
 <div class="shell sec tight" id="koleksi">
-  <x-sec-head eyebrow="Koleksi" title="Sudah kami pilihkan" more="Semua koleksi →" more-href="/koleksi" />
+  <x-sec-head eyebrow="Koleksi" title="Sudah Kami Kurasi" more="Semua koleksi →" more-href="/koleksi" />
   <x-colls :items="$p['collections']" />
 </div>
 

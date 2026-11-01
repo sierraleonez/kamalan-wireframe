@@ -14,11 +14,11 @@ class SiteTest extends TestCase
         return [
             ['/', 'Vendor Terpercaya,'],
             ['/wedding', 'Harga Lebih Jelas, Persiapan Pernikahan Lebih Tenang'],
-            ['/corporate', 'Vendor acara kantor'],
-            ['/ulang-tahun', 'Vendor ulang tahun'],
-            ['/baby-kids', 'Vendor acara bayi &amp; anak'],
-            ['/social-gathering', 'Vendor kumpul-kumpul'],
-            ['/perayaan', 'Vendor perayaan'],
+            ['/corporate', 'Dari meeting hingga gathering perusahaan'], ['/corporate', 'Biaya Sesuai Jumlah Peserta'],
+            ['/ulang-tahun', 'Vendor Ulang Tahun yang Sudah Kami Kunjungi'],
+            ['/baby-kids', 'Pilihan Vendor untuk Momen Si Kecil'],
+            ['/social-gathering', 'Pilihan Vendor untuk Momen Kebersamaan'],
+            ['/perayaan', 'Pilihan untuk Setiap Perayaan'],
             ['/wedding/venue', 'Venue pernikahan di Jabodetabek'],
             ['/wedding/venue/jakarta-selatan', 'Venue pernikahan di Jakarta Selatan'],
             ['/ulang-tahun/venue/jakarta-selatan', 'Venue ulang tahun di Jakarta Selatan'],
@@ -46,9 +46,9 @@ class SiteTest extends TestCase
     {
         $res = $this->get('/')->assertOk()
             ->assertSee('<title>Kamalan Event Hub — Vendor acara di Jabodetabek</title>', false)
-            ->assertSeeInOrder(['Vendor Terpercaya,', 'Acara Apa yang Kamu Rencanakan?', 'Dari Tiup Lilin Pertama sampai Setengah Abad', 'Temukan Vendor Pilihanmu', 'Nggak Perlu Hubungi Vendor Satu per Satu', 'Baru kami datangi', 'Sudah kami pilihkan', 'Punya usaha vendor acara?']);
+            ->assertSeeInOrder(['Vendor Terpercaya,', 'Acara Apa yang Kamu Rencanakan?', 'Dari Tiup Lilin Pertama sampai Setengah Abad', 'Temukan Vendor Pilihanmu', 'Nggak Perlu Hubungi Vendor Satu per Satu', 'Sudah Kami Kunjungi', 'Sudah Kami Kurasi', 'Punya usaha vendor acara?']);
         $res->assertDontSee('id="tentang"', false);
-        foreach (['Wedding', 'Corporate', 'Ulang Tahun', 'Baby &amp; Kids', 'Social Gathering', 'Perayaan'] as $occ) {
+        foreach (['Wedding', 'Corporate', 'Ulang Tahun', 'Baby &amp; Kids', 'Social Gathering', 'Celebration'] as $occ) {
             $res->assertSee('<h3>'.$occ.'</h3>', false);
         }
         // Tidak ada lapis catatan wireframe di situs hi-fi.
