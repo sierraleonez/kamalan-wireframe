@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Catalog\HomeText;
 use App\Filament\Support\PhotoField;
 use App\Models\Bundle;
 use App\Models\Collection;
@@ -11,6 +12,9 @@ use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Actions;
@@ -22,7 +26,7 @@ use Filament\Support\Exceptions\Halt;
 use Filament\Support\Icons\Heroicon;
 
 /**
- * Konten beranda yang bukan milik data lain: foto hero, dan vendor / paket / koleksi yang tampil
+ * Konten beranda yang bukan milik data lain: foto hero, teks (HomeText), dan vendor / paket / koleksi yang tampil
  * (disimpan sebagai daftar id di settings; kosong = otomatis). Foto kartu jenis acara dan kategori
  * diatur di Jenis acara dan Kategori.
  */
@@ -62,6 +66,7 @@ class HomeContent extends Page
         foreach (array_keys(self::PICKS) as $key) {
             $data[$key] = json_decode(Setting::value('home.'.$key) ?? '[]', true) ?: [];
         }
+        $data['texts'] = array_merge(HomeText::defaults(), json_decode(Setting::value('home.texts') ?? '[]', true) ?: []);
 
         return $data;
     }
@@ -83,6 +88,14 @@ class HomeContent extends Page
             Section::make('Hero')
                 ->description('Foto besar di samping judul beranda. Paling bagus foto landscape, minimal 1600 px lebarnya. Foto kartu jenis acara diatur di Jenis acara; foto kategori di Kategori.')
                 ->components(PhotoField::make('hero.')),
+            Section::make('Teks beranda')
+                ->description('Semua tulisan tetap di beranda. Kotak yang dikosongkan kembali ke teks bawaan. Nama dan deskripsi jenis acara diatur di Jenis acara; nama kategori di Kategori.')
+                ->collapsible()
+                ->components(array_map(fn ($group, $fields) => Fieldset::make($group)->columns(1)->components(array_map(
+                    fn ($key, $f) => ($f[2] ? Textarea::make('texts.'.$key)->rows(3) : TextInput::make('texts.'.$key))
+                        ->label($f[0])->placeholder($f[1])->maxLength(400),
+                    array_keys($fields), $fields,
+                )), array_keys(HomeText::FIELDS), HomeText::FIELDS)),
             ...array_map(fn ($key, $cfg) => Section::make($cfg[0])
                 ->description($cfg[2].' Seret untuk mengubah urutan.')
                 ->components([
@@ -120,6 +133,8 @@ class HomeContent extends Page
             $ids = array_values(array_unique(array_map('intval', array_filter($state[$key] ?? []))));
             Setting::put('home.'.$key, $ids ? json_encode($ids) : null);
         }
+        $texts = HomeText::overrides($state['texts'] ?? []);
+        Setting::put('home.texts', $texts ? json_encode($texts, JSON_UNESCAPED_UNICODE) : null);
 
         $this->form->fill($this->current());
         Notification::make()->title('Konten beranda disimpan')->success()->send();

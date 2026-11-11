@@ -1,14 +1,15 @@
 @extends('layouts.site')
 @section('content')
+@php($t = $p['text'])
 
 {{-- HERO --}}
 <div class="shell hero">
   <div class="hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow">People · Ideas · Places · Possibilities</p>
-      <h1 class="display">Vendor Terpercaya,<br>Acara Lebih Tenang.</h1>
-      <p class="lead">Venue, catering, EO, dan hiburan di Jabodetabek — semuanya kami datangi sendiri sebelum masuk daftar. Harga dan kapasitas apa adanya.</p>
-      <a class="btn btn-navy" href="#branch">Mulai jelajahi →</a>
+      <p class="eyebrow">{{ $t['hero_eyebrow'] }}</p>
+      <h1 class="display">{!! nl2br(e($t['hero_title']), false) !!}</h1>
+      <p class="lead">{!! nl2br(e($t['hero_lead']), false) !!}</p>
+      <a class="btn btn-navy" href="#branch">{{ $t['hero_button'] }}</a>
     </div>
     <div class="hero-art{{ $p['hero'] ? ' has-img' : '' }}">
       @if ($p['hero'])
@@ -16,7 +17,7 @@
       @else
         <div class="ph">foto acara</div>
       @endif
-      <div class="script">Momen yang<br>lebih berarti</div>
+      <div class="script">{!! nl2br(e($t['hero_script']), false) !!}</div>
     </div>
   </div>
 </div>
@@ -24,7 +25,7 @@
 {{-- OCCASIONS --}}
 <section class="occ-band" id="branch">
 <div class="shell sec">
-  <div class="sec-head"><h2 class="display">Pilih Acaramu</h2></div>
+  <div class="sec-head"><h2 class="display">{{ $t['occasions_title'] }}</h2></div>
   <div class="occs">
     @foreach ($p['occasions'] as $o)
       <a class="occ {{ $o['tone'] }}{{ $o['image'] ? ' has-img' : '' }}" href="{{ $o['href'] }}" wire:navigate>
@@ -39,7 +40,7 @@
 {{-- CATEGORIES --}}
 @if ($p['cats'])
 <div class="shell sec">
-  <x-sec-head eyebrow="Kategori" title="Kebutuhan Acaramu" />
+  <x-sec-head :eyebrow="$t['cats_eyebrow']" :title="$t['cats_title']" />
   <x-cats :items="$p['cats']" />
 </div>
 @endif
@@ -47,9 +48,7 @@
 {{-- BUNDLES --}}
 @if ($p['bundles'])
 <div class="shell sec" id="bundle">
-  <x-sec-head eyebrow="Best Deals" title="Nggak Perlu Hubungi Vendor Satu per Satu"
-    intro="Venue, dekorasi, catering, dan kebutuhan lainnya bisa dikoordinasikan melalui satu EO dalam paket yang lebih praktis."
-    more="Semua bundle →" more-href="/bundle" />
+  <x-sec-head :eyebrow="$t['bundles_eyebrow']" :title="$t['bundles_title']" :intro="$t['bundles_intro']" :more="$t['bundles_more']" more-href="/bundle" />
   <x-row :items="$p['bundles']" />
 </div>
 @endif
@@ -57,7 +56,7 @@
 {{-- VENDORS --}}
 @if ($p['vendors'])
 <div class="shell sec tight">
-  <x-sec-head eyebrow="Vendor pilihan" title="Vendor Terbaik" more="Semua vendor →" more-href="/wedding/venue" />
+  <x-sec-head :eyebrow="$t['vendors_eyebrow']" :title="$t['vendors_title']" :more="$t['vendors_more']" more-href="/wedding/venue" />
   <x-row :items="$p['vendors']" :cat="true" />
 </div>
 @endif
@@ -65,7 +64,7 @@
 {{-- COLLECTIONS --}}
 @if ($p['collections'])
 <div class="shell sec tight" id="koleksi">
-  <x-sec-head eyebrow="Koleksi" title="Sudah Kami Kurasi" more="Semua koleksi →" more-href="/koleksi" />
+  <x-sec-head :eyebrow="$t['collections_eyebrow']" :title="$t['collections_title']" :more="$t['collections_more']" more-href="/koleksi" />
   <x-colls :items="$p['collections']" />
 </div>
 @endif
@@ -115,7 +114,7 @@
 
 {{-- UNTUK VENDOR --}}
 <div class="shell sec tight">
-  <x-vendor-band />
+  <x-vendor-band :title="$t['band_title']" :text="$t['band_text']" :button="$t['band_button']" />
 </div>
 
 @endsection

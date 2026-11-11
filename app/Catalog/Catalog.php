@@ -263,6 +263,7 @@ final class Catalog
         return [
             'images' => $images,
             'home' => $home,
+            'texts' => json_decode($settings['home.texts'] ?? '[]', true) ?: [],
             'areas' => $areas,
             'types' => $types,
             'categories' => $cats,

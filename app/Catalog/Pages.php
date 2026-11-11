@@ -87,6 +87,7 @@ final class Pages
 
         return self::base('Vendor acara di Jabodetabek', 'home', [
             'hero' => Catalog::image('hero'),
+            'text' => HomeText::all(),
             'occasions' => self::occasions(),
             'cats' => self::catRow(null),
             'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted']), 'HOME'), $bundles),

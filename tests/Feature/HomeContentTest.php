@@ -200,4 +200,28 @@ class HomeContentTest extends TestCase
         $this->assertNull(Setting::value('home.vendors'));
         $this->get('/')->assertOk()->assertSee('Vendor Terbaik')->assertSee('Ballroom Kebayoran');
     }
+
+    public function test_home_texts_are_edited_in_admin_and_empty_boxes_fall_back(): void
+    {
+        $this->get('/admin/konten-beranda')->assertSee('Teks beranda')->assertSee('Mulai jelajahi →');
+
+        Livewire::test(HomeContent::class)
+            ->fillForm([
+                'texts.hero_title' => "Acara Rapi,\r\nHati Tenang",
+                'texts.vendors_title' => 'Pilihan <b>Tim</b>',
+                'texts.band_button' => '',                          // kosong → bawaan
+                'texts.cats_title' => 'Kebutuhan Acaramu',          // sama dengan bawaan → tidak disimpan
+            ])
+            ->call('save')->assertHasNoFormErrors();
+
+        $this->assertSame(['hero_title' => "Acara Rapi,\nHati Tenang", 'vendors_title' => 'Pilihan <b>Tim</b>'], json_decode(Setting::value('home.texts'), true));
+        $this->get('/')->assertOk()
+            ->assertSee('<h1 class="display">Acara Rapi,<br>'."\n".'Hati Tenang</h1>', false)
+            ->assertSee('Pilihan &lt;b&gt;Tim&lt;/b&gt;', false)
+            ->assertSee('Daftarkan usaha →')
+            ->assertDontSee('Vendor Terpercaya,');
+
+        // Form memuat ubahan dan teks bawaan sisanya.
+        Livewire::test(HomeContent::class)->assertFormSet(['texts.vendors_title' => 'Pilihan <b>Tim</b>', 'texts.band_button' => 'Daftarkan usaha →']);
+    }
 }
