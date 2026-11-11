@@ -200,16 +200,7 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero-art .script,.hero-art .vals{z-index:1}
 .hero-art .script{position:absolute;left:26px;top:26px;color:#fff;font-size:clamp(24px,3vw,34px);text-shadow:0 2px 18px rgba(2,42,91,.35)}
 .hero-art .vals{position:absolute;right:22px;bottom:24px;text-align:right;color:rgba(255,255,255,.9);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;line-height:2.1}
-/* Pita hero (public/brand/hero-ribbon-v3-long.webp, 2920×327): artwork asli 1920 px + ekor biru
-   diperpanjang 1000 px ke kiri. Di bawah 1500 px layar, bagian asli selebar layar (ekor tambahan di luar
-   layar); lingkarannya (x 47% bagian asli) menindih sudut kiri bawah foto. Tinggi 90% dari proporsi asli
-   supaya pitanya tidak terlalu tebal: 17,03vw → 15,33vw. */
 .hero-grid{position:relative}
-.ribbon-hero{position:absolute;left:calc(50% - 102.08vw);top:calc(100% - min(6.03vw, 90px));width:152.08vw;max-width:none;height:15.33vw;z-index:2;pointer-events:none}
-/* Layar lebar (≥1510 px, supaya ujung pink tidak melewati tepi kanan): pita berhenti membesar (bagian asli 1500 px) dan menempel ke kolom konten, lingkaran di
-   tempat yang sama terhadap foto seperti di 1360 px; ekor biru menjangkau tepi kiri layar, ekor pink
-   yang meruncing berakhir di ruang kosong kanan foto. */
-@media(min-width:1510px){.ribbon-hero{left:-969px;width:2281px;height:230px}}
 .hero-copy .btn{position:relative;z-index:3}
 
 /* ---------- occasion tiles ---------- */
