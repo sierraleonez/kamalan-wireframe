@@ -145,12 +145,14 @@
     </section>
   @endif
 
+@if ($p['similar'])
   <section class="blk" @if (! $p['bundles']) style="margin-top:20px" @endif>
     <p class="eyebrow">Serupa</p>
     <h2 class="display">{{ $p['similarTitle'] }}</h2>
     <p class="blk-intro">Kapasitas dan suasana yang mirip, sudah kami datangi juga.</p>
     <x-row :items="$p['similar']" cta="tint" :chip="false" />
   </section>
+@endif
 
 </div>
 <x-mbar :mbar="$p['mbar']" />

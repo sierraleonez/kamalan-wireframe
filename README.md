@@ -36,7 +36,7 @@ composer install
 npm install
 cp .env.example .env && php artisan key:generate   # isi DB_PASSWORD dan DB_ROOT_PASSWORD
 docker compose up -d       # MySQL 8.4 di 127.0.0.1:3306
-php artisan migrate --seed # tabel + katalog awal dari resources/data/catalog.json
+php artisan migrate --seed # tabel + katalog asli dari database/data/catalog.json
 php artisan make:filament-user                     # akun admin
 npm run build
 php artisan serve          # http://127.0.0.1:8000, admin di /admin
@@ -44,9 +44,17 @@ php artisan serve          # http://127.0.0.1:8000, admin di /admin
 
 Untuk mencoba di HP pada Wi-Fi yang sama: `php artisan serve --host=0.0.0.0`.
 
-`catalog.json` hanya dipakai seeder untuk mengisi database pertama kali; setelah itu database yang
-jadi sumber data. `php artisan migrate:fresh --seed` mengembalikan katalog ke isi awal (dan
-menghapus semua editan serta akun admin).
+`database/data/catalog.json` hanya dipakai seeder untuk mengisi database pertama kali; setelah itu
+database yang jadi sumber data. Isinya salinan katalog asli (jenis acara, kategori, area, vendor,
+foto, bundle, koleksi, konten beranda), dibuat ulang dengan `php artisan catalog:export` kalau tim
+sudah menambah data. Akun admin, permintaan, dan pendaftaran vendor tidak ikut. Foto dirujuk lewat
+path di penyimpanan media: tampil kalau MEDIA_DISK menunjuk ke R2 yang sama, atau setelah
+`php artisan media:copy r2 public`. `php artisan migrate:fresh --seed` mengembalikan katalog ke isi
+ekspor terakhir (dan menghapus editan sesudahnya serta akun admin).
+
+Bagian situs yang kosong (kategori tanpa vendor, bundle, koleksi) tidak ditampilkan sampai ada
+isinya. `php artisan media:prune` menampilkan foto di `content/` yang tidak dipakai lagi;
+tambahkan `--delete` untuk menghapusnya.
 
 ### Foto beranda
 
@@ -115,13 +123,13 @@ app/Models/           model katalog + Lead; setiap simpan membuang cache katalog
 app/Filament/         panel admin (/admin): resource vendor, bundle, koleksi, area, jenis acara,
                       kategori, permintaan
 app/Http/Controllers/SiteController.php
-database/             migrasi; CatalogSeeder memuat catalog.json
+database/             migrasi; CatalogSeeder memuat database/data/catalog.json (katalog asli)
 app/Livewire/Listing.php + resources/views/livewire/listing.blade.php
 resources/views/      layout, komponen, halaman
 resources/css/site.css  token design system + komponen
 resources/js/blade.js   Livewire + Alpine (tersimpan, bagikan, tab jenis acara)
 bench/                benchmark performa (run.mjs) dan pembuat tabel (report.mjs)
-prototype/            prototipe JS asli + export.js (sumber catalog.json awal)
+prototype/            prototipe JS asli + export.js (sumber katalog demo untuk tes)
 docs/design/          design system dan halaman yang disetujui
 docs/                 lembar sketsa wireframe dan catatan keputusan
 ```
@@ -134,8 +142,9 @@ php artisan test                                          # rute, filter, form, 
 BASE=http://127.0.0.1:8000 node tests/browser/smoke.mjs   # alur di browser, desktop + HP
 ```
 
-`php artisan test` memakai SQLite di memori yang diisi `CatalogSeeder` di setiap tes, jadi tidak
-perlu MySQL.
+`php artisan test` memakai SQLite di memori yang diisi katalog demo (`tests/fixtures/demo-catalog.json`,
+lewat `Tests\Support\DemoCatalogSeeder`) di setiap tes, jadi tidak perlu MySQL dan tes tidak
+bergantung pada data yang diedit tim.
 
 Membandingkan dengan halaman yang disetujui (situs di port 8123):
 

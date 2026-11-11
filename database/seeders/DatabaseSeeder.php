@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Katalog awal. Akun admin dibuat terpisah: php artisan make:filament-user
+     * Katalog asli (database/data/catalog.json). Akun admin dibuat terpisah: php artisan make:filament-user
      */
     public function run(): void
     {

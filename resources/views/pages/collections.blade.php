@@ -7,6 +7,13 @@
     <h1 class="display">Sudah kami pilihkan</h1>
     <p class="lead" style="max-width:56ch">Pilihan yang ditulis dan diurutkan tim, untuk pertanyaan yang lebih spesifik dari satu kategori.</p>
   </div>
+  @if (! $p['sections'])
+    <div class="empty" style="margin-top:28px">
+      <p class="eyebrow">Belum ada</p>
+      <h2 class="display">Koleksi sedang kami susun</h2>
+      <p>Sementara itu, semua venue yang sudah kami kunjungi bisa dilihat per jenis acara.</p>
+    </div>
+  @endif
 </div>
 @foreach ($p['sections'] as $s)
   <div class="shell sec {{ $loop->first ? '' : 'tight' }}">

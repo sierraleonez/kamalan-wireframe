@@ -247,4 +247,23 @@ class VendorPhotoTest extends TestCase
             ->assertSee(url('/brand/og.png'), false);
         $this->get('/wedding/venue')->assertDontSee('-card.webp');
     }
+
+    public function test_media_prune_lists_and_deletes_only_unused_files(): void
+    {
+        VendorPhotos::addBytes($this->vendor(), $this->png(900, 600));
+        $disk = Storage::disk('public');
+        $disk->put('content/junk.webp', 'x');
+        touch($disk->path('content/junk.webp'), time() - 7200);
+        $disk->put('content/uploads/just-now.webp', 'x');   // baru diunggah: dilewati
+
+        $this->artisan('media:prune')->expectsOutput('content/junk.webp')->assertSuccessful();
+        $disk->assertExists('content/junk.webp');
+
+        $this->artisan('media:prune --delete')->assertSuccessful();
+        $disk->assertMissing('content/junk.webp');
+        $disk->assertExists('content/uploads/just-now.webp');
+        foreach ($this->vendor()->vendorPhotos()->first()->files() as $file) {
+            $disk->assertExists($file);
+        }
+    }
 }

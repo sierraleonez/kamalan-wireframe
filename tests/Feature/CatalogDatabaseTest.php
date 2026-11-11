@@ -10,10 +10,10 @@ use Tests\TestCase;
 
 class CatalogDatabaseTest extends TestCase
 {
-    /** Katalog dari database sama persis dengan indeks catalog.json lama (selain kunci opsional bernilai kosong). */
+    /** Katalog dari database sama persis dengan indeks demo-catalog.json (selain kunci opsional bernilai kosong). */
     public function test_built_catalog_matches_the_json_export(): void
     {
-        $raw = json_decode(file_get_contents(resource_path('data/catalog.json')), true);
+        $raw = json_decode(file_get_contents(base_path('tests/fixtures/demo-catalog.json')), true);
         $built = Catalog::build();
 
         // Satu perubahan sengaja sejak ekspor: AV / produksi ada di semua jenis acara (CatalogDefaults).

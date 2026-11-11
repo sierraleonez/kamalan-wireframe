@@ -1,4 +1,4 @@
-// Ekspor data prototipe (assets/data.js) ke resources/data/catalog.json
+// Ekspor data prototipe (assets/data.js) ke tests/fixtures/demo-catalog.json (katalog demo untuk tes)
 // supaya Laravel memakai data yang persis sama. Jalankan: node prototype/export.js
 "use strict";
 const fs = require("fs");
@@ -76,7 +76,7 @@ const out = {
   }),
 };
 
-const dest = path.join(__dirname, "..", "resources/data/catalog.json");
+const dest = path.join(__dirname, "..", "tests/fixtures/demo-catalog.json");
 fs.mkdirSync(path.dirname(dest), { recursive: true });
 fs.writeFileSync(dest, JSON.stringify(out, null, 1) + "\n");
 console.log("Ditulis:", path.relative(process.cwd(), dest), "·", out.vendors.length, "vendor,", out.bundles.length, "bundle,", out.collections.length, "koleksi");

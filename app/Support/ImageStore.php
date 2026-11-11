@@ -2,7 +2,12 @@
 
 namespace App\Support;
 
+use App\Models\Category;
+use App\Models\Occasion;
+use App\Models\Setting;
+use App\Models\VendorPhoto;
 use GdImage;
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -75,6 +80,16 @@ final class ImageStore
         imagedestroy($src);
 
         return ['width' => $w, 'height' => $h];
+    }
+
+    /** Semua path foto konten yang dipakai database (hero, jenis acara, kategori, foto vendor). */
+    public static function usedPaths(): Collection
+    {
+        return collect([Setting::value('home.hero_image')])
+            ->merge(Occasion::pluck('image'))
+            ->merge(Category::pluck('image'))
+            ->merge(VendorPhoto::all()->flatMap->files())
+            ->filter()->unique()->values();
     }
 
     public static function delete(?string $path): void

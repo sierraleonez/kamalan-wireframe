@@ -19,17 +19,19 @@ final class Pages
         return ['title' => $title, 'page' => $page] + $extra;
     }
 
-    /** Jenis acara yang menawarkan kategori ini, dalam urutan beranda. */
+    /** Jenis acara yang menawarkan kategori ini dan sudah punya vendornya, dalam urutan beranda. */
     public static function typesWithCat(string $cat): array
     {
-        return array_values(array_filter(array_keys(Catalog::types()), fn ($t) => in_array($cat, Catalog::type($t)['cats'], true)));
+        return array_values(array_filter(array_keys(Catalog::types()), fn ($t) => in_array($cat, Catalog::type($t)['cats'], true) && Catalog::vendorsOf($t, $cat)));
     }
 
     /* ---------------- beranda ---------------- */
 
     public static function catRow(?string $type): array
     {
-        $cats = $type ? Catalog::type($type)['cats'] : self::HOME_CATS;
+        // Hanya kategori yang sudah punya vendor (di jenis acara ini, atau di jenis acara mana pun untuk beranda).
+        $cats = array_values(array_filter($type ? Catalog::type($type)['cats'] : self::HOME_CATS,
+            fn ($cat) => $type ? Catalog::vendorsOf($type, $cat) : self::typesWithCat($cat)));
 
         return array_map(function ($cat, $i) use ($type) {
             $item = ['name' => Catalog::category($cat)['name'], 'icon' => $cat, 'tone' => 'c'.($i % 6 + 1), 'image' => Catalog::image('categories', $cat), 'href' => null, 'choices' => []];
@@ -62,21 +64,21 @@ final class Pages
 
     public static function home(): array
     {
-        $bundles = array_map(fn ($s) => Catalog::bundle($s), ['paket-intimate-wedding-150-pax', 'gathering-kantor-300-peserta', 'akad-resepsi-500-pax']);
-        $vendors = array_filter([
-            [Catalog::vendor('ballroom-kebayoran'), true],
-            [Catalog::vendor('kebun-jagakarsa'), false],
-            [Catalog::firstEditorial('wedding', 'catering', 'jakarta-timur'), false],
-            [Catalog::vendor('hall-senopati'), false],
-        ], fn ($x) => $x[0] !== null);
+        // Paket dan venue unggulan: yang dipromosikan dulu, lalu urutan editorial. Bagian kosong disembunyikan.
+        $bundles = array_values(Catalog::bundles());
+        usort($bundles, fn ($a, $b) => (int) ! empty($b['promoted']) <=> (int) ! empty($a['promoted']));
+        $venues = Catalog::vendorsOf('wedding', 'venue');
+        Catalog::editorialSort($venues);
+        usort($venues, fn ($a, $b) => (int) $b['promoted'] <=> (int) $a['promoted']);
+        $venues = array_slice($venues, 0, 4);
 
         return self::base('Vendor acara di Jabodetabek', 'home', [
             'hero' => Catalog::image('hero'),
             'occasions' => self::occasions(),
             'cats' => self::catRow(null),
-            'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted']), 'HOME'), $bundles),
-            'vendors' => array_values(array_map(fn ($x) => P::vendorCard($x[0], 'wedding', $x[1], 'HOME'), $vendors)),
-            'collections' => array_map(fn ($s, $i) => ['tone' => 'k'.($i + 1)] + P::collectionTile(Catalog::collection($s)), ['rooftop-jaksel-dibawah-50jt', 'venue-gathering-300-peserta-bsd', 'catering-halal-bersertifikat'], [0, 1, 2]),
+            'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted']), 'HOME'), array_slice($bundles, 0, 3)),
+            'vendors' => array_map(fn ($v, $i) => P::vendorCard($v, 'wedding', $i === 0 && $v['promoted'], 'HOME'), $venues, array_keys($venues)),
+            'collections' => array_map(fn ($c, $i) => ['tone' => 'k'.($i + 1)] + P::collectionTile($c), $cs = array_slice(array_values(Catalog::collections()), 0, 3), array_keys($cs)),
             'bandHref' => '/kasih-tau-kami',
         ]);
     }
@@ -754,16 +756,17 @@ final class Pages
         }
 
         return [
-            'wedding' => array_map(fn ($c) => ['label' => Catalog::category($c)['name'], 'href' => '/wedding/'.$c], ['venue', 'catering', 'eo', 'dekorasi']),
-            'corporate' => array_map(fn ($c) => ['label' => $c === 'av-produksi' ? 'AV & Produksi' : Catalog::category($c)['name'], 'href' => '/corporate/'.$c], ['venue', 'catering', 'eo', 'av-produksi']),
+            // Hanya tautan ke halaman yang sudah punya vendor.
+            'wedding' => array_map(fn ($c) => ['label' => Catalog::category($c)['name'], 'href' => '/wedding/'.$c], array_filter(['venue', 'catering', 'eo', 'dekorasi'], fn ($c) => Catalog::vendorsOf('wedding', $c))),
+            'corporate' => array_map(fn ($c) => ['label' => $c === 'av-produksi' ? 'AV & Produksi' : Catalog::category($c)['name'], 'href' => '/corporate/'.$c], array_filter(['venue', 'catering', 'eo', 'av-produksi'], fn ($c) => Catalog::vendorsOf('corporate', $c))),
             'occasions' => $occ,
-            'cats' => array_map(fn ($c) => ['label' => Catalog::category($c)['name'], 'href' => '/'.self::typesWithCat($c)[0].'/'.$c], self::HOME_CATS),
-            'areas' => [
-                ['label' => 'Jakarta Selatan', 'href' => '/wedding/venue/jakarta-selatan'],
-                ['label' => 'BSD & Tangerang', 'href' => '/wedding/venue/tangerang-selatan'],
-                ['label' => 'Bekasi', 'href' => '/wedding/venue/bekasi'],
-                ['label' => 'Depok', 'href' => '/wedding/venue/depok'],
-            ],
+            'cats' => array_map(fn ($c) => ['label' => Catalog::category($c)['name'], 'href' => '/'.self::typesWithCat($c)[0].'/'.$c], array_filter(self::HOME_CATS, fn ($c) => self::typesWithCat($c))),
+            'areas' => array_values(array_filter([
+                ['label' => 'Jakarta Selatan', 'href' => '/wedding/venue/jakarta-selatan', 'area' => 'jakarta-selatan'],
+                ['label' => 'BSD & Tangerang', 'href' => '/wedding/venue/tangerang-selatan', 'area' => 'tangerang-selatan'],
+                ['label' => 'Bekasi', 'href' => '/wedding/venue/bekasi', 'area' => 'bekasi'],
+                ['label' => 'Depok', 'href' => '/wedding/venue/depok', 'area' => 'depok'],
+            ], fn ($a) => Catalog::vendorsOf('wedding', 'venue', $a['area']))),
             'about' => [
                 // 'Tentang kami' (/#tentang) disembunyikan bersama bagiannya di beranda, sampai ada halaman Tentang.
                 ['label' => 'Kasih tau kami', 'href' => '/kasih-tau-kami'],

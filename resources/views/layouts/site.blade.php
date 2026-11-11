@@ -46,8 +46,12 @@
       <picture><source srcset="/brand/kamalan-logo-light.webp" media="(prefers-color-scheme: dark)"><img src="/brand/kamalan-logo.webp" width="461" height="168" alt="Kamalan Event Hub"></picture>
     </a>
     <nav class="nav-links" aria-label="Utama">
+@if (\App\Catalog\Catalog::bundles())
       <a href="/bundle" wire:navigate @if(str_contains($path, '/bundle')) aria-current="page" @endif>Bundle</a>
+@endif
+@if (\App\Catalog\Catalog::collections())
       <a href="/koleksi" wire:navigate @if(str_starts_with($path, '/koleksi')) aria-current="page" @endif>Koleksi</a>
+@endif
     </nav>
     <div class="nav-right">
       <a class="wishlist" href="/tersimpan" wire:navigate @if($path === '/tersimpan') aria-current="page" @endif>Tersimpan <b x-data x-text="$store.saved.count">0</b></a>

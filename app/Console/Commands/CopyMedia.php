@@ -2,10 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Category;
-use App\Models\Occasion;
-use App\Models\Setting;
-use App\Models\VendorPhoto;
+use App\Support\ImageStore;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,11 +21,7 @@ class CopyMedia extends Command
         $from = Storage::disk($this->argument('from'));
         $to = Storage::disk($this->argument('to'));
 
-        $paths = collect([Setting::value('home.hero_image')])
-            ->merge(Occasion::pluck('image'))
-            ->merge(Category::pluck('image'))
-            ->merge(VendorPhoto::all()->flatMap->files())
-            ->filter()->unique()->values();
+        $paths = ImageStore::usedPaths();
 
         $copied = $skipped = $missing = 0;
         foreach ($paths as $path) {

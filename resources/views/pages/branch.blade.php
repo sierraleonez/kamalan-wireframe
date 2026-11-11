@@ -9,17 +9,21 @@
   </div>
 </div>
 
+@if ($p['cats'])
 <div class="shell sec">
   <x-sec-head eyebrow="Kategori" title="Temukan Vendor Pilihanmu" />
   <x-cats :items="$p['cats']" />
 </div>
+@endif
 
+@if ($p['areas'])
 <div class="shell sec tight">
   <x-sec-head eyebrow="Area" title="Temukan Venue di Area Pilihanmu" />
   <div class="chips">
     @foreach ($p['areas'] as $a)<a class="chip" href="{{ $a['href'] }}" wire:navigate>{{ $a['label'] }}<small>{{ $a['count'] }}</small></a>@endforeach
   </div>
 </div>
+@endif
 
 @if ($p['bundles'])
 <div class="shell sec">
@@ -29,10 +33,12 @@
 </div>
 @endif
 
+@if ($p['vendors'])
 <div class="shell sec tight" @if (! $p['bundles']) style="padding-top:clamp(40px,6vw,72px)" @endif>
   <x-sec-head eyebrow="Vendor pilihan" title="Sudah Kami Kunjungi" more="Semua venue →" :more-href="'/'.$p['type'].'/venue'" />
   <x-row :items="$p['vendors']" />
 </div>
+@endif
 
 @if ($p['collections'])
 <div class="shell sec tight">

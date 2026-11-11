@@ -1,0 +1,3556 @@
+{
+    "occasions": [
+        {
+            "id": 1,
+            "slug": "wedding",
+            "name": "Wedding",
+            "guest": "tamu",
+            "noun": "pernikahan",
+            "phrase": "acara pernikahan",
+            "pane": "Untuk pernikahan",
+            "blurb": "Gedung, catering, dekorasi, hingga dokumentasi untuk akad dan resepsi.",
+            "sort": 0,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-11-01 08:14:52",
+            "image": "content/acara-wedding-660f49c4c1.webp",
+            "image_alt": "Pengantin di resepsi taman dengan balon"
+        },
+        {
+            "id": 2,
+            "slug": "corporate",
+            "name": "Corporate",
+            "guest": "peserta",
+            "noun": "acara kantor",
+            "phrase": "acara kantor",
+            "pane": "Untuk acara kantor",
+            "blurb": "Gathering kantor, town hall, seminar, dan peluncuran produk.",
+            "sort": 1,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:52",
+            "image": "content/acara-corporate-40a6795de2.webp",
+            "image_alt": "Presentasi di panggung aula"
+        },
+        {
+            "id": 3,
+            "slug": "ulang-tahun",
+            "name": "Ulang Tahun",
+            "guest": "tamu",
+            "noun": "ulang tahun",
+            "phrase": "acara ulang tahun",
+            "pane": "Untuk ulang tahun",
+            "blurb": "Dari Tiup Lilin Pertama sampai Setengah Abad",
+            "sort": 2,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-11-01 08:09:38",
+            "image": "content/acara-ulang-tahun-a7bdbef350.webp",
+            "image_alt": "Balon warna-warni pesta ulang tahun"
+        },
+        {
+            "id": 4,
+            "slug": "baby-kids",
+            "name": "Baby & Kids",
+            "guest": "tamu",
+            "noun": "acara bayi & anak",
+            "phrase": "acara bayi dan anak",
+            "pane": "Untuk acara bayi & anak",
+            "blurb": "Aqiqah, baby shower, gender reveal, dan acara sekolah.",
+            "sort": 3,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:53",
+            "image": "content/acara-baby-kids-0dcea16de6.webp",
+            "image_alt": "Bayi bermain di pelampung"
+        },
+        {
+            "id": 5,
+            "slug": "social-gathering",
+            "name": "Social Gathering",
+            "guest": "tamu",
+            "noun": "kumpul-kumpul",
+            "phrase": "acara kumpul-kumpul",
+            "pane": "Untuk kumpul-kumpul",
+            "blurb": "Arisan, reuni, komunitas, dan kumpul keluarga besar.",
+            "sort": 4,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:53",
+            "image": "content/acara-social-gathering-79a84125a6.webp",
+            "image_alt": "Teman-teman makan bersama"
+        },
+        {
+            "id": 6,
+            "slug": "perayaan",
+            "name": "Celebration",
+            "guest": "tamu",
+            "noun": "perayaan",
+            "phrase": "perayaan",
+            "pane": "Untuk perayaan",
+            "blurb": "Anniversary, wisuda, lamaran, dan syukuran.",
+            "sort": 5,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-11-01 08:22:40",
+            "image": "content/acara-perayaan-59637a62ec.webp",
+            "image_alt": "Kembang api tangan saat perayaan"
+        }
+    ],
+    "categories": [
+        {
+            "id": 1,
+            "slug": "venue",
+            "name": "Venue",
+            "code": "VNU",
+            "unit": "total",
+            "sort": 0,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:55",
+            "image": "content/kategori-venue-e20e53259e.webp",
+            "image_alt": "Ballroom dengan meja bundar"
+        },
+        {
+            "id": 2,
+            "slug": "catering",
+            "name": "Catering",
+            "code": "CTR",
+            "unit": "pax",
+            "sort": 1,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:55",
+            "image": "content/kategori-catering-7d201d1e10.webp",
+            "image_alt": "Prasmanan catering"
+        },
+        {
+            "id": 3,
+            "slug": "eo",
+            "name": "EO",
+            "code": "EOR",
+            "unit": "total",
+            "sort": 2,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:55",
+            "image": "content/kategori-eo-e52008f8a7.webp",
+            "image_alt": "Aula yang sudah ditata untuk acara"
+        },
+        {
+            "id": 4,
+            "slug": "hiburan",
+            "name": "Hiburan",
+            "code": "HBR",
+            "unit": "acara",
+            "sort": 3,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:56",
+            "image": "content/kategori-hiburan-57b02018f9.webp",
+            "image_alt": "Panggung konser"
+        },
+        {
+            "id": 5,
+            "slug": "dekorasi",
+            "name": "Dekorasi",
+            "code": "DKR",
+            "unit": "total",
+            "sort": 4,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:57",
+            "image": "content/kategori-dekorasi-e08634bc70.webp",
+            "image_alt": "Dekorasi bunga di lorong upacara"
+        },
+        {
+            "id": 6,
+            "slug": "dokumentasi",
+            "name": "Dokumentasi",
+            "code": "DOK",
+            "unit": "total",
+            "sort": 5,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:57",
+            "image": "content/kategori-dokumentasi-b4cebd4954.webp",
+            "image_alt": "Kamera dan foto cetak"
+        },
+        {
+            "id": 7,
+            "slug": "av-produksi",
+            "name": "AV / produksi",
+            "code": "AVP",
+            "unit": "hari",
+            "sort": 6,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 09:04:57",
+            "image": "content/kategori-av-produksi-20032493cd.webp",
+            "image_alt": "Meja mixer audio"
+        }
+    ],
+    "category_occasion": [
+        {
+            "id": 1,
+            "occasion_id": 1,
+            "category_id": 1,
+            "h1": "Venue pernikahan",
+            "sort": 0
+        },
+        {
+            "id": 2,
+            "occasion_id": 1,
+            "category_id": 2,
+            "h1": "Catering pernikahan",
+            "sort": 1
+        },
+        {
+            "id": 3,
+            "occasion_id": 1,
+            "category_id": 3,
+            "h1": "Wedding organizer",
+            "sort": 2
+        },
+        {
+            "id": 4,
+            "occasion_id": 1,
+            "category_id": 4,
+            "h1": "Hiburan pernikahan",
+            "sort": 3
+        },
+        {
+            "id": 5,
+            "occasion_id": 1,
+            "category_id": 5,
+            "h1": "Dekorasi pernikahan",
+            "sort": 4
+        },
+        {
+            "id": 6,
+            "occasion_id": 1,
+            "category_id": 6,
+            "h1": "Foto dan video pernikahan",
+            "sort": 5
+        },
+        {
+            "id": 7,
+            "occasion_id": 2,
+            "category_id": 1,
+            "h1": "Venue acara kantor",
+            "sort": 0
+        },
+        {
+            "id": 8,
+            "occasion_id": 2,
+            "category_id": 2,
+            "h1": "Catering acara kantor",
+            "sort": 1
+        },
+        {
+            "id": 9,
+            "occasion_id": 2,
+            "category_id": 3,
+            "h1": "EO acara kantor",
+            "sort": 2
+        },
+        {
+            "id": 10,
+            "occasion_id": 2,
+            "category_id": 7,
+            "h1": "AV dan produksi acara",
+            "sort": 3
+        },
+        {
+            "id": 11,
+            "occasion_id": 2,
+            "category_id": 4,
+            "h1": "Hiburan acara kantor",
+            "sort": 4
+        },
+        {
+            "id": 12,
+            "occasion_id": 3,
+            "category_id": 1,
+            "h1": "Venue ulang tahun",
+            "sort": 0
+        },
+        {
+            "id": 13,
+            "occasion_id": 3,
+            "category_id": 2,
+            "h1": "Catering ulang tahun",
+            "sort": 1
+        },
+        {
+            "id": 14,
+            "occasion_id": 3,
+            "category_id": 5,
+            "h1": "Dekorasi ulang tahun",
+            "sort": 2
+        },
+        {
+            "id": 15,
+            "occasion_id": 3,
+            "category_id": 4,
+            "h1": "Hiburan ulang tahun",
+            "sort": 3
+        },
+        {
+            "id": 16,
+            "occasion_id": 3,
+            "category_id": 6,
+            "h1": "Foto dan video ulang tahun",
+            "sort": 4
+        },
+        {
+            "id": 17,
+            "occasion_id": 4,
+            "category_id": 1,
+            "h1": "Venue acara bayi & anak",
+            "sort": 0
+        },
+        {
+            "id": 18,
+            "occasion_id": 4,
+            "category_id": 2,
+            "h1": "Catering acara bayi & anak",
+            "sort": 1
+        },
+        {
+            "id": 19,
+            "occasion_id": 4,
+            "category_id": 5,
+            "h1": "Dekorasi acara bayi & anak",
+            "sort": 2
+        },
+        {
+            "id": 20,
+            "occasion_id": 4,
+            "category_id": 4,
+            "h1": "Hiburan acara bayi & anak",
+            "sort": 3
+        },
+        {
+            "id": 21,
+            "occasion_id": 4,
+            "category_id": 6,
+            "h1": "Foto dan video acara bayi & anak",
+            "sort": 4
+        },
+        {
+            "id": 22,
+            "occasion_id": 5,
+            "category_id": 1,
+            "h1": "Venue kumpul-kumpul",
+            "sort": 0
+        },
+        {
+            "id": 23,
+            "occasion_id": 5,
+            "category_id": 2,
+            "h1": "Catering kumpul-kumpul",
+            "sort": 1
+        },
+        {
+            "id": 24,
+            "occasion_id": 5,
+            "category_id": 3,
+            "h1": "EO kumpul-kumpul",
+            "sort": 2
+        },
+        {
+            "id": 25,
+            "occasion_id": 5,
+            "category_id": 4,
+            "h1": "Hiburan kumpul-kumpul",
+            "sort": 3
+        },
+        {
+            "id": 26,
+            "occasion_id": 6,
+            "category_id": 1,
+            "h1": "Venue perayaan",
+            "sort": 0
+        },
+        {
+            "id": 27,
+            "occasion_id": 6,
+            "category_id": 2,
+            "h1": "Catering perayaan",
+            "sort": 1
+        },
+        {
+            "id": 28,
+            "occasion_id": 6,
+            "category_id": 3,
+            "h1": "EO perayaan",
+            "sort": 2
+        },
+        {
+            "id": 29,
+            "occasion_id": 6,
+            "category_id": 5,
+            "h1": "Dekorasi perayaan",
+            "sort": 3
+        },
+        {
+            "id": 30,
+            "occasion_id": 6,
+            "category_id": 6,
+            "h1": "Foto dan video perayaan",
+            "sort": 4
+        },
+        {
+            "id": 31,
+            "occasion_id": 6,
+            "category_id": 4,
+            "h1": "Hiburan perayaan",
+            "sort": 5
+        },
+        {
+            "id": 32,
+            "occasion_id": 1,
+            "category_id": 7,
+            "h1": "AV dan produksi pernikahan",
+            "sort": 6
+        },
+        {
+            "id": 33,
+            "occasion_id": 3,
+            "category_id": 7,
+            "h1": "AV dan produksi ulang tahun",
+            "sort": 5
+        },
+        {
+            "id": 34,
+            "occasion_id": 4,
+            "category_id": 7,
+            "h1": "AV dan produksi acara bayi & anak",
+            "sort": 5
+        },
+        {
+            "id": 35,
+            "occasion_id": 5,
+            "category_id": 7,
+            "h1": "AV dan produksi kumpul-kumpul",
+            "sort": 4
+        },
+        {
+            "id": 36,
+            "occasion_id": 6,
+            "category_id": 7,
+            "h1": "AV dan produksi perayaan",
+            "sort": 6
+        }
+    ],
+    "areas": [
+        {
+            "id": 1,
+            "slug": "jakarta-selatan",
+            "name": "Jakarta Selatan",
+            "short": "Jaksel",
+            "hoods": "[\"Kebayoran Baru\", \"Cilandak\", \"Senopati\", \"Kemang\", \"Pondok Indah\", \"Tebet\", \"Jagakarsa\", \"Pasar Minggu\", \"Kuningan\"]",
+            "near": "[\"jakarta-pusat\", \"tangerang-selatan\", \"depok\"]",
+            "sort": 0,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 06:53:41"
+        },
+        {
+            "id": 2,
+            "slug": "jakarta-pusat",
+            "name": "Jakarta Pusat",
+            "short": "Jakpus",
+            "hoods": "[\"Menteng\", \"Gambir\", \"Kemayoran\", \"Senen\", \"Tanah Abang\", \"Cikini\"]",
+            "near": "[\"jakarta-selatan\", \"jakarta-barat\", \"jakarta-timur\"]",
+            "sort": 1,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 06:53:41"
+        },
+        {
+            "id": 3,
+            "slug": "jakarta-barat",
+            "name": "Jakarta Barat",
+            "short": "Jakbar",
+            "hoods": "[\"Kebon Jeruk\", \"Puri Indah\", \"Grogol\", \"Kembangan\", \"Palmerah\"]",
+            "near": "[\"jakarta-pusat\", \"tangerang\", \"jakarta-selatan\"]",
+            "sort": 2,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 06:53:41"
+        },
+        {
+            "id": 4,
+            "slug": "jakarta-timur",
+            "name": "Jakarta Timur",
+            "short": "Jaktim",
+            "hoods": "[\"Rawamangun\", \"Cibubur\", \"Cakung\", \"Duren Sawit\", \"Kramat Jati\"]",
+            "near": "[\"jakarta-pusat\", \"bekasi\", \"depok\"]",
+            "sort": 3,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 06:53:41"
+        },
+        {
+            "id": 5,
+            "slug": "tangerang",
+            "name": "Tangerang",
+            "short": "Tangerang",
+            "hoods": "[\"Karawaci\", \"Gading Serpong\", \"Cikokol\", \"Kelapa Dua\", \"Cipondoh\"]",
+            "near": "[\"tangerang-selatan\", \"jakarta-barat\"]",
+            "sort": 4,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 06:53:41"
+        },
+        {
+            "id": 6,
+            "slug": "tangerang-selatan",
+            "name": "Tangerang Selatan",
+            "short": "Tangsel",
+            "hoods": "[\"BSD\", \"Bintaro\", \"Alam Sutera\", \"Ciputat\", \"Pamulang\"]",
+            "near": "[\"tangerang\", \"jakarta-selatan\", \"depok\"]",
+            "sort": 5,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 06:53:41"
+        },
+        {
+            "id": 7,
+            "slug": "bekasi",
+            "name": "Bekasi",
+            "short": "Bekasi",
+            "hoods": "[\"Summarecon Bekasi\", \"Harapan Indah\", \"Jatiasih\", \"Galaxy\", \"Cikarang\"]",
+            "near": "[\"jakarta-timur\", \"bogor\"]",
+            "sort": 6,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 06:53:41"
+        },
+        {
+            "id": 8,
+            "slug": "depok",
+            "name": "Depok",
+            "short": "Depok",
+            "hoods": "[\"Margonda\", \"Sawangan\", \"Cinere\", \"Cimanggis\"]",
+            "near": "[\"jakarta-selatan\", \"jakarta-timur\", \"bogor\"]",
+            "sort": 7,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 06:53:41"
+        },
+        {
+            "id": 9,
+            "slug": "bogor",
+            "name": "Bogor",
+            "short": "Bogor",
+            "hoods": "[\"Sentul\", \"Puncak\", \"Bogor Kota\", \"Cibinong\"]",
+            "near": "[\"depok\", \"bekasi\"]",
+            "sort": 8,
+            "created_at": "2026-10-07 06:53:41",
+            "updated_at": "2026-10-07 06:53:41"
+        }
+    ],
+    "vendors": [
+        {
+            "id": 1446,
+            "slug": "cibis-the-gallery",
+            "name": "Cibis The Gallery",
+            "category_id": 1,
+            "area_id": 1,
+            "hood": "TB Simatupang",
+            "cap_min": 100,
+            "cap_max": 200,
+            "price": 7,
+            "setting": "indoor",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1446",
+            "wa": "6288888888888",
+            "ig": "",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 560000, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Cibis The Gallery ada di TB Simatupang. Ruang utamanya tanpa tiang, jadi panggung bisa ditaruh di sisi mana saja. Siang hari cahayanya masuk dari jendela samping; malam hari sepenuhnya bergantung pada lighting.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 100–200 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"120 round table · 160 teater · 200 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 560000 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Tidak ada. Biasanya tamu utama memakai kamar hotel terdekat.\", \"q\": \"Ada ruang transit?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 120 tamu dengan round table, atau 200 berdiri. Untuk akad adat dengan banyak prosesi, ruangnya cukup tapi tidak lega.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 160 peserta dengan kursi teater atau 100 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 100–200 tamu. Ruang tertutup, jadi acara tidak bergantung cuaca.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Untuk 100–200 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-03 13:13:59",
+            "updated_at": "2026-11-11 15:44:59"
+        },
+        {
+            "id": 1447,
+            "slug": "casakhasa-garden-bistro",
+            "name": "Casakhasa Garden Bistro",
+            "category_id": 1,
+            "area_id": 1,
+            "hood": "Mampang Prapatan",
+            "cap_min": 50,
+            "cap_max": 100,
+            "price": 5,
+            "setting": "outdoor",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1447",
+            "wa": "6281513499571",
+            "ig": "",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 400000, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Casakhasa Garden Bistro adalah ruang terbuka di Mampang Prapatan. Paling nyaman setelah jam empat sore, saat panas sudah turun.\n\nYang perlu diantisipasi: rencana cadangan kalau hujan. Tanyakan apakah tenda termasuk harga atau dihitung terpisah.\n\nNyaman untuk 50–100 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"60 round table · 80 teater · 100 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 400000 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Tidak ada area indoor yang muat seluruh tamu. Sebagian besar acara di sini memasang tenda dari awal.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 60 tamu dengan round table, atau 100 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 80 peserta dengan kursi teater atau 50 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 50–100 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 50–100 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 50–100 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 50–100 tamu. Paling nyaman menjelang sore; siapkan tenda kalau acaranya siang.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-05 08:59:40",
+            "updated_at": "2026-11-11 15:44:59"
+        },
+        {
+            "id": 1448,
+            "slug": "lara-djonggrang",
+            "name": " Lara Djonggrang",
+            "category_id": 1,
+            "area_id": 2,
+            "hood": "Menteng",
+            "cap_min": 20,
+            "cap_max": 200,
+            "price": 3,
+            "setting": "both",
+            "promoted": 1,
+            "rank": 0,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1448",
+            "wa": "628119108966",
+            "ig": "lara_djonggrang",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 240000, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": " Lara Djonggrang di Menteng punya ruang dalam dan taman yang bersebelahan. Acara bisa dimulai di luar lalu pindah ke dalam tanpa tamu berjalan jauh.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 20–200 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"120 round table · 160 teater · 200 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 240000 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Acara bisa pindah ke ruang dalam yang bersebelahan.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 120 tamu dengan round table, atau 200 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 160 peserta dengan kursi teater atau 100 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 20–200 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 20–200 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 20–200 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 20–200 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-05 14:28:32",
+            "updated_at": "2026-11-10 14:07:17"
+        },
+        {
+            "id": 1449,
+            "slug": "plataran-dharmawangsa",
+            "name": "Plataran Dharmawangsa",
+            "category_id": 1,
+            "area_id": 1,
+            "hood": "Kebayoran Baru",
+            "cap_min": 18,
+            "cap_max": 300,
+            "price": 15,
+            "setting": "indoor",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1449",
+            "wa": "6281119712642",
+            "ig": "",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 1.2, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Plataran Dharmawangsa ada di Kebayoran Baru. Ruang utamanya tanpa tiang, jadi panggung bisa ditaruh di sisi mana saja. Siang hari cahayanya masuk dari jendela samping; malam hari sepenuhnya bergantung pada lighting.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 18–300 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"180 round table · 240 teater · 300 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 1,2 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Tidak ada. Biasanya tamu utama memakai kamar hotel terdekat.\", \"q\": \"Ada ruang transit?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 180 tamu dengan round table, atau 300 berdiri. Untuk akad adat dengan banyak prosesi, ruangnya cukup tapi tidak lega.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 240 peserta dengan kursi teater atau 150 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 18–300 tamu. Ruang tertutup, jadi acara tidak bergantung cuaca.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 18–300 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format prasmanan paling cocok di sini untuk 18–300 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 18–300 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-05 14:42:48",
+            "updated_at": "2026-11-05 14:42:48"
+        },
+        {
+            "id": 1450,
+            "slug": "angke-heritage-pik-2",
+            "name": "Angke Heritage - PIK 2",
+            "category_id": 1,
+            "area_id": 5,
+            "hood": "tangerang,banten",
+            "cap_min": 12,
+            "cap_max": 240,
+            "price": 15,
+            "setting": "both",
+            "promoted": 1,
+            "rank": 0,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1450",
+            "wa": "628119108966",
+            "ig": "",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 1.2, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Angke Heritage - PIK 2 di tangerang,banten punya ruang dalam dan taman yang bersebelahan. Acara bisa dimulai di luar lalu pindah ke dalam tanpa tamu berjalan jauh.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 12–240 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"144 round table · 192 teater · 240 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 1,2 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Acara bisa pindah ke ruang dalam yang bersebelahan.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 144 tamu dengan round table, atau 240 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 192 peserta dengan kursi teater atau 120 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 12–240 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 12–240 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 12–240 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 12–240 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-05 14:54:25",
+            "updated_at": "2026-11-10 13:17:03"
+        },
+        {
+            "id": 1451,
+            "slug": "tugu-kunstkring-paleis",
+            "name": "Tugu Kunstkring Paleis",
+            "category_id": 1,
+            "area_id": 2,
+            "hood": "Menteng",
+            "cap_min": 10,
+            "cap_max": 150,
+            "price": 3,
+            "setting": "indoor",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1451",
+            "wa": "6281282400860",
+            "ig": "",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 0.2, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Tugu Kunstkring Paleis ada di Menteng. Ruang utamanya tanpa tiang, jadi panggung bisa ditaruh di sisi mana saja. Siang hari cahayanya masuk dari jendela samping; malam hari sepenuhnya bergantung pada lighting.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 10–150 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"90 round table · 120 teater · 150 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 0,2 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Tidak ada. Biasanya tamu utama memakai kamar hotel terdekat.\", \"q\": \"Ada ruang transit?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 90 tamu dengan round table, atau 150 berdiri. Untuk akad adat dengan banyak prosesi, ruangnya cukup tapi tidak lega.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 120 peserta dengan kursi teater atau 75 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 10–150 tamu. Ruang tertutup, jadi acara tidak bergantung cuaca.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 10–150 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format prasmanan paling cocok di sini untuk 10–150 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 10–150 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-05 14:59:59",
+            "updated_at": "2026-11-05 14:59:59"
+        },
+        {
+            "id": 1452,
+            "slug": "aroem-resto-ballroom",
+            "name": "Aroem Resto & Ballroom",
+            "category_id": 1,
+            "area_id": 7,
+            "hood": "Summarecon Bekasi",
+            "cap_min": 30,
+            "cap_max": 300,
+            "price": 15,
+            "setting": "both",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1452",
+            "wa": "6281211428899",
+            "ig": "aroem_bekasi",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 1.2, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Aroem Resto & Ballroom di Summarecon Bekasi punya ruang dalam dan taman yang bersebelahan. Acara bisa dimulai di luar lalu pindah ke dalam tanpa tamu berjalan jauh.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 30–300 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"180 round table · 240 teater · 300 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 1,2 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Acara bisa pindah ke ruang dalam yang bersebelahan.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 180 tamu dengan round table, atau 300 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 240 peserta dengan kursi teater atau 150 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 30–300 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 30–300 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 30–300 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 30–300 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-06 14:18:41",
+            "updated_at": "2026-11-06 14:18:41"
+        },
+        {
+            "id": 1453,
+            "slug": "plataran-menteng",
+            "name": "Plataran Menteng",
+            "category_id": 1,
+            "area_id": 2,
+            "hood": "Menteng",
+            "cap_min": 20,
+            "cap_max": 300,
+            "price": 20,
+            "setting": "indoor",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1453",
+            "wa": "6281119712645",
+            "ig": "plataran.menteng",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 1.6, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Plataran Menteng ada di Menteng. Ruang utamanya tanpa tiang, jadi panggung bisa ditaruh di sisi mana saja. Siang hari cahayanya masuk dari jendela samping; malam hari sepenuhnya bergantung pada lighting.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 20–300 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"180 round table · 240 teater · 300 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 1,6 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Tidak ada. Biasanya tamu utama memakai kamar hotel terdekat.\", \"q\": \"Ada ruang transit?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 180 tamu dengan round table, atau 300 berdiri. Untuk akad adat dengan banyak prosesi, ruangnya cukup tapi tidak lega.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 240 peserta dengan kursi teater atau 150 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 20–300 tamu. Ruang tertutup, jadi acara tidak bergantung cuaca.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 20–300 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format prasmanan paling cocok di sini untuk 20–300 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 20–300 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-06 14:26:44",
+            "updated_at": "2026-11-06 14:26:44"
+        },
+        {
+            "id": 1454,
+            "slug": "bunga-rampai",
+            "name": "Bunga Rampai",
+            "category_id": 1,
+            "area_id": 2,
+            "hood": "Menteng",
+            "cap_min": 20,
+            "cap_max": 150,
+            "price": 15,
+            "setting": "both",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1454",
+            "wa": "62812131926224",
+            "ig": "bungarampai.restaurant",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 1.2, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Bunga Rampai di Menteng punya ruang dalam dan taman yang bersebelahan. Acara bisa dimulai di luar lalu pindah ke dalam tanpa tamu berjalan jauh.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 20–150 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"90 round table · 120 teater · 150 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 1,2 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Acara bisa pindah ke ruang dalam yang bersebelahan.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 90 tamu dengan round table, atau 150 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 120 peserta dengan kursi teater atau 75 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 20–150 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 20–150 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 20–150 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 20–150 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-06 14:32:41",
+            "updated_at": "2026-11-06 14:32:41"
+        },
+        {
+            "id": 1455,
+            "slug": "the-tribrata-darmawangsa",
+            "name": "The Tribrata Darmawangsa",
+            "category_id": 1,
+            "area_id": 1,
+            "hood": "Kebayoran Baru",
+            "cap_min": 30,
+            "cap_max": 2500,
+            "price": 3,
+            "setting": "indoor",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1455",
+            "wa": "628111020591",
+            "ig": "The Tribrata",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 0.2, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "The Tribrata Darmawangsa ada di Kebayoran Baru. Ruang utamanya tanpa tiang, jadi panggung bisa ditaruh di sisi mana saja. Siang hari cahayanya masuk dari jendela samping; malam hari sepenuhnya bergantung pada lighting.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 30–2.500 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"1.500 round table · 2.000 teater · 2.500 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 0,2 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Tidak ada. Biasanya tamu utama memakai kamar hotel terdekat.\", \"q\": \"Ada ruang transit?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 1.500 tamu dengan round table, atau 2.500 berdiri. Untuk akad adat dengan banyak prosesi, ruangnya cukup tapi tidak lega.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 2.000 peserta dengan kursi teater atau 1.250 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 30–2.500 tamu. Ruang tertutup, jadi acara tidak bergantung cuaca.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 30–2.500 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format prasmanan paling cocok di sini untuk 30–2.500 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 30–2.500 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-06 14:41:21",
+            "updated_at": "2026-11-06 14:41:21"
+        },
+        {
+            "id": 1456,
+            "slug": "nuansa-lake-side-cafe-resto",
+            "name": "Batavia Marina",
+            "category_id": 1,
+            "area_id": 2,
+            "hood": "ancol",
+            "cap_min": 20,
+            "cap_max": 1500,
+            "price": 3,
+            "setting": "both",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1456",
+            "wa": "6281322200987",
+            "ig": "Bataviamarina",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 0.2, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Batavia Marina di ancol punya ruang dalam dan taman yang bersebelahan. Acara bisa dimulai di luar lalu pindah ke dalam tanpa tamu berjalan jauh.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 20–1.500 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"900 round table · 1.200 teater · 1.500 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 0,2 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Acara bisa pindah ke ruang dalam yang bersebelahan.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 900 tamu dengan round table, atau 1.500 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 1.200 peserta dengan kursi teater atau 750 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 20–1.500 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 20–1.500 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 20–1.500 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 20–1.500 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-07 14:39:45",
+            "updated_at": "2026-11-07 14:39:45"
+        },
+        {
+            "id": 1457,
+            "slug": "whistler-garden",
+            "name": "Whistler Garden",
+            "category_id": 1,
+            "area_id": 5,
+            "hood": "tangerang,banten",
+            "cap_min": 50,
+            "cap_max": 500,
+            "price": 57,
+            "setting": "both",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1457",
+            "wa": "6281811152211",
+            "ig": "whistlergarden.id",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 4.6, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Whistler Garden di tangerang,banten punya ruang dalam dan taman yang bersebelahan. Acara bisa dimulai di luar lalu pindah ke dalam tanpa tamu berjalan jauh.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 50–500 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"300 round table · 400 teater · 500 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 4,6 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Acara bisa pindah ke ruang dalam yang bersebelahan.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 300 tamu dengan round table, atau 500 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 400 peserta dengan kursi teater atau 250 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 50–500 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 50–500 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 50–500 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 50–500 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-07 14:45:32",
+            "updated_at": "2026-11-07 14:45:32"
+        },
+        {
+            "id": 1458,
+            "slug": "kembang-goela-restaurant",
+            "name": "Kembang Goela Restaurant",
+            "category_id": 1,
+            "area_id": 1,
+            "hood": "Semanggi",
+            "cap_min": 10,
+            "cap_max": 250,
+            "price": 3,
+            "setting": "both",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1458",
+            "wa": "628111948520",
+            "ig": "kembanggoela_id",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 0.2, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Kembang Goela Restaurant di Semanggi punya ruang dalam dan taman yang bersebelahan. Acara bisa dimulai di luar lalu pindah ke dalam tanpa tamu berjalan jauh.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 10–250 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"150 round table · 200 teater · 250 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 0,2 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Acara bisa pindah ke ruang dalam yang bersebelahan.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 150 tamu dengan round table, atau 250 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 200 peserta dengan kursi teater atau 125 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 10–250 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 10–250 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 10–250 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 10–250 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-07 14:50:06",
+            "updated_at": "2026-11-07 14:50:06"
+        },
+        {
+            "id": 1459,
+            "slug": "rumah-sarwono",
+            "name": "Rumah Sarwono",
+            "category_id": 1,
+            "area_id": 1,
+            "hood": "Pasar Minggu",
+            "cap_min": 50,
+            "cap_max": 1000,
+            "price": 7,
+            "setting": "outdoor",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1459",
+            "wa": "628119901100",
+            "ig": " rumahsarwono",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 0.6, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Rumah Sarwono adalah ruang terbuka di Pasar Minggu. Paling nyaman setelah jam empat sore, saat panas sudah turun.\n\nYang perlu diantisipasi: rencana cadangan kalau hujan. Tanyakan apakah tenda termasuk harga atau dihitung terpisah.\n\nNyaman untuk 50–1.000 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"600 round table · 800 teater · 1.000 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 0,6 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Tidak ada area indoor yang muat seluruh tamu. Sebagian besar acara di sini memasang tenda dari awal.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 600 tamu dengan round table, atau 1.000 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 800 peserta dengan kursi teater atau 500 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 50–1.000 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 50–1.000 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 50–1.000 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 50–1.000 tamu. Paling nyaman menjelang sore; siapkan tenda kalau acaranya siang.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-07 14:55:03",
+            "updated_at": "2026-11-07 14:55:03"
+        },
+        {
+            "id": 1460,
+            "slug": "taman-kajoe",
+            "name": "Taman Kajoe",
+            "category_id": 1,
+            "area_id": 1,
+            "hood": "Pasar Minggu",
+            "cap_min": 200,
+            "cap_max": 500,
+            "price": 87,
+            "setting": "outdoor",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1460",
+            "wa": "6281807787548",
+            "ig": " tamankajoe",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 7, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Taman Kajoe adalah ruang terbuka di Pasar Minggu. Paling nyaman setelah jam empat sore, saat panas sudah turun.\n\nYang perlu diantisipasi: rencana cadangan kalau hujan. Tanyakan apakah tenda termasuk harga atau dihitung terpisah.\n\nNyaman untuk 200–500 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"300 round table · 400 teater · 500 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 7 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Tidak ada area indoor yang muat seluruh tamu. Sebagian besar acara di sini memasang tenda dari awal.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 300 tamu dengan round table, atau 500 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 400 peserta dengan kursi teater atau 250 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 200–500 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 200–500 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 200–500 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 200–500 tamu. Paling nyaman menjelang sore; siapkan tenda kalau acaranya siang.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-07 15:00:51",
+            "updated_at": "2026-11-07 15:00:51"
+        },
+        {
+            "id": 1461,
+            "slug": "hotel-mulia-senayan",
+            "name": "Hotel Mulia Senayan",
+            "category_id": 1,
+            "area_id": 2,
+            "hood": "Senayan",
+            "cap_min": 10,
+            "cap_max": 3000,
+            "price": 6,
+            "setting": "indoor",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1461",
+            "wa": "6281215747777",
+            "ig": "HotelMuliaJkt",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 0.5, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "Hotel Mulia Senayan ada di Senayan. Ruang utamanya tanpa tiang, jadi panggung bisa ditaruh di sisi mana saja. Siang hari cahayanya masuk dari jendela samping; malam hari sepenuhnya bergantung pada lighting.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 10–3.000 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"1.800 round table · 2.400 teater · 3.000 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 0,5 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Tidak ada. Biasanya tamu utama memakai kamar hotel terdekat.\", \"q\": \"Ada ruang transit?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 1.800 tamu dengan round table, atau 3.000 berdiri. Untuk akad adat dengan banyak prosesi, ruangnya cukup tapi tidak lega.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 2.400 peserta dengan kursi teater atau 1.500 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 10–3.000 tamu. Ruang tertutup, jadi acara tidak bergantung cuaca.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 10–3.000 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format prasmanan paling cocok di sini untuk 10–3.000 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 10–3.000 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-08 08:46:56",
+            "updated_at": "2026-11-08 08:46:56"
+        },
+        {
+            "id": 1462,
+            "slug": "la-glasshouse",
+            "name": "La Glasshouse",
+            "category_id": 1,
+            "area_id": 5,
+            "hood": "tangerang,banten",
+            "cap_min": 50,
+            "cap_max": 200,
+            "price": 67,
+            "setting": "both",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1462",
+            "wa": "628161872733",
+            "ig": "la.glasshouse",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 5.4, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "La Glasshouse di tangerang,banten punya ruang dalam dan taman yang bersebelahan. Acara bisa dimulai di luar lalu pindah ke dalam tanpa tamu berjalan jauh.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 50–200 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"120 round table · 160 teater · 200 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 5,4 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Acara bisa pindah ke ruang dalam yang bersebelahan.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 120 tamu dengan round table, atau 200 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 160 peserta dengan kursi teater atau 100 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 50–200 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 50–200 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 50–200 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 50–200 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-08 08:51:59",
+            "updated_at": "2026-11-08 08:52:00"
+        },
+        {
+            "id": 1463,
+            "slug": "the-forest-at-the-veranda-dh-the-forest-by-wyls",
+            "name": "The Forest at The Veranda (d/h The Forest by Wyl's)",
+            "category_id": 1,
+            "area_id": 1,
+            "hood": "Semanggi",
+            "cap_min": 40,
+            "cap_max": 500,
+            "price": 25,
+            "setting": "both",
+            "promoted": 0,
+            "rank": 1,
+            "rooftop": 0,
+            "catering_bebas": 0,
+            "transit": 0,
+            "parkir": 0,
+            "bus": 0,
+            "av": 0,
+            "pkp": 0,
+            "halal": 0,
+            "ref": "VNU-1463",
+            "wa": "6282176276260",
+            "ig": "theforestjakarta",
+            "web": "",
+            "photos": 0,
+            "specs": "{\"corkage\": 25, \"overtime\": 2, \"dp_percent\": 30, \"duration_hours\": 6}",
+            "writeup": "The Forest at The Veranda (d/h The Forest by Wyl's) di Semanggi punya ruang dalam dan taman yang bersebelahan. Acara bisa dimulai di luar lalu pindah ke dalam tanpa tamu berjalan jauh.\n\nYang perlu diantisipasi: loading dekorasi baru bisa setelah jam 14.00 dan lift barangnya hanya satu. Jadwalkan vendor lebih awal.\n\nNyaman untuk 40–500 orang. Parkir sekitar 0 mobil; di atas itu tamu perlu diarahkan ke parkir umum terdekat.",
+            "price_note": "Sewa venue 6 jam, belum termasuk dekorasi; catering dari rekanan dihitung terpisah",
+            "included": "[{\"note\": \"termasuk waktu loading dan bongkar\", \"label\": \"Sewa 6 jam\"}, {\"note\": \"300 round table · 400 teater · 500 berdiri\", \"label\": \"Kapasitas\"}, {\"note\": \"untuk band atau presentasi besar, bawa vendor AV\", \"label\": \"Sound system dan lighting dasar\"}, {\"note\": \"tanpa area bus\", \"label\": \"Parkir 0 mobil\"}, {\"note\": \"atau bawa sendiri dengan biaya 25 rb / pax\", \"label\": \"Catering dari 4 rekanan\"}, {\"note\": \"di luar 6 jam sewa\", \"label\": \"Overtime Rp 2 jt / jam\"}]",
+            "faqs": "[{\"a\": \"Boleh dengan biaya 25 rb per pax. Tanpa biaya kalau memakai salah satu dari empat rekanan.\", \"q\": \"Boleh bawa catering sendiri?\"}, {\"a\": \"DP 30% untuk mengunci tanggal, pelunasan paling lambat 14 hari sebelum acara.\", \"q\": \"Berapa DP dan kapan pelunasan?\"}, {\"a\": \"Acara bisa pindah ke ruang dalam yang bersebelahan.\", \"q\": \"Kalau hujan bagaimana?\"}]",
+            "occasion_notes": "[{\"text\": \"Format duduk sekitar 300 tamu dengan round table, atau 500 berdiri. Area terbukanya cocok untuk akad pagi; di atas jam sebelas, siapkan tenda untuk tamu.\\n\\nTidak ada ruang transit; tim rias perlu ruang lain di dekat venue.\", \"title\": \"Untuk pernikahan\", \"occasion\": \"wedding\"}, {\"text\": \"Sekitar 400 peserta dengan kursi teater atau 250 dengan meja classroom.\\n\\nTidak ada AV bawaan; untuk presentasi besar, bawa vendor AV sendiri. Tidak ada parkir bus; peserta rombongan perlu titik turun di luar. Pengelola belum bisa menerbitkan faktur pajak.\", \"title\": \"Untuk acara kantor\", \"occasion\": \"corporate\"}, {\"text\": \"Untuk 40–500 tamu. Sebagian area terbuka; untuk acara anak, tanyakan batas area bermain ke pengelola.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk ulang tahun\", \"occasion\": \"ulang-tahun\"}, {\"text\": \"Ruang tertutup untuk 40–500 tamu, jadi aqiqah atau baby shower tidak bergantung cuaca.\\n\\nTidak ada ruang terpisah untuk menyusui; siapkan sudut sendiri bersama pengelola.\", \"title\": \"Untuk acara bayi & anak\", \"occasion\": \"baby-kids\"}, {\"text\": \"Format lesehan dan prasmanan paling cocok di area terbukanya untuk 40–500 orang.\\n\\nParkir 0 mobil jadi batasnya kalau tamu datang terpisah-pisah.\", \"title\": \"Untuk kumpul-kumpul\", \"occasion\": \"social-gathering\"}, {\"text\": \"Untuk 40–500 tamu. Ruang tertutup, bisa dipakai siang atau malam.\\n\\nCatering dari empat rekanan venue, atau bawa sendiri dengan biaya 25 rb per pax.\", \"title\": \"Untuk perayaan\", \"occasion\": \"perayaan\"}]",
+            "created_at": "2026-11-08 09:00:01",
+            "updated_at": "2026-11-08 09:00:01"
+        }
+    ],
+    "occasion_vendor": [
+        {
+            "id": 1060,
+            "vendor_id": 1446,
+            "occasion_id": 1
+        },
+        {
+            "id": 1061,
+            "vendor_id": 1446,
+            "occasion_id": 2
+        },
+        {
+            "id": 1062,
+            "vendor_id": 1446,
+            "occasion_id": 3
+        },
+        {
+            "id": 1063,
+            "vendor_id": 1446,
+            "occasion_id": 6
+        },
+        {
+            "id": 1064,
+            "vendor_id": 1447,
+            "occasion_id": 1
+        },
+        {
+            "id": 1065,
+            "vendor_id": 1447,
+            "occasion_id": 3
+        },
+        {
+            "id": 1066,
+            "vendor_id": 1447,
+            "occasion_id": 5
+        },
+        {
+            "id": 1067,
+            "vendor_id": 1447,
+            "occasion_id": 6
+        },
+        {
+            "id": 1068,
+            "vendor_id": 1447,
+            "occasion_id": 4
+        },
+        {
+            "id": 1069,
+            "vendor_id": 1447,
+            "occasion_id": 2
+        },
+        {
+            "id": 1070,
+            "vendor_id": 1448,
+            "occasion_id": 1
+        },
+        {
+            "id": 1071,
+            "vendor_id": 1448,
+            "occasion_id": 2
+        },
+        {
+            "id": 1072,
+            "vendor_id": 1448,
+            "occasion_id": 3
+        },
+        {
+            "id": 1073,
+            "vendor_id": 1448,
+            "occasion_id": 4
+        },
+        {
+            "id": 1074,
+            "vendor_id": 1448,
+            "occasion_id": 5
+        },
+        {
+            "id": 1075,
+            "vendor_id": 1448,
+            "occasion_id": 6
+        },
+        {
+            "id": 1076,
+            "vendor_id": 1449,
+            "occasion_id": 1
+        },
+        {
+            "id": 1077,
+            "vendor_id": 1449,
+            "occasion_id": 3
+        },
+        {
+            "id": 1078,
+            "vendor_id": 1449,
+            "occasion_id": 4
+        },
+        {
+            "id": 1079,
+            "vendor_id": 1449,
+            "occasion_id": 6
+        },
+        {
+            "id": 1080,
+            "vendor_id": 1449,
+            "occasion_id": 2
+        },
+        {
+            "id": 1081,
+            "vendor_id": 1449,
+            "occasion_id": 5
+        },
+        {
+            "id": 1082,
+            "vendor_id": 1450,
+            "occasion_id": 1
+        },
+        {
+            "id": 1083,
+            "vendor_id": 1450,
+            "occasion_id": 2
+        },
+        {
+            "id": 1084,
+            "vendor_id": 1450,
+            "occasion_id": 3
+        },
+        {
+            "id": 1085,
+            "vendor_id": 1450,
+            "occasion_id": 4
+        },
+        {
+            "id": 1086,
+            "vendor_id": 1450,
+            "occasion_id": 5
+        },
+        {
+            "id": 1087,
+            "vendor_id": 1450,
+            "occasion_id": 6
+        },
+        {
+            "id": 1088,
+            "vendor_id": 1451,
+            "occasion_id": 1
+        },
+        {
+            "id": 1089,
+            "vendor_id": 1451,
+            "occasion_id": 2
+        },
+        {
+            "id": 1090,
+            "vendor_id": 1451,
+            "occasion_id": 3
+        },
+        {
+            "id": 1091,
+            "vendor_id": 1451,
+            "occasion_id": 4
+        },
+        {
+            "id": 1092,
+            "vendor_id": 1451,
+            "occasion_id": 5
+        },
+        {
+            "id": 1093,
+            "vendor_id": 1451,
+            "occasion_id": 6
+        },
+        {
+            "id": 1094,
+            "vendor_id": 1452,
+            "occasion_id": 1
+        },
+        {
+            "id": 1095,
+            "vendor_id": 1452,
+            "occasion_id": 2
+        },
+        {
+            "id": 1096,
+            "vendor_id": 1452,
+            "occasion_id": 3
+        },
+        {
+            "id": 1097,
+            "vendor_id": 1452,
+            "occasion_id": 4
+        },
+        {
+            "id": 1098,
+            "vendor_id": 1452,
+            "occasion_id": 5
+        },
+        {
+            "id": 1099,
+            "vendor_id": 1452,
+            "occasion_id": 6
+        },
+        {
+            "id": 1100,
+            "vendor_id": 1453,
+            "occasion_id": 1
+        },
+        {
+            "id": 1101,
+            "vendor_id": 1453,
+            "occasion_id": 2
+        },
+        {
+            "id": 1102,
+            "vendor_id": 1453,
+            "occasion_id": 3
+        },
+        {
+            "id": 1103,
+            "vendor_id": 1453,
+            "occasion_id": 4
+        },
+        {
+            "id": 1104,
+            "vendor_id": 1453,
+            "occasion_id": 5
+        },
+        {
+            "id": 1105,
+            "vendor_id": 1453,
+            "occasion_id": 6
+        },
+        {
+            "id": 1106,
+            "vendor_id": 1454,
+            "occasion_id": 1
+        },
+        {
+            "id": 1107,
+            "vendor_id": 1454,
+            "occasion_id": 2
+        },
+        {
+            "id": 1108,
+            "vendor_id": 1454,
+            "occasion_id": 3
+        },
+        {
+            "id": 1109,
+            "vendor_id": 1454,
+            "occasion_id": 4
+        },
+        {
+            "id": 1110,
+            "vendor_id": 1454,
+            "occasion_id": 5
+        },
+        {
+            "id": 1111,
+            "vendor_id": 1454,
+            "occasion_id": 6
+        },
+        {
+            "id": 1112,
+            "vendor_id": 1455,
+            "occasion_id": 1
+        },
+        {
+            "id": 1113,
+            "vendor_id": 1455,
+            "occasion_id": 2
+        },
+        {
+            "id": 1114,
+            "vendor_id": 1455,
+            "occasion_id": 3
+        },
+        {
+            "id": 1115,
+            "vendor_id": 1455,
+            "occasion_id": 4
+        },
+        {
+            "id": 1116,
+            "vendor_id": 1455,
+            "occasion_id": 5
+        },
+        {
+            "id": 1117,
+            "vendor_id": 1455,
+            "occasion_id": 6
+        },
+        {
+            "id": 1118,
+            "vendor_id": 1456,
+            "occasion_id": 1
+        },
+        {
+            "id": 1119,
+            "vendor_id": 1456,
+            "occasion_id": 2
+        },
+        {
+            "id": 1120,
+            "vendor_id": 1456,
+            "occasion_id": 3
+        },
+        {
+            "id": 1121,
+            "vendor_id": 1456,
+            "occasion_id": 4
+        },
+        {
+            "id": 1122,
+            "vendor_id": 1456,
+            "occasion_id": 5
+        },
+        {
+            "id": 1123,
+            "vendor_id": 1456,
+            "occasion_id": 6
+        },
+        {
+            "id": 1124,
+            "vendor_id": 1457,
+            "occasion_id": 1
+        },
+        {
+            "id": 1125,
+            "vendor_id": 1457,
+            "occasion_id": 2
+        },
+        {
+            "id": 1126,
+            "vendor_id": 1457,
+            "occasion_id": 3
+        },
+        {
+            "id": 1127,
+            "vendor_id": 1457,
+            "occasion_id": 4
+        },
+        {
+            "id": 1128,
+            "vendor_id": 1457,
+            "occasion_id": 5
+        },
+        {
+            "id": 1129,
+            "vendor_id": 1457,
+            "occasion_id": 6
+        },
+        {
+            "id": 1130,
+            "vendor_id": 1458,
+            "occasion_id": 1
+        },
+        {
+            "id": 1131,
+            "vendor_id": 1458,
+            "occasion_id": 2
+        },
+        {
+            "id": 1132,
+            "vendor_id": 1458,
+            "occasion_id": 3
+        },
+        {
+            "id": 1133,
+            "vendor_id": 1458,
+            "occasion_id": 4
+        },
+        {
+            "id": 1134,
+            "vendor_id": 1458,
+            "occasion_id": 5
+        },
+        {
+            "id": 1135,
+            "vendor_id": 1458,
+            "occasion_id": 6
+        },
+        {
+            "id": 1136,
+            "vendor_id": 1459,
+            "occasion_id": 1
+        },
+        {
+            "id": 1137,
+            "vendor_id": 1459,
+            "occasion_id": 2
+        },
+        {
+            "id": 1138,
+            "vendor_id": 1459,
+            "occasion_id": 3
+        },
+        {
+            "id": 1139,
+            "vendor_id": 1459,
+            "occasion_id": 4
+        },
+        {
+            "id": 1140,
+            "vendor_id": 1459,
+            "occasion_id": 5
+        },
+        {
+            "id": 1141,
+            "vendor_id": 1459,
+            "occasion_id": 6
+        },
+        {
+            "id": 1142,
+            "vendor_id": 1460,
+            "occasion_id": 1
+        },
+        {
+            "id": 1143,
+            "vendor_id": 1460,
+            "occasion_id": 2
+        },
+        {
+            "id": 1144,
+            "vendor_id": 1460,
+            "occasion_id": 3
+        },
+        {
+            "id": 1145,
+            "vendor_id": 1460,
+            "occasion_id": 5
+        },
+        {
+            "id": 1146,
+            "vendor_id": 1460,
+            "occasion_id": 6
+        },
+        {
+            "id": 1147,
+            "vendor_id": 1460,
+            "occasion_id": 4
+        },
+        {
+            "id": 1148,
+            "vendor_id": 1461,
+            "occasion_id": 1
+        },
+        {
+            "id": 1149,
+            "vendor_id": 1461,
+            "occasion_id": 2
+        },
+        {
+            "id": 1150,
+            "vendor_id": 1461,
+            "occasion_id": 3
+        },
+        {
+            "id": 1151,
+            "vendor_id": 1461,
+            "occasion_id": 4
+        },
+        {
+            "id": 1152,
+            "vendor_id": 1461,
+            "occasion_id": 5
+        },
+        {
+            "id": 1153,
+            "vendor_id": 1461,
+            "occasion_id": 6
+        },
+        {
+            "id": 1154,
+            "vendor_id": 1462,
+            "occasion_id": 1
+        },
+        {
+            "id": 1155,
+            "vendor_id": 1462,
+            "occasion_id": 2
+        },
+        {
+            "id": 1156,
+            "vendor_id": 1462,
+            "occasion_id": 3
+        },
+        {
+            "id": 1157,
+            "vendor_id": 1462,
+            "occasion_id": 4
+        },
+        {
+            "id": 1158,
+            "vendor_id": 1462,
+            "occasion_id": 5
+        },
+        {
+            "id": 1159,
+            "vendor_id": 1462,
+            "occasion_id": 6
+        },
+        {
+            "id": 1160,
+            "vendor_id": 1463,
+            "occasion_id": 1
+        },
+        {
+            "id": 1161,
+            "vendor_id": 1463,
+            "occasion_id": 2
+        },
+        {
+            "id": 1162,
+            "vendor_id": 1463,
+            "occasion_id": 3
+        },
+        {
+            "id": 1163,
+            "vendor_id": 1463,
+            "occasion_id": 4
+        },
+        {
+            "id": 1164,
+            "vendor_id": 1463,
+            "occasion_id": 5
+        },
+        {
+            "id": 1165,
+            "vendor_id": 1463,
+            "occasion_id": 6
+        }
+    ],
+    "vendor_photos": [
+        {
+            "id": 21,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/am101rrbfyfd",
+            "width": 680,
+            "height": 452,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-03 13:14:16",
+            "updated_at": "2026-11-03 13:14:16"
+        },
+        {
+            "id": 22,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/70yygrar8v1w",
+            "width": 680,
+            "height": 452,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-03 13:14:17",
+            "updated_at": "2026-11-03 13:14:17"
+        },
+        {
+            "id": 23,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/njicflvtb45i",
+            "width": 980,
+            "height": 1225,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-03 13:14:23",
+            "updated_at": "2026-11-03 13:14:23"
+        },
+        {
+            "id": 24,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/zrluwxln9qzq",
+            "width": 1080,
+            "height": 720,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-03 13:14:25",
+            "updated_at": "2026-11-03 13:14:25"
+        },
+        {
+            "id": 25,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/vemf59skudbx",
+            "width": 610,
+            "height": 406,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-03 13:14:30",
+            "updated_at": "2026-11-03 13:14:30"
+        },
+        {
+            "id": 26,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/nsgpqkm1zkdq",
+            "width": 680,
+            "height": 453,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-03 13:15:18",
+            "updated_at": "2026-11-03 13:15:18"
+        },
+        {
+            "id": 27,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/pv7x45i5eq2y",
+            "width": 680,
+            "height": 1019,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-03 13:15:20",
+            "updated_at": "2026-11-03 13:15:20"
+        },
+        {
+            "id": 28,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/ofek6qi5901l",
+            "width": 680,
+            "height": 453,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-03 13:15:25",
+            "updated_at": "2026-11-03 13:15:25"
+        },
+        {
+            "id": 29,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/1xmsr9zebmrl",
+            "width": 680,
+            "height": 452,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-03 13:15:25",
+            "updated_at": "2026-11-03 13:15:25"
+        },
+        {
+            "id": 30,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/fkyfdxovl8rs",
+            "width": 610,
+            "height": 343,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-03 13:15:30",
+            "updated_at": "2026-11-03 13:15:30"
+        },
+        {
+            "id": 31,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/7ielmbyohyqf",
+            "width": 680,
+            "height": 1020,
+            "caption": null,
+            "sort": 11,
+            "created_at": "2026-11-03 13:15:31",
+            "updated_at": "2026-11-03 13:15:31"
+        },
+        {
+            "id": 32,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/xqjmut3ofmrb",
+            "width": 680,
+            "height": 452,
+            "caption": null,
+            "sort": 12,
+            "created_at": "2026-11-03 13:15:36",
+            "updated_at": "2026-11-03 13:15:36"
+        },
+        {
+            "id": 33,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/xyng5dyu65la",
+            "width": 680,
+            "height": 452,
+            "caption": null,
+            "sort": 13,
+            "created_at": "2026-11-03 13:15:37",
+            "updated_at": "2026-11-03 13:15:37"
+        },
+        {
+            "id": 34,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/8kfsm8uawarm",
+            "width": 980,
+            "height": 1225,
+            "caption": null,
+            "sort": 14,
+            "created_at": "2026-11-03 13:15:43",
+            "updated_at": "2026-11-03 13:15:43"
+        },
+        {
+            "id": 35,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/z7jwu7fwcekh",
+            "width": 1080,
+            "height": 720,
+            "caption": null,
+            "sort": 15,
+            "created_at": "2026-11-03 13:15:45",
+            "updated_at": "2026-11-03 13:15:45"
+        },
+        {
+            "id": 36,
+            "vendor_id": 1446,
+            "path": "content/vendors/1446/4ql7qstzlxqb",
+            "width": 610,
+            "height": 406,
+            "caption": null,
+            "sort": 16,
+            "created_at": "2026-11-03 13:15:50",
+            "updated_at": "2026-11-03 13:15:50"
+        },
+        {
+            "id": 37,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/tkshxd0fvt37",
+            "width": 1080,
+            "height": 719,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-05 09:01:46",
+            "updated_at": "2026-11-05 09:01:46"
+        },
+        {
+            "id": 38,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/jgbdxv1zorvh",
+            "width": 1080,
+            "height": 1080,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-05 09:01:47",
+            "updated_at": "2026-11-05 09:01:47"
+        },
+        {
+            "id": 39,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/oftcyqb6s9bd",
+            "width": 1080,
+            "height": 1080,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-05 09:01:52",
+            "updated_at": "2026-11-05 09:01:52"
+        },
+        {
+            "id": 40,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/yufiyz6x7oyc",
+            "width": 1080,
+            "height": 1080,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-05 09:01:54",
+            "updated_at": "2026-11-05 09:01:54"
+        },
+        {
+            "id": 41,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/wytis4ra67u9",
+            "width": 1080,
+            "height": 1080,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-05 09:02:00",
+            "updated_at": "2026-11-05 09:02:00"
+        },
+        {
+            "id": 42,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/dr1qjunifnbb",
+            "width": 2560,
+            "height": 1440,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-05 09:02:03",
+            "updated_at": "2026-11-05 09:02:03"
+        },
+        {
+            "id": 43,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/fryvnn5tgnr4",
+            "width": 610,
+            "height": 406,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-05 09:02:07",
+            "updated_at": "2026-11-05 09:02:07"
+        },
+        {
+            "id": 44,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/bi9kqx21s71d",
+            "width": 610,
+            "height": 610,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-05 09:02:08",
+            "updated_at": "2026-11-05 09:02:08"
+        },
+        {
+            "id": 45,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/6iaacufq6ome",
+            "width": 610,
+            "height": 407,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-05 09:02:11",
+            "updated_at": "2026-11-05 09:02:11"
+        },
+        {
+            "id": 46,
+            "vendor_id": 1447,
+            "path": "content/vendors/1447/wvc1xhlhzcid",
+            "width": 610,
+            "height": 613,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-05 09:02:12",
+            "updated_at": "2026-11-05 09:02:12"
+        },
+        {
+            "id": 47,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/v2nuxrkisydd",
+            "width": 550,
+            "height": 380,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-05 14:29:28",
+            "updated_at": "2026-11-05 14:29:28"
+        },
+        {
+            "id": 48,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/o1y55xbu1m5f",
+            "width": 2400,
+            "height": 1000,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-05 14:29:29",
+            "updated_at": "2026-11-05 14:29:29"
+        },
+        {
+            "id": 49,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/hcp3pretxs0w",
+            "width": 673,
+            "height": 373,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-05 14:29:32",
+            "updated_at": "2026-11-05 14:29:32"
+        },
+        {
+            "id": 50,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/7tqwkqsscbux",
+            "width": 1536,
+            "height": 1600,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-05 14:29:38",
+            "updated_at": "2026-11-05 14:29:38"
+        },
+        {
+            "id": 51,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/dis7uvlbarqo",
+            "width": 1536,
+            "height": 1600,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-05 14:29:40",
+            "updated_at": "2026-11-05 14:29:40"
+        },
+        {
+            "id": 52,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/1hvnkblm9rwx",
+            "width": 720,
+            "height": 720,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-05 14:29:43",
+            "updated_at": "2026-11-05 14:29:43"
+        },
+        {
+            "id": 53,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/qkdjucteahgx",
+            "width": 485,
+            "height": 364,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-05 14:29:46",
+            "updated_at": "2026-11-05 14:29:46"
+        },
+        {
+            "id": 54,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/y2s8gotiwlyj",
+            "width": 549,
+            "height": 412,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-05 14:29:48",
+            "updated_at": "2026-11-05 14:29:48"
+        },
+        {
+            "id": 55,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/hhs8hxg140bp",
+            "width": 2400,
+            "height": 1000,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-05 14:29:51",
+            "updated_at": "2026-11-05 14:29:51"
+        },
+        {
+            "id": 56,
+            "vendor_id": 1448,
+            "path": "content/vendors/1448/caqjnznpmtkj",
+            "width": 1024,
+            "height": 729,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-05 14:31:51",
+            "updated_at": "2026-11-05 14:31:51"
+        },
+        {
+            "id": 57,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/tdaful5flo60",
+            "width": 1024,
+            "height": 683,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-05 14:43:18",
+            "updated_at": "2026-11-05 14:43:18"
+        },
+        {
+            "id": 58,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/bv6gyeghkedq",
+            "width": 1920,
+            "height": 1241,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-05 14:43:20",
+            "updated_at": "2026-11-05 14:43:20"
+        },
+        {
+            "id": 59,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/fio4zcvng066",
+            "width": 1920,
+            "height": 1273,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-05 14:43:24",
+            "updated_at": "2026-11-05 14:43:24"
+        },
+        {
+            "id": 60,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/47dbpndjwzpm",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-05 14:43:26",
+            "updated_at": "2026-11-05 14:43:26"
+        },
+        {
+            "id": 61,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/rcshfosthrrn",
+            "width": 900,
+            "height": 624,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-05 14:43:29",
+            "updated_at": "2026-11-05 14:43:29"
+        },
+        {
+            "id": 62,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/3wxfxwdurdlu",
+            "width": 1758,
+            "height": 1172,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-05 14:43:33",
+            "updated_at": "2026-11-05 14:43:33"
+        },
+        {
+            "id": 63,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/f08rxid9roia",
+            "width": 2560,
+            "height": 1707,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-05 14:43:37",
+            "updated_at": "2026-11-05 14:43:37"
+        },
+        {
+            "id": 64,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/csbu5jyutuhz",
+            "width": 900,
+            "height": 543,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-05 14:43:39",
+            "updated_at": "2026-11-05 14:43:39"
+        },
+        {
+            "id": 65,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/v1vlvk2mrsfn",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-05 14:43:43",
+            "updated_at": "2026-11-05 14:43:43"
+        },
+        {
+            "id": 66,
+            "vendor_id": 1449,
+            "path": "content/vendors/1449/6gdusf06m48q",
+            "width": 900,
+            "height": 700,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-05 14:43:45",
+            "updated_at": "2026-11-05 14:43:45"
+        },
+        {
+            "id": 67,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/97vfrjip3pz0",
+            "width": 1280,
+            "height": 720,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-05 14:54:58",
+            "updated_at": "2026-11-05 14:54:58"
+        },
+        {
+            "id": 68,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/x6mej8107va4",
+            "width": 1960,
+            "height": 1438,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-05 14:55:00",
+            "updated_at": "2026-11-05 14:55:00"
+        },
+        {
+            "id": 69,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/pvoxrtkdvnp8",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-05 14:55:04",
+            "updated_at": "2026-11-05 14:55:04"
+        },
+        {
+            "id": 70,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/wzxwahhb926f",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-05 14:55:07",
+            "updated_at": "2026-11-05 14:55:07"
+        },
+        {
+            "id": 71,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/bjhtehzg4snp",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-05 14:55:10",
+            "updated_at": "2026-11-05 14:55:10"
+        },
+        {
+            "id": 72,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/a3nevtruirbq",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-05 14:55:13",
+            "updated_at": "2026-11-05 14:55:13"
+        },
+        {
+            "id": 73,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/2ns5pv6p0e6w",
+            "width": 1960,
+            "height": 1438,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-05 14:55:18",
+            "updated_at": "2026-11-05 14:55:18"
+        },
+        {
+            "id": 74,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/f8m7mfckpk8l",
+            "width": 680,
+            "height": 453,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-05 14:55:20",
+            "updated_at": "2026-11-05 14:55:20"
+        },
+        {
+            "id": 75,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/cxf8arqslctn",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-05 14:55:25",
+            "updated_at": "2026-11-05 14:55:25"
+        },
+        {
+            "id": 76,
+            "vendor_id": 1450,
+            "path": "content/vendors/1450/wzpg12bq99lv",
+            "width": 800,
+            "height": 534,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-05 14:55:26",
+            "updated_at": "2026-11-05 14:55:26"
+        },
+        {
+            "id": 77,
+            "vendor_id": 1451,
+            "path": "content/vendors/1451/apzq8vr0nhoh",
+            "width": 1960,
+            "height": 1438,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-05 15:00:33",
+            "updated_at": "2026-11-05 15:00:33"
+        },
+        {
+            "id": 78,
+            "vendor_id": 1451,
+            "path": "content/vendors/1451/s7mxirm6dqge",
+            "width": 1600,
+            "height": 1069,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-05 15:00:35",
+            "updated_at": "2026-11-05 15:00:35"
+        },
+        {
+            "id": 79,
+            "vendor_id": 1451,
+            "path": "content/vendors/1451/xp03cipkenck",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-05 15:00:38",
+            "updated_at": "2026-11-05 15:00:38"
+        },
+        {
+            "id": 80,
+            "vendor_id": 1451,
+            "path": "content/vendors/1451/xtgjhemz7m4o",
+            "width": 1960,
+            "height": 1438,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-05 15:00:43",
+            "updated_at": "2026-11-05 15:00:43"
+        },
+        {
+            "id": 81,
+            "vendor_id": 1451,
+            "path": "content/vendors/1451/ipbz8835kljw",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-05 15:00:44",
+            "updated_at": "2026-11-05 15:00:44"
+        },
+        {
+            "id": 82,
+            "vendor_id": 1451,
+            "path": "content/vendors/1451/i7i4tgwdykbj",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-05 15:00:51",
+            "updated_at": "2026-11-05 15:00:51"
+        },
+        {
+            "id": 83,
+            "vendor_id": 1451,
+            "path": "content/vendors/1451/kref03mveqpv",
+            "width": 1971,
+            "height": 1306,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-05 15:00:55",
+            "updated_at": "2026-11-05 15:00:55"
+        },
+        {
+            "id": 84,
+            "vendor_id": 1451,
+            "path": "content/vendors/1451/xbgkpvmthsg6",
+            "width": 736,
+            "height": 487,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-05 15:00:56",
+            "updated_at": "2026-11-05 15:00:56"
+        },
+        {
+            "id": 85,
+            "vendor_id": 1452,
+            "path": "content/vendors/1452/y4kxdn29xqou",
+            "width": 526,
+            "height": 708,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-06 14:19:21",
+            "updated_at": "2026-11-06 14:19:21"
+        },
+        {
+            "id": 86,
+            "vendor_id": 1452,
+            "path": "content/vendors/1452/uqesvfktpdwv",
+            "width": 1050,
+            "height": 598,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-06 14:19:24",
+            "updated_at": "2026-11-06 14:19:24"
+        },
+        {
+            "id": 87,
+            "vendor_id": 1452,
+            "path": "content/vendors/1452/buvptyhsrhtk",
+            "width": 1043,
+            "height": 588,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-06 14:21:09",
+            "updated_at": "2026-11-06 14:21:09"
+        },
+        {
+            "id": 88,
+            "vendor_id": 1452,
+            "path": "content/vendors/1452/rlo83tbtqgda",
+            "width": 1159,
+            "height": 765,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-06 14:21:12",
+            "updated_at": "2026-11-06 14:21:12"
+        },
+        {
+            "id": 89,
+            "vendor_id": 1453,
+            "path": "content/vendors/1453/egvkwhao4tpk",
+            "width": 953,
+            "height": 918,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-06 14:27:13",
+            "updated_at": "2026-11-06 14:27:13"
+        },
+        {
+            "id": 90,
+            "vendor_id": 1453,
+            "path": "content/vendors/1453/n3wvd44syucp",
+            "width": 1200,
+            "height": 800,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-06 14:27:15",
+            "updated_at": "2026-11-06 14:27:15"
+        },
+        {
+            "id": 91,
+            "vendor_id": 1453,
+            "path": "content/vendors/1453/ag7jx6uowson",
+            "width": 720,
+            "height": 478,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-06 14:27:18",
+            "updated_at": "2026-11-06 14:27:18"
+        },
+        {
+            "id": 92,
+            "vendor_id": 1453,
+            "path": "content/vendors/1453/mirj160wjm6m",
+            "width": 1080,
+            "height": 1350,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-06 14:27:21",
+            "updated_at": "2026-11-06 14:27:21"
+        },
+        {
+            "id": 93,
+            "vendor_id": 1453,
+            "path": "content/vendors/1453/sgaukal8u9vm",
+            "width": 720,
+            "height": 480,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-06 14:27:23",
+            "updated_at": "2026-11-06 14:27:23"
+        },
+        {
+            "id": 94,
+            "vendor_id": 1453,
+            "path": "content/vendors/1453/wqet09xun3bw",
+            "width": 720,
+            "height": 480,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-06 14:27:26",
+            "updated_at": "2026-11-06 14:27:26"
+        },
+        {
+            "id": 95,
+            "vendor_id": 1453,
+            "path": "content/vendors/1453/181dcpjfwdxb",
+            "width": 768,
+            "height": 431,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-06 14:27:29",
+            "updated_at": "2026-11-06 14:27:29"
+        },
+        {
+            "id": 96,
+            "vendor_id": 1453,
+            "path": "content/vendors/1453/o2g9angmz4ly",
+            "width": 1024,
+            "height": 682,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-06 14:27:30",
+            "updated_at": "2026-11-06 14:27:30"
+        },
+        {
+            "id": 97,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/5pfcrorpyexf",
+            "width": 550,
+            "height": 366,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-06 14:33:08",
+            "updated_at": "2026-11-06 14:33:08"
+        },
+        {
+            "id": 98,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/suijgbjslzox",
+            "width": 680,
+            "height": 1019,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-06 14:33:10",
+            "updated_at": "2026-11-06 14:33:10"
+        },
+        {
+            "id": 99,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/fh0tgokprfkq",
+            "width": 1200,
+            "height": 628,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-06 14:33:14",
+            "updated_at": "2026-11-06 14:33:14"
+        },
+        {
+            "id": 100,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/vsqjcpookeqy",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-06 14:33:16",
+            "updated_at": "2026-11-06 14:33:16"
+        },
+        {
+            "id": 101,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/1wpcjt0s3hls",
+            "width": 404,
+            "height": 316,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-06 14:33:20",
+            "updated_at": "2026-11-06 14:33:20"
+        },
+        {
+            "id": 102,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/z0ycz9dthift",
+            "width": 540,
+            "height": 360,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-06 14:33:22",
+            "updated_at": "2026-11-06 14:33:22"
+        },
+        {
+            "id": 103,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/6vja8idzmtyp",
+            "width": 680,
+            "height": 454,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-06 14:33:24",
+            "updated_at": "2026-11-06 14:33:24"
+        },
+        {
+            "id": 104,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/ie0nuwi2wmq4",
+            "width": 550,
+            "height": 412,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-06 14:33:27",
+            "updated_at": "2026-11-06 14:33:27"
+        },
+        {
+            "id": 105,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/qfzprjyplio1",
+            "width": 980,
+            "height": 719,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-06 14:33:30",
+            "updated_at": "2026-11-06 14:33:30"
+        },
+        {
+            "id": 106,
+            "vendor_id": 1454,
+            "path": "content/vendors/1454/9mlivzslgodg",
+            "width": 1410,
+            "height": 705,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-06 14:33:33",
+            "updated_at": "2026-11-06 14:33:33"
+        },
+        {
+            "id": 107,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/c3jmz8g1dvdc",
+            "width": 640,
+            "height": 426,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-06 14:41:49",
+            "updated_at": "2026-11-06 14:41:49"
+        },
+        {
+            "id": 108,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/77iyejgjshsf",
+            "width": 640,
+            "height": 426,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-06 14:41:51",
+            "updated_at": "2026-11-06 14:41:51"
+        },
+        {
+            "id": 109,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/zsborvwcxn4z",
+            "width": 650,
+            "height": 395,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-06 14:41:55",
+            "updated_at": "2026-11-06 14:41:55"
+        },
+        {
+            "id": 110,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/dbl5s1e119ed",
+            "width": 680,
+            "height": 453,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-06 14:41:57",
+            "updated_at": "2026-11-06 14:41:57"
+        },
+        {
+            "id": 111,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/soaovsc9jshm",
+            "width": 680,
+            "height": 453,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-06 14:42:01",
+            "updated_at": "2026-11-06 14:42:01"
+        },
+        {
+            "id": 112,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/ldo47f3osdq0",
+            "width": 1080,
+            "height": 720,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-06 14:42:02",
+            "updated_at": "2026-11-06 14:42:02"
+        },
+        {
+            "id": 113,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/mjspvpqn0rmx",
+            "width": 640,
+            "height": 426,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-06 14:42:07",
+            "updated_at": "2026-11-06 14:42:07"
+        },
+        {
+            "id": 114,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/n6neynee5pbb",
+            "width": 976,
+            "height": 919,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-06 14:42:08",
+            "updated_at": "2026-11-06 14:42:08"
+        },
+        {
+            "id": 115,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/gsjuoowjfzhy",
+            "width": 680,
+            "height": 453,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-06 14:42:13",
+            "updated_at": "2026-11-06 14:42:13"
+        },
+        {
+            "id": 116,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/t7hxufqz05h9",
+            "width": 680,
+            "height": 453,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-06 14:42:13",
+            "updated_at": "2026-11-06 14:42:13"
+        },
+        {
+            "id": 117,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/fkdif1izkwi3",
+            "width": 768,
+            "height": 512,
+            "caption": null,
+            "sort": 11,
+            "created_at": "2026-11-06 14:42:18",
+            "updated_at": "2026-11-06 14:42:18"
+        },
+        {
+            "id": 118,
+            "vendor_id": 1455,
+            "path": "content/vendors/1455/ikciz0vd2fwm",
+            "width": 1500,
+            "height": 1000,
+            "caption": null,
+            "sort": 12,
+            "created_at": "2026-11-06 14:42:20",
+            "updated_at": "2026-11-06 14:42:20"
+        },
+        {
+            "id": 119,
+            "vendor_id": 1456,
+            "path": "content/vendors/1456/2mcsdj8dff3v",
+            "width": 1024,
+            "height": 1280,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-07 14:40:49",
+            "updated_at": "2026-11-07 14:40:49"
+        },
+        {
+            "id": 120,
+            "vendor_id": 1456,
+            "path": "content/vendors/1456/g050okqp1s6w",
+            "width": 1280,
+            "height": 854,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-07 14:40:50",
+            "updated_at": "2026-11-07 14:40:50"
+        },
+        {
+            "id": 121,
+            "vendor_id": 1456,
+            "path": "content/vendors/1456/9jltcnyaqs8r",
+            "width": 550,
+            "height": 367,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-07 14:40:54",
+            "updated_at": "2026-11-07 14:40:54"
+        },
+        {
+            "id": 122,
+            "vendor_id": 1456,
+            "path": "content/vendors/1456/le1asodj1sly",
+            "width": 1080,
+            "height": 810,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-07 14:40:56",
+            "updated_at": "2026-11-07 14:40:56"
+        },
+        {
+            "id": 123,
+            "vendor_id": 1456,
+            "path": "content/vendors/1456/6qbf16lhxw3r",
+            "width": 842,
+            "height": 596,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-07 14:41:01",
+            "updated_at": "2026-11-07 14:41:01"
+        },
+        {
+            "id": 124,
+            "vendor_id": 1456,
+            "path": "content/vendors/1456/e5pcj4nkvrez",
+            "width": 1206,
+            "height": 896,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-07 14:41:04",
+            "updated_at": "2026-11-07 14:41:04"
+        },
+        {
+            "id": 125,
+            "vendor_id": 1456,
+            "path": "content/vendors/1456/ji48cssgvfwk",
+            "width": 970,
+            "height": 385,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-07 14:41:08",
+            "updated_at": "2026-11-07 14:41:08"
+        },
+        {
+            "id": 126,
+            "vendor_id": 1456,
+            "path": "content/vendors/1456/tsfay76wy3hu",
+            "width": 1387,
+            "height": 1040,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-07 14:41:11",
+            "updated_at": "2026-11-07 14:41:11"
+        },
+        {
+            "id": 127,
+            "vendor_id": 1456,
+            "path": "content/vendors/1456/rbu1oad6lmym",
+            "width": 1641,
+            "height": 904,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-07 14:41:17",
+            "updated_at": "2026-11-07 14:41:17"
+        },
+        {
+            "id": 128,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/qlfpzc0wj1cn",
+            "width": 1364,
+            "height": 912,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-07 14:46:02",
+            "updated_at": "2026-11-07 14:46:02"
+        },
+        {
+            "id": 129,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/vgkib8weuxja",
+            "width": 1620,
+            "height": 904,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-07 14:46:03",
+            "updated_at": "2026-11-07 14:46:03"
+        },
+        {
+            "id": 130,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/nr832zeoic03",
+            "width": 643,
+            "height": 800,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-07 14:46:08",
+            "updated_at": "2026-11-07 14:46:08"
+        },
+        {
+            "id": 131,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/xmf2tdnbbd8f",
+            "width": 1336,
+            "height": 908,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-07 14:46:10",
+            "updated_at": "2026-11-07 14:46:10"
+        },
+        {
+            "id": 132,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/o6c3kyujwbev",
+            "width": 621,
+            "height": 907,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-07 14:46:18",
+            "updated_at": "2026-11-07 14:46:18"
+        },
+        {
+            "id": 133,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/qp8ipuk5u1ge",
+            "width": 1344,
+            "height": 903,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-07 14:46:20",
+            "updated_at": "2026-11-07 14:46:20"
+        },
+        {
+            "id": 134,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/f4upu78eqmgt",
+            "width": 650,
+            "height": 808,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-07 14:46:24",
+            "updated_at": "2026-11-07 14:46:24"
+        },
+        {
+            "id": 135,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/1sb7ecbf4npq",
+            "width": 1263,
+            "height": 913,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-07 14:46:26",
+            "updated_at": "2026-11-07 14:46:26"
+        },
+        {
+            "id": 136,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/q7rgneqxlrdr",
+            "width": 1614,
+            "height": 912,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-07 14:46:30",
+            "updated_at": "2026-11-07 14:46:30"
+        },
+        {
+            "id": 137,
+            "vendor_id": 1457,
+            "path": "content/vendors/1457/unoe22mvjdhv",
+            "width": 648,
+            "height": 804,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-07 14:46:31",
+            "updated_at": "2026-11-07 14:46:31"
+        },
+        {
+            "id": 138,
+            "vendor_id": 1458,
+            "path": "content/vendors/1458/ftaa8vujaser",
+            "width": 862,
+            "height": 592,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-07 14:50:39",
+            "updated_at": "2026-11-07 14:50:39"
+        },
+        {
+            "id": 139,
+            "vendor_id": 1458,
+            "path": "content/vendors/1458/2wjlqkgxfaly",
+            "width": 1370,
+            "height": 909,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-07 14:50:41",
+            "updated_at": "2026-11-07 14:50:41"
+        },
+        {
+            "id": 140,
+            "vendor_id": 1458,
+            "path": "content/vendors/1458/qsm76shymkcq",
+            "width": 1073,
+            "height": 808,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-07 14:50:45",
+            "updated_at": "2026-11-07 14:50:45"
+        },
+        {
+            "id": 141,
+            "vendor_id": 1458,
+            "path": "content/vendors/1458/ewm1bfyelbmq",
+            "width": 926,
+            "height": 904,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-07 14:50:47",
+            "updated_at": "2026-11-07 14:50:47"
+        },
+        {
+            "id": 142,
+            "vendor_id": 1458,
+            "path": "content/vendors/1458/yqj6bfddno91",
+            "width": 919,
+            "height": 908,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-07 14:50:54",
+            "updated_at": "2026-11-07 14:50:54"
+        },
+        {
+            "id": 143,
+            "vendor_id": 1458,
+            "path": "content/vendors/1458/3ezvtna5bo7a",
+            "width": 1081,
+            "height": 612,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-07 14:50:55",
+            "updated_at": "2026-11-07 14:50:55"
+        },
+        {
+            "id": 144,
+            "vendor_id": 1458,
+            "path": "content/vendors/1458/5sjrowajing6",
+            "width": 909,
+            "height": 610,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-07 14:51:00",
+            "updated_at": "2026-11-07 14:51:00"
+        },
+        {
+            "id": 145,
+            "vendor_id": 1459,
+            "path": "content/vendors/1459/igtmtglwuyka",
+            "width": 1080,
+            "height": 1080,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-07 14:55:34",
+            "updated_at": "2026-11-07 14:55:34"
+        },
+        {
+            "id": 146,
+            "vendor_id": 1459,
+            "path": "content/vendors/1459/hd3vanv8hxaw",
+            "width": 1080,
+            "height": 700,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-07 14:55:36",
+            "updated_at": "2026-11-07 14:55:36"
+        },
+        {
+            "id": 147,
+            "vendor_id": 1459,
+            "path": "content/vendors/1459/sbrn34dwexzg",
+            "width": 1386,
+            "height": 826,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-07 14:55:41",
+            "updated_at": "2026-11-07 14:55:41"
+        },
+        {
+            "id": 148,
+            "vendor_id": 1459,
+            "path": "content/vendors/1459/oc4etd4u5k9n",
+            "width": 1080,
+            "height": 1350,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-07 14:55:42",
+            "updated_at": "2026-11-07 14:55:42"
+        },
+        {
+            "id": 149,
+            "vendor_id": 1459,
+            "path": "content/vendors/1459/w9xd3dmylybf",
+            "width": 632,
+            "height": 395,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-07 14:55:45",
+            "updated_at": "2026-11-07 14:55:45"
+        },
+        {
+            "id": 150,
+            "vendor_id": 1459,
+            "path": "content/vendors/1459/kzhpwkbocq1i",
+            "width": 450,
+            "height": 350,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-07 14:55:46",
+            "updated_at": "2026-11-07 14:55:46"
+        },
+        {
+            "id": 151,
+            "vendor_id": 1459,
+            "path": "content/vendors/1459/stskgg73yhgt",
+            "width": 1024,
+            "height": 683,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-07 14:55:49",
+            "updated_at": "2026-11-07 14:55:49"
+        },
+        {
+            "id": 152,
+            "vendor_id": 1459,
+            "path": "content/vendors/1459/myn0q2xsebz8",
+            "width": 874,
+            "height": 656,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-07 14:55:49",
+            "updated_at": "2026-11-07 14:55:49"
+        },
+        {
+            "id": 153,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/cwdbwcc5d2nr",
+            "width": 1080,
+            "height": 720,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-07 15:01:15",
+            "updated_at": "2026-11-07 15:01:15"
+        },
+        {
+            "id": 154,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/wahqtuwrn0sf",
+            "width": 1368,
+            "height": 919,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-07 15:01:22",
+            "updated_at": "2026-11-07 15:01:22"
+        },
+        {
+            "id": 155,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/j7uasvn08bmv",
+            "width": 1080,
+            "height": 720,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-07 15:01:37",
+            "updated_at": "2026-11-07 15:01:37"
+        },
+        {
+            "id": 156,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/9fstzjhgvmy7",
+            "width": 713,
+            "height": 646,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-07 15:01:38",
+            "updated_at": "2026-11-07 15:01:38"
+        },
+        {
+            "id": 157,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/oqvujkuk2xet",
+            "width": 680,
+            "height": 453,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-07 15:01:51",
+            "updated_at": "2026-11-07 15:01:51"
+        },
+        {
+            "id": 158,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/6erqryv0afnu",
+            "width": 653,
+            "height": 366,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-07 15:01:53",
+            "updated_at": "2026-11-07 15:01:53"
+        },
+        {
+            "id": 159,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/yn7bdulc1k3m",
+            "width": 761,
+            "height": 491,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-07 15:02:04",
+            "updated_at": "2026-11-07 15:02:04"
+        },
+        {
+            "id": 160,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/akv1la2aa5ab",
+            "width": 680,
+            "height": 454,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-07 15:02:05",
+            "updated_at": "2026-11-07 15:02:05"
+        },
+        {
+            "id": 161,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/pl4t33cyfbsh",
+            "width": 640,
+            "height": 427,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-07 15:02:12",
+            "updated_at": "2026-11-07 15:02:12"
+        },
+        {
+            "id": 162,
+            "vendor_id": 1460,
+            "path": "content/vendors/1460/yi8agiariwjx",
+            "width": 1375,
+            "height": 918,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-07 15:02:14",
+            "updated_at": "2026-11-07 15:02:14"
+        },
+        {
+            "id": 163,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/5uno7ikui9u3",
+            "width": 919,
+            "height": 612,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-08 08:47:43",
+            "updated_at": "2026-11-08 08:47:43"
+        },
+        {
+            "id": 164,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/behsj6ald5db",
+            "width": 1368,
+            "height": 912,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-08 08:47:45",
+            "updated_at": "2026-11-08 08:47:45"
+        },
+        {
+            "id": 165,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/zzwitqwimxun",
+            "width": 918,
+            "height": 616,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-08 08:47:48",
+            "updated_at": "2026-11-08 08:47:48"
+        },
+        {
+            "id": 166,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/3qvlddn1snsj",
+            "width": 1332,
+            "height": 903,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-08 08:47:49",
+            "updated_at": "2026-11-08 08:47:49"
+        },
+        {
+            "id": 167,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/zfr50r8owaef",
+            "width": 750,
+            "height": 913,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-08 08:47:53",
+            "updated_at": "2026-11-08 08:47:53"
+        },
+        {
+            "id": 168,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/faiybiawhs83",
+            "width": 1368,
+            "height": 912,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-08 08:47:54",
+            "updated_at": "2026-11-08 08:47:54"
+        },
+        {
+            "id": 169,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/lm4ztx22qtvv",
+            "width": 909,
+            "height": 612,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-08 08:47:58",
+            "updated_at": "2026-11-08 08:47:58"
+        },
+        {
+            "id": 170,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/s1yywisiuqo3",
+            "width": 1359,
+            "height": 908,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-08 08:48:00",
+            "updated_at": "2026-11-08 08:48:00"
+        },
+        {
+            "id": 171,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/jrd5esxxcj26",
+            "width": 989,
+            "height": 750,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-08 08:48:01",
+            "updated_at": "2026-11-08 08:48:01"
+        },
+        {
+            "id": 172,
+            "vendor_id": 1461,
+            "path": "content/vendors/1461/cssb18hjkt2w",
+            "width": 996,
+            "height": 781,
+            "caption": null,
+            "sort": 10,
+            "created_at": "2026-11-08 08:48:03",
+            "updated_at": "2026-11-08 08:48:03"
+        },
+        {
+            "id": 173,
+            "vendor_id": 1462,
+            "path": "content/vendors/1462/bg7ol969qzcm",
+            "width": 1102,
+            "height": 491,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-08 08:52:38",
+            "updated_at": "2026-11-08 08:52:38"
+        },
+        {
+            "id": 174,
+            "vendor_id": 1462,
+            "path": "content/vendors/1462/m4jor5uxxkx2",
+            "width": 1374,
+            "height": 912,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-08 08:52:39",
+            "updated_at": "2026-11-08 08:52:39"
+        },
+        {
+            "id": 175,
+            "vendor_id": 1462,
+            "path": "content/vendors/1462/9jos6ppucdji",
+            "width": 562,
+            "height": 350,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-08 08:52:41",
+            "updated_at": "2026-11-08 08:52:41"
+        },
+        {
+            "id": 176,
+            "vendor_id": 1462,
+            "path": "content/vendors/1462/zzbdgk7ljghe",
+            "width": 2048,
+            "height": 1365,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-08 08:52:42",
+            "updated_at": "2026-11-08 08:52:42"
+        },
+        {
+            "id": 177,
+            "vendor_id": 1462,
+            "path": "content/vendors/1462/spjl8xcjselu",
+            "width": 1156,
+            "height": 723,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-08 08:55:06",
+            "updated_at": "2026-11-08 08:55:06"
+        },
+        {
+            "id": 178,
+            "vendor_id": 1462,
+            "path": "content/vendors/1462/ym70dsud7mky",
+            "width": 1347,
+            "height": 762,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-08 08:55:08",
+            "updated_at": "2026-11-08 08:55:08"
+        },
+        {
+            "id": 179,
+            "vendor_id": 1463,
+            "path": "content/vendors/1463/akhfkya2tbyf",
+            "width": 754,
+            "height": 900,
+            "caption": null,
+            "sort": 1,
+            "created_at": "2026-11-08 09:00:34",
+            "updated_at": "2026-11-08 09:00:34"
+        },
+        {
+            "id": 180,
+            "vendor_id": 1463,
+            "path": "content/vendors/1463/xnhlvlwiiluo",
+            "width": 670,
+            "height": 834,
+            "caption": null,
+            "sort": 2,
+            "created_at": "2026-11-08 09:00:35",
+            "updated_at": "2026-11-08 09:00:35"
+        },
+        {
+            "id": 181,
+            "vendor_id": 1463,
+            "path": "content/vendors/1463/rozt2rejd6c6",
+            "width": 727,
+            "height": 908,
+            "caption": null,
+            "sort": 3,
+            "created_at": "2026-11-08 09:00:43",
+            "updated_at": "2026-11-08 09:00:43"
+        },
+        {
+            "id": 182,
+            "vendor_id": 1463,
+            "path": "content/vendors/1463/trx9qmddclg9",
+            "width": 727,
+            "height": 913,
+            "caption": null,
+            "sort": 4,
+            "created_at": "2026-11-08 09:00:44",
+            "updated_at": "2026-11-08 09:00:44"
+        },
+        {
+            "id": 183,
+            "vendor_id": 1463,
+            "path": "content/vendors/1463/mnxoexmiilfn",
+            "width": 627,
+            "height": 835,
+            "caption": null,
+            "sort": 5,
+            "created_at": "2026-11-08 09:00:51",
+            "updated_at": "2026-11-08 09:00:51"
+        },
+        {
+            "id": 184,
+            "vendor_id": 1463,
+            "path": "content/vendors/1463/brcv5hgjkhrl",
+            "width": 912,
+            "height": 849,
+            "caption": null,
+            "sort": 6,
+            "created_at": "2026-11-08 09:00:52",
+            "updated_at": "2026-11-08 09:00:52"
+        },
+        {
+            "id": 185,
+            "vendor_id": 1463,
+            "path": "content/vendors/1463/tif0lyzvc5jh",
+            "width": 675,
+            "height": 831,
+            "caption": null,
+            "sort": 7,
+            "created_at": "2026-11-08 09:00:59",
+            "updated_at": "2026-11-08 09:00:59"
+        },
+        {
+            "id": 186,
+            "vendor_id": 1463,
+            "path": "content/vendors/1463/3txeg1zdr5ck",
+            "width": 738,
+            "height": 908,
+            "caption": null,
+            "sort": 8,
+            "created_at": "2026-11-08 09:01:01",
+            "updated_at": "2026-11-08 09:01:01"
+        },
+        {
+            "id": 187,
+            "vendor_id": 1463,
+            "path": "content/vendors/1463/f01dzeh1yudl",
+            "width": 927,
+            "height": 915,
+            "caption": null,
+            "sort": 9,
+            "created_at": "2026-11-08 09:01:07",
+            "updated_at": "2026-11-08 09:01:07"
+        }
+    ],
+    "bundles": [],
+    "bundle_members": [],
+    "collections": [],
+    "collection_picks": [],
+    "settings": [
+        {
+            "key": "home.hero_alt",
+            "value": "Perempuan bergaun putih merayakan dengan sampanye di antara confetti emas dan balon",
+            "created_at": "2026-10-07 08:36:01",
+            "updated_at": "2026-10-26 15:22:00"
+        },
+        {
+            "key": "home.hero_image",
+            "value": "content/beranda-hero-e0172b1440.webp",
+            "created_at": "2026-10-07 08:36:01",
+            "updated_at": "2026-10-26 15:21:59"
+        }
+    ]
+}

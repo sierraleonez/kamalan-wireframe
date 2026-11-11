@@ -41,30 +41,38 @@
 </section>
 
 {{-- CATEGORIES --}}
+@if ($p['cats'])
 <div class="shell sec">
   <x-sec-head eyebrow="Kategori" title="Temukan Vendor Pilihanmu" />
   <x-cats :items="$p['cats']" />
 </div>
+@endif
 
 {{-- BUNDLES --}}
+@if ($p['bundles'])
 <div class="shell sec" id="bundle">
   <x-sec-head eyebrow="Paket bundle" title="Nggak Perlu Hubungi Vendor Satu per Satu"
     intro="Venue, dekorasi, catering, dan kebutuhan lainnya bisa dikoordinasikan melalui satu EO dalam paket yang lebih praktis."
     more="Semua bundle →" more-href="/bundle" />
   <x-row :items="$p['bundles']" />
 </div>
+@endif
 
 {{-- VENDORS --}}
+@if ($p['vendors'])
 <div class="shell sec tight">
   <x-sec-head eyebrow="Vendor pilihan" title="Sudah Kami Kunjungi" more="Semua vendor →" more-href="/wedding/venue" />
   <x-row :items="$p['vendors']" />
 </div>
+@endif
 
 {{-- COLLECTIONS --}}
+@if ($p['collections'])
 <div class="shell sec tight" id="koleksi">
   <x-sec-head eyebrow="Koleksi" title="Sudah Kami Kurasi" more="Semua koleksi →" more-href="/koleksi" />
   <x-colls :items="$p['collections']" />
 </div>
+@endif
 
 {{-- ABOUT ("Tentang Kamalan"): disembunyikan di beranda (Okt 2026). Hapus komentar ini untuk menampilkannya lagi.
 <div class="shell sec tight" id="tentang">
