@@ -5,7 +5,9 @@ namespace Tests\Feature;
 use App\Filament\Pages\HomeContent;
 use App\Filament\Resources\Categories\Pages\ManageCategories;
 use App\Filament\Resources\Occasions\Pages\ManageOccasions;
+use App\Models\Bundle;
 use App\Models\Category;
+use App\Models\Collection;
 use App\Models\Occasion;
 use App\Models\Setting;
 use App\Models\User;
@@ -46,9 +48,9 @@ class HomeContentTest extends TestCase
         ];
     }
 
-    public function test_home_content_page_only_has_the_hero(): void
+    public function test_home_content_page_has_hero_and_section_pickers(): void
     {
-        $this->get('/admin/konten-beranda')->assertOk()->assertSee('Hero')->assertDontSee('Kategori vendor');
+        $this->get('/admin/konten-beranda')->assertOk()->assertSee('Hero')->assertSee('Vendor Terbaik')->assertSee('Best Deals (paket bundle)')->assertDontSee('Kategori vendor');
         $this->get('/')->assertSee('foto acara')->assertDontSee('/storage/content/');
     }
 
@@ -158,5 +160,44 @@ class HomeContentTest extends TestCase
         Livewire::test(ManageCategories::class)->callTableAction('edit', $catering, data: ['image' => null])->assertHasNoTableActionErrors();
         $this->assertNull($catering->fresh()->image);
         Storage::disk('public')->assertMissing($path);
+    }
+
+    /** Isi repeater seperti dari browser: satu baris per pilihan. */
+    private function rows(array $ids): array
+    {
+        return array_combine(array_map(fn ($i) => 'r'.$i, array_keys($ids)), array_map(fn ($id) => ['id' => $id], $ids));
+    }
+
+    public function test_admin_picks_which_vendors_bundles_and_collections_show_on_home(): void
+    {
+        $catering = Vendor::where('slug', 'boga-mahardika')->first();      // bukan venue
+        $venue = Vendor::where('slug', 'taman-cilandak')->first();
+        $bundle = Bundle::orderByDesc('id')->first();
+        $collection = Collection::orderByDesc('id')->first();
+
+        Livewire::test(HomeContent::class)
+            ->fillForm(['vendors' => $this->rows([$catering->id, $venue->id]), 'bundles' => $this->rows([$bundle->id]), 'collections' => $this->rows([$collection->id])])
+            ->call('save')->assertHasNoFormErrors();
+        $this->assertSame(json_encode([$catering->id, $venue->id]), Setting::value('home.vendors'));
+
+        $html = $this->get('/')->assertOk()->getContent();
+        $vendors = substr($html, strpos($html, 'Vendor Terbaik'));
+        $this->assertSame(2, substr_count(substr($vendors, 0, strpos($vendors, '</div>'."\n".'</div>') ?: strlen($vendors)), 'class="card'));
+        $this->assertStringContainsString('Boga Mahardika', $vendors);
+        $this->get('/')->assertSeeInOrder(['Best Deals', $bundle->title, 'Vendor Terbaik', 'Boga Mahardika', 'Taman Cilandak', 'Sudah Kami Kurasi', '/koleksi/'.$collection->slug], false);
+
+        // Reload form shows the saved picks; a deleted vendor is skipped on the site.
+        $this->assertSame([$catering->id, $venue->id], array_column(array_values(Livewire::test(HomeContent::class)->get('data.vendors')), 'id'));
+        $catering->delete();
+        $this->get('/')->assertDontSee('Boga Mahardika')->assertSee('Taman Cilandak');
+    }
+
+    public function test_empty_picks_fall_back_to_automatic_selection(): void
+    {
+        Setting::put('home.vendors', json_encode([Vendor::where('slug', 'taman-cilandak')->value('id')]));
+        Livewire::test(HomeContent::class)->fillForm(['vendors' => []])->call('save')->assertHasNoFormErrors();
+
+        $this->assertNull(Setting::value('home.vendors'));
+        $this->get('/')->assertOk()->assertSee('Vendor Terbaik')->assertSee('Ballroom Kebayoran');
     }
 }

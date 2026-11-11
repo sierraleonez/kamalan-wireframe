@@ -64,21 +64,35 @@ final class Pages
 
     public static function home(): array
     {
-        // Paket dan venue unggulan: yang dipromosikan dulu, lalu urutan editorial. Bagian kosong disembunyikan.
-        $bundles = array_values(Catalog::bundles());
-        usort($bundles, fn ($a, $b) => (int) ! empty($b['promoted']) <=> (int) ! empty($a['promoted']));
-        $venues = Catalog::vendorsOf('wedding', 'venue');
-        Catalog::editorialSort($venues);
-        usort($venues, fn ($a, $b) => (int) $b['promoted'] <=> (int) $a['promoted']);
-        $venues = array_slice($venues, 0, 4);
+        // Isi bagian beranda: pilihan admin (Konten beranda) kalau ada; kalau tidak, otomatis:
+        // yang dipromosikan dulu, lalu urutan editorial. Bagian kosong disembunyikan.
+        if ($picked = Catalog::homePicks('bundles')) {
+            $bundles = array_map(fn ($s) => Catalog::bundle($s), $picked);
+        } else {
+            $bundles = array_values(Catalog::bundles());
+            usort($bundles, fn ($a, $b) => (int) ! empty($b['promoted']) <=> (int) ! empty($a['promoted']));
+            $bundles = array_slice($bundles, 0, 3);
+        }
+        if ($picked = Catalog::homePicks('vendors')) {
+            $venues = array_values(array_filter(array_map(fn ($s) => Catalog::vendor($s), $picked), fn ($v) => $v['types']));
+        } else {
+            $venues = Catalog::vendorsOf('wedding', 'venue');
+            Catalog::editorialSort($venues);
+            usort($venues, fn ($a, $b) => (int) $b['promoted'] <=> (int) $a['promoted']);
+            $venues = array_slice($venues, 0, 4);
+        }
+        $collections = ($picked = Catalog::homePicks('collections'))
+            ? array_map(fn ($s) => Catalog::collection($s), $picked)
+            : array_slice(array_values(Catalog::collections()), 0, 3);
 
         return self::base('Vendor acara di Jabodetabek', 'home', [
             'hero' => Catalog::image('hero'),
             'occasions' => self::occasions(),
             'cats' => self::catRow(null),
-            'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted']), 'HOME'), array_slice($bundles, 0, 3)),
-            'vendors' => array_map(fn ($v, $i) => P::vendorCard($v, 'wedding', $i === 0 && $v['promoted'], 'HOME'), $venues, array_keys($venues)),
-            'collections' => array_map(fn ($c, $i) => ['tone' => 'k'.($i + 1)] + P::collectionTile($c), $cs = array_slice(array_values(Catalog::collections()), 0, 3), array_keys($cs)),
+            'bundles' => array_map(fn ($b) => P::bundleCard($b, ! empty($b['promoted']), 'HOME'), $bundles),
+            // Tautan kartu ke halaman wedding kalau vendornya melayani wedding, selain itu jenis acara pertamanya.
+            'vendors' => array_map(fn ($v, $i) => P::vendorCard($v, in_array('wedding', $v['types'], true) ? 'wedding' : $v['types'][0], $i === 0 && $v['promoted'], 'HOME'), $venues, array_keys($venues)),
+            'collections' => array_map(fn ($c, $i) => ['tone' => 'k'.($i % 3 + 1)] + P::collectionTile($c), $collections, array_keys($collections)),
             'bandHref' => '/kasih-tau-kami',
         ]);
     }

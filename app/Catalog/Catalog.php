@@ -252,8 +252,17 @@ final class Catalog
             'categories' => array_filter($categories->mapWithKeys(fn ($c) => [$c->slug => $photo($c)])->all()),
         ];
 
+        // Pilihan beranda (admin → Konten beranda): id tersimpan sebagai JSON, di sini jadi slug.
+        // Kosong = dipilih otomatis. Yang sudah dihapus dilewati.
+        $bundleSlug = DB::table('bundles')->pluck('slug', 'id');
+        $collectionSlug = DB::table('collections')->pluck('slug', 'id');
+        $pick = fn (string $key, $slugs) => array_values(array_filter(array_map(
+            fn ($id) => $slugs[$id] ?? null, json_decode($settings['home.'.$key] ?? '[]', true) ?: [])));
+        $home = ['vendors' => $pick('vendors', $slugOf), 'bundles' => $pick('bundles', $bundleSlug), 'collections' => $pick('collections', $collectionSlug)];
+
         return [
             'images' => $images,
+            'home' => $home,
             'areas' => $areas,
             'types' => $types,
             'categories' => $cats,
@@ -262,6 +271,12 @@ final class Catalog
             'collections' => $collections,
             'refs' => $refs,
         ];
+    }
+
+    /** Slug yang dipilih admin untuk bagian beranda ('vendors', 'bundles', 'collections'); [] = otomatis. */
+    public static function homePicks(string $section): array
+    {
+        return self::data()['home'][$section] ?? [];
     }
 
     /** Foto untuk 'hero', atau untuk jenis acara / kategori: ['url' => …, 'alt' => …] atau null. */
