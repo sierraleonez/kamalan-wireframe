@@ -8,4 +8,4 @@
   'dokumentasi' => 'M3 8h4l2-3h6l2 3h4v11H3zM12 15a3.5 3.5 0 100-7 3.5 3.5 0 000 7z',
   'av-produksi' => 'M4 5h16v10H4zM9 19h6M12 15v4M8 9l3 2-3 2',
 ][$name] ?? 'M4 4h16v16H4z')
-<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#022A5B" stroke-width="1.4" aria-hidden="true"><path d="{{ $d }}"/></svg>
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#022A5B" stroke-width="2" aria-hidden="true"><path d="{{ $d }}"/></svg>

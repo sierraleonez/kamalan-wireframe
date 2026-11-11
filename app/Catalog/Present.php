@@ -201,6 +201,7 @@ final class Present
             'href' => self::vendorPath($v, $type),
             'tone' => self::tone($v['slug']),
             'img' => self::cover($v),
+            'cat' => Catalog::category($v['cat'])['name'],
             'chip' => $v['cat'] === 'venue' ? self::settingText($v['setting']) : Catalog::category($v['cat'])['name'],
             'meta' => implode(' · ', array_filter(array_merge([$v['hood'], self::capText($v, $type)], self::extras($v, $type)))),
             // Tanpa chip foto (kartu "serupa" di halaman detail), suasana pindah ke meta.

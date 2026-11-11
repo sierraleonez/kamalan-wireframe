@@ -26,14 +26,12 @@
 {{-- OCCASIONS --}}
 <section class="occ-band" id="branch">
 <div class="shell sec">
-  <div class="sec-head"><h2 class="display">Acara Apa yang Kamu Rencanakan?</h2></div>
+  <div class="sec-head"><h2 class="display">Pilih Acaramu</h2></div>
   <div class="occs">
     @foreach ($p['occasions'] as $o)
       <a class="occ {{ $o['tone'] }}{{ $o['image'] ? ' has-img' : '' }}" href="{{ $o['href'] }}" wire:navigate>
         @if ($o['image'])<img class="bg" src="{{ $o['image']['url'] }}" alt="{{ $o['image']['alt'] }}" loading="lazy" decoding="async">@endif
         <h3>{{ $o['name'] }}</h3>
-        <p>{{ $o['blurb'] }}</p>
-        <span class="go">Lihat vendor →</span>
       </a>
     @endforeach
   </div>
@@ -43,7 +41,7 @@
 {{-- CATEGORIES --}}
 @if ($p['cats'])
 <div class="shell sec">
-  <x-sec-head eyebrow="Kategori" title="Temukan Vendor Pilihanmu" />
+  <x-sec-head eyebrow="Kategori" title="Kebutuhan Acaramu" />
   <x-cats :items="$p['cats']" />
 </div>
 @endif
@@ -51,7 +49,7 @@
 {{-- BUNDLES --}}
 @if ($p['bundles'])
 <div class="shell sec" id="bundle">
-  <x-sec-head eyebrow="Paket bundle" title="Nggak Perlu Hubungi Vendor Satu per Satu"
+  <x-sec-head eyebrow="Best Deals" title="Nggak Perlu Hubungi Vendor Satu per Satu"
     intro="Venue, dekorasi, catering, dan kebutuhan lainnya bisa dikoordinasikan melalui satu EO dalam paket yang lebih praktis."
     more="Semua bundle →" more-href="/bundle" />
   <x-row :items="$p['bundles']" />
@@ -61,8 +59,8 @@
 {{-- VENDORS --}}
 @if ($p['vendors'])
 <div class="shell sec tight">
-  <x-sec-head eyebrow="Vendor pilihan" title="Sudah Kami Kunjungi" more="Semua vendor →" more-href="/wedding/venue" />
-  <x-row :items="$p['vendors']" />
+  <x-sec-head eyebrow="Vendor pilihan" title="Vendor Terbaik" more="Semua vendor →" more-href="/wedding/venue" />
+  <x-row :items="$p['vendors']" :cat="true" />
 </div>
 @endif
 

@@ -1,5 +1,5 @@
 {{-- Kartu vendor/bundle: foto → nama → meta → harga → CTA penuh. cta="orange" (beranda, listing) atau "tint" (di bawah CTA utama halaman detail). --}}
-@props(['c', 'cta' => 'orange', 'save' => false, 'chip' => true])
+@props(['c', 'cta' => 'orange', 'save' => false, 'chip' => true, 'cat' => false])
 <article class="card{{ $c['promo'] ? ' promoted' : '' }}">
   <a class="thumb-wrap" href="{{ $c['href'] }}" wire:navigate tabindex="-1" aria-hidden="true">
     <div class="thumb {{ $c['tone'] }}{{ $c['img'] ?? null ? ' has-img' : '' }}">@if ($c['img'] ?? null)<img src="{{ $c['img'] }}" alt="" loading="lazy" decoding="async">@else{{ 'foto' }}@endif</div>
@@ -10,6 +10,9 @@
       :aria-pressed="$store.saved.has(k)" aria-pressed="false" aria-label="Simpan {{ $c['name'] }}"><span class="heart" x-text="$store.saved.has(k) ? '♥' : '♡'">♡</span></button>
   @endif
   <div class="body">
+@if ($cat && ($c['cat'] ?? null))
+    <div class="ct">{{ $c['cat'] }}</div>
+@endif
     <a class="nm card-link" href="{{ $c['href'] }}" wire:navigate>{{ $c['name'] }}</a>
     <div class="mt">{{ $chip ? $c['meta'] : $c['metaNoChip'] }}</div>
     <div class="pr">{{ $c['price'] }}</div>

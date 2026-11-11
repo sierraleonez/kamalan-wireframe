@@ -46,7 +46,7 @@ class SiteTest extends TestCase
     {
         $res = $this->get('/')->assertOk()
             ->assertSee('<title>Kamalan Event Hub — Vendor acara di Jabodetabek</title>', false)
-            ->assertSeeInOrder(['Vendor Terpercaya,', 'Acara Apa yang Kamu Rencanakan?', 'Dari Tiup Lilin Pertama sampai Setengah Abad', 'Temukan Vendor Pilihanmu', 'Nggak Perlu Hubungi Vendor Satu per Satu', 'Sudah Kami Kunjungi', 'Sudah Kami Kurasi', 'Punya usaha vendor acara?']);
+            ->assertSeeInOrder(['Vendor Terpercaya,', 'Pilih Acaramu', 'Kebutuhan Acaramu', 'Best Deals', 'Nggak Perlu Hubungi Vendor Satu per Satu', 'Vendor Terbaik', 'Sudah Kami Kurasi', 'Punya usaha vendor acara?']);
         $res->assertDontSee('id="tentang"', false);
         foreach (['Wedding', 'Corporate', 'Ulang Tahun', 'Baby &amp; Kids', 'Social Gathering', 'Celebration'] as $occ) {
             $res->assertSee('<h3>'.$occ.'</h3>', false);

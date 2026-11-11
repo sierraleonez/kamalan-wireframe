@@ -54,7 +54,7 @@ class RealCatalogTest extends TestCase
         $this->get('/')->assertOk()
             ->assertDontSee('href="/bundle"', false)->assertDontSee('href="/koleksi"', false)
             ->assertDontSee('Nggak Perlu Hubungi Vendor Satu per Satu')->assertDontSee('Sudah Kami Kurasi')
-            ->assertSee('Sudah Kami Kunjungi')
+            ->assertSee('Vendor Terbaik')
             ->assertSee('/wedding/venue', false)->assertDontSee('/wedding/catering', false);
         $this->get('/corporate')->assertOk()->assertDontSee('/corporate/catering', false)->assertDontSee('Biaya Sesuai Jumlah Peserta');
         $this->get('/bundle')->assertOk()->assertSee('Belum ada');
