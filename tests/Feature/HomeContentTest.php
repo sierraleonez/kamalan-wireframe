@@ -285,4 +285,24 @@ class HomeContentTest extends TestCase
         // Form memuat ubahan dan teks bawaan sisanya.
         Livewire::test(HomeContent::class)->assertFormSet(['texts.vendors_title' => 'Pilihan <b>Tim</b>', 'texts.band_button' => 'Daftarkan usaha →']);
     }
+
+    public function test_footer_contact_column_is_set_in_admin_and_hidden_when_empty(): void
+    {
+        $this->get('/')->assertDontSee('Hubungi kami')->assertDontSee('Kasih tau kami')
+            ->assertSee('<p>Venue, catering, EO, dan hiburan di Jabodetabek.</p>', false);   // footer tanpa kalimat kedua
+
+        Livewire::test(HomeContent::class)
+            ->fillForm(['contact.wa' => '0812-3456-789', 'contact.email' => 'halo@kamalan.id', 'contact.ig' => '@kamalan.id', 'contact.address' => ''])
+            ->call('save')->assertHasNoErrors()->assertNotified('Konten beranda disimpan');
+
+        $this->get('/wedding')->assertOk()->assertSeeInOrder(['Hubungi kami', 'https://wa.me/628123456789', 'WhatsApp 0812-3456-789', 'mailto:halo@kamalan.id', 'https://instagram.com/kamalan.id', 'Instagram @kamalan.id'], false);
+
+        Livewire::test(HomeContent::class)->assertFormSet(['contact.email' => 'halo@kamalan.id'])
+            ->fillForm(['contact.wa' => '', 'contact.email' => '', 'contact.ig' => ''])->call('save');
+        $this->assertNull(Setting::value('site.contact'));
+        $this->get('/')->assertDontSee('Hubungi kami');
+
+        Livewire::test(HomeContent::class)->fillForm(['contact.email' => 'bukan email', 'contact.wa' => 'abc'])->call('save')
+            ->assertHasFormErrors(['contact.email', 'contact.wa']);
+    }
 }

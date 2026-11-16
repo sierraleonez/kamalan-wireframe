@@ -4,6 +4,7 @@ namespace App\Catalog;
 
 use App\Support\HeroSlides;
 use App\Support\ImageStore;
+use App\Support\SiteContact;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -268,6 +269,7 @@ final class Catalog
             'images' => $images,
             'home' => $home,
             'texts' => json_decode($settings['home.texts'] ?? '[]', true) ?: [],
+            'contact' => SiteContact::fromSettings($settings),
             'areas' => $areas,
             'types' => $types,
             'categories' => $cats,

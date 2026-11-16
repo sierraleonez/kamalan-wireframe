@@ -3,6 +3,7 @@
 namespace App\Catalog;
 
 use App\Catalog\Present as P;
+use App\Support\SiteContact;
 
 /**
  * Props siap-tampil per halaman, dirender oleh view Blade di resources/views/pages.
@@ -785,10 +786,11 @@ final class Pages
                 ['label' => 'Depok', 'href' => '/wedding/venue/depok', 'area' => 'depok'],
             ], fn ($a) => Catalog::vendorsOf('wedding', 'venue', $a['area']))),
             'about' => [
-                // 'Tentang kami' (/#tentang) disembunyikan bersama bagiannya di beranda, sampai ada halaman Tentang.
-                ['label' => 'Kasih tau kami', 'href' => '/kasih-tau-kami'],
+                // 'Tentang kami' (/#tentang) dan 'Kasih tau kami' disembunyikan dari footer (Nov 2026).
                 ['label' => 'Daftarkan usaha', 'href' => '/daftarkan-usaha'],
             ],
+            // Kolom "Hubungi kami" (Konten beranda → Kontak); tidak tampil kalau semua kosong.
+            'contact' => SiteContact::links(Catalog::data()['contact'] ?? SiteContact::fromSettings([])),
         ];
     }
 }

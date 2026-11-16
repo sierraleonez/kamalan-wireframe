@@ -10,6 +10,7 @@ use App\Models\Setting;
 use App\Models\Vendor;
 use App\Support\HeroSlides;
 use App\Support\ImageStore;
+use App\Support\SiteContact;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -68,6 +69,7 @@ class HomeContent extends Page
         foreach (array_keys(self::PICKS) as $key) {
             $data[$key] = json_decode(Setting::value('home.'.$key) ?? '[]', true) ?: [];
         }
+        $data['contact'] = SiteContact::fromSettings($settings);
         $data['texts'] = array_merge(HomeText::defaults(), json_decode(Setting::value('home.texts') ?? '[]', true) ?: []);
 
         return $data;
@@ -98,6 +100,17 @@ class HomeContent extends Page
                     TextInput::make('hero_interval')->label('Ganti foto tiap')
                         ->numeric()->integer()->minValue(2)->maxValue(30)->suffix('detik')->required()
                         ->helperText('Carousel berhenti sebentar saat kursor di atas foto. Pengunjung yang mematikan animasi di perangkatnya tidak melihat pergantian otomatis.'),
+                ]),
+            Section::make('Kontak (footer)')
+                ->description('Kolom "Hubungi kami" di footer semua halaman. Isian yang kosong tidak ditampilkan; kalau semuanya kosong, kolomnya tidak muncul.')
+                ->collapsible()
+                ->columns(2)
+                ->components([
+                    TextInput::make('contact.wa')->label('WhatsApp')->tel()->placeholder('0812…')->maxLength(30)
+                        ->regex('/^[0-9 +()-]*$/')->helperText('Dibuka sebagai chat WhatsApp; 08… otomatis jadi +62.'),
+                    TextInput::make('contact.email')->label('Email')->email()->maxLength(120),
+                    TextInput::make('contact.ig')->label('Instagram')->placeholder('@kamalan')->maxLength(80),
+                    Textarea::make('contact.address')->label('Alamat')->rows(2)->maxLength(300),
                 ]),
             Section::make('Teks beranda')
                 ->description('Semua tulisan tetap di beranda. Kotak yang dikosongkan kembali ke teks bawaan. Nama dan deskripsi jenis acara diatur di Jenis acara; nama kategori di Kategori.')
@@ -159,6 +172,8 @@ class HomeContent extends Page
             $ids = array_values(array_unique(array_map('intval', array_filter($state[$key] ?? []))));
             Setting::put('home.'.$key, $ids ? json_encode($ids) : null);
         }
+        $contact = SiteContact::fromSettings(['site.contact' => json_encode($state['contact'] ?? [])]);
+        Setting::put('site.contact', array_filter($contact) ? json_encode($contact, JSON_UNESCAPED_UNICODE) : null);
         $texts = HomeText::overrides($state['texts'] ?? []);
         Setting::put('home.texts', $texts ? json_encode($texts, JSON_UNESCAPED_UNICODE) : null);
 
