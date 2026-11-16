@@ -87,6 +87,8 @@ final class Pages
 
         return self::base('Vendor acara di Jabodetabek', 'home', [
             'hero' => Catalog::image('hero'),
+            'heroSlides' => Catalog::image('heroSlides') ?? [],
+            'heroInterval' => Catalog::data()['images']['heroInterval'] ?? 5,
             'text' => HomeText::all(),
             'occasions' => self::occasions(),
             'cats' => self::catRow(null),

@@ -8,6 +8,8 @@ use App\Models\Bundle;
 use App\Models\Collection;
 use App\Models\Setting;
 use App\Models\Vendor;
+use App\Support\HeroSlides;
+use App\Support\ImageStore;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -58,11 +60,11 @@ class HomeContent extends Page
 
     private function current(): array
     {
-        $data = ['hero' => [
-            'image' => Setting::value('home.hero_image'),
-            'image_url' => null,
-            'image_alt' => Setting::value('home.hero_alt'),
-        ]];
+        $settings = Setting::query()->pluck('value', 'key');
+        $data = [
+            'hero_slides' => array_map(fn ($s) => ['image' => $s['image'], 'image_url' => null, 'image_alt' => $s['alt']], HeroSlides::fromSettings($settings)),
+            'hero_interval' => HeroSlides::interval($settings),
+        ];
         foreach (array_keys(self::PICKS) as $key) {
             $data[$key] = json_decode(Setting::value('home.'.$key) ?? '[]', true) ?: [];
         }
@@ -86,8 +88,17 @@ class HomeContent extends Page
     {
         return $schema->statePath('data')->components([
             Section::make('Hero')
-                ->description('Foto besar di samping judul beranda. Paling bagus foto landscape, minimal 1600 px lebarnya. Foto kartu jenis acara diatur di Jenis acara; foto kategori di Kategori.')
-                ->components(PhotoField::make('hero.')),
+                ->description('Foto besar di samping judul beranda, berganti otomatis kalau lebih dari satu (carousel dengan titik dan panah). Paling bagus foto landscape, minimal 1600 px lebarnya. Seret untuk mengubah urutan. Foto kartu jenis acara diatur di Jenis acara; foto kategori di Kategori.')
+                ->components([
+                    Repeater::make('hero_slides')->label('Foto')
+                        ->schema(PhotoField::make('', true))
+                        ->reorderable()->collapsible()->maxItems(HeroSlides::MAX)->defaultItems(0)
+                        ->itemLabel(fn (array $state) => filled($state['image_alt'] ?? null) ? $state['image_alt'] : 'Foto')
+                        ->addActionLabel('Tambah foto'),
+                    TextInput::make('hero_interval')->label('Ganti foto tiap')
+                        ->numeric()->integer()->minValue(2)->maxValue(30)->suffix('detik')->required()
+                        ->helperText('Carousel berhenti sebentar saat kursor di atas foto. Pengunjung yang mematikan animasi di perangkatnya tidak melihat pergantian otomatis.'),
+                ]),
             Section::make('Teks beranda')
                 ->description('Semua tulisan tetap di beranda. Kotak yang dikosongkan kembali ke teks bawaan. Nama dan deskripsi jenis acara diatur di Jenis acara; nama kategori di Kategori.')
                 ->collapsible()
@@ -121,14 +132,29 @@ class HomeContent extends Page
 
     public function save(): void
     {
+        $old = array_column(HeroSlides::stored(), 'image');
         try {
             $state = $this->form->getState();
-            $hero = PhotoField::apply($state['hero'], 'beranda-hero', 1600, Setting::value('home.hero_image'));
+            $slides = [];
+            foreach ($state['hero_slides'] ?? [] as $item) {
+                // Foto yang sudah tersimpan tidak diproses ulang; unggahan atau link baru jadi WebP.
+                $path = PhotoField::path($item['image'] ?? null);
+                $saved = PhotoField::apply($item, 'beranda-hero', 1600, in_array($path, $old, true) ? $path : null);
+                if ($saved['image']) {
+                    $slides[] = ['image' => $saved['image'], 'alt' => (string) $saved['image_alt']];
+                }
+            }
         } catch (Halt) {
             return; // pesan sudah ditampilkan
         }
-        Setting::put('home.hero_image', $hero['image']);
-        Setting::put('home.hero_alt', $hero['image_alt']);
+        foreach (array_diff($old, array_column($slides, 'image')) as $removed) {
+            ImageStore::delete($removed);
+        }
+        Setting::put('home.hero_slides', json_encode($slides, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        Setting::put('home.hero_interval', (string) (int) $state['hero_interval']);
+        // Format lama (satu foto) sudah pindah ke hero_slides.
+        Setting::put('home.hero_image', null);
+        Setting::put('home.hero_alt', null);
         foreach (array_keys(self::PICKS) as $key) {
             $ids = array_values(array_unique(array_map('intval', array_filter($state[$key] ?? []))));
             Setting::put('home.'.$key, $ids ? json_encode($ids) : null);

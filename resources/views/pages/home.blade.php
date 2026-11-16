@@ -11,13 +11,29 @@
       <p class="lead">{!! nl2br(e($t['hero_lead']), false) !!}</p>
       <a class="btn btn-navy" href="#branch">{{ $t['hero_button'] }}</a>
     </div>
-    <div class="hero-art{{ $p['hero'] ? ' has-img' : '' }}">
-      @if ($p['hero'])
-        <img class="hero-img" src="{{ $p['hero']['url'] }}" alt="{{ $p['hero']['alt'] }}" fetchpriority="high" decoding="async">
-      @else
+    @php($slides = $p['heroSlides'])
+    {{-- Carousel hero (Konten beranda): foto berganti tiap heroInterval detik; titik + panah kalau lebih dari satu. --}}
+    <div class="hero-art{{ $slides ? ' has-img' : '' }}" @if (count($slides) > 1) x-data="heroCarousel({{ count($slides) }}, {{ $p['heroInterval'] }})"
+      @mouseenter="pause(true)" @mouseleave="pause(false)" @focusin="pause(true)" @focusout="pause(false)"
+      @touchstart.passive="tx = $event.touches[0].clientX" @touchend="swipe($event.changedTouches[0].clientX)"
+      @keydown.left.prevent="prev()" @keydown.right.prevent="next()" role="region" aria-roledescription="carousel" aria-label="Foto acara" @endif>
+      @forelse ($slides as $i => $s)
+        <img class="hero-img{{ $i === 0 ? ' on' : '' }}" src="{{ $s['url'] }}" alt="{{ $s['alt'] }}" decoding="async"
+          @if ($i === 0) fetchpriority="high" @else loading="lazy" @endif
+          @if (count($slides) > 1) :class="{ on: i === {{ $i }} }" :aria-hidden="i !== {{ $i }}" @endif>
+      @empty
         <div class="ph">foto acara</div>
-      @endif
+      @endforelse
       <div class="script">{!! nl2br(e($t['hero_script']), false) !!}</div>
+      @if (count($slides) > 1)
+        <button type="button" class="hero-nav prev" @click="prev()" aria-label="Foto sebelumnya">‹</button>
+        <button type="button" class="hero-nav next" @click="next()" aria-label="Foto berikutnya">›</button>
+        <div class="hero-dots">
+          @foreach ($slides as $i => $s)
+            <button type="button" @click="go({{ $i }})" :aria-current="i === {{ $i }}" aria-current="{{ $i === 0 ? 'true' : 'false' }}" aria-label="Foto {{ $i + 1 }} dari {{ count($slides) }}"></button>
+          @endforeach
+        </div>
+      @endif
     </div>
   </div>
 </div>

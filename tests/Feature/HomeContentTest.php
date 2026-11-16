@@ -54,18 +54,36 @@ class HomeContentTest extends TestCase
         $this->get('/')->assertSee('foto acara')->assertDontSee('/storage/content/');
     }
 
+    /** @return array<string, mixed> isian satu foto hero di repeater (FileUpload berisi [uuid => file]) */
+    private function slide(array $fields): array
+    {
+        if (isset($fields['image'])) {
+            $fields['image'] = ['f1' => $fields['image']];
+        }
+
+        return $fields + ['image' => [], 'image_url' => null, 'image_alt' => null];
+    }
+
+    private function slides(): array
+    {
+        return json_decode(Setting::value('home.hero_slides') ?? '[]', true);
+    }
+
     public function test_uploaded_hero_is_resized_to_webp_and_shown(): void
     {
+        $undo = Repeater::fake();
         Livewire::test(HomeContent::class)
-            ->fillForm(['hero.image' => UploadedFile::fake()->image('hero.jpg', 3000, 2000), 'hero.image_alt' => 'Resepsi di taman'])
+            ->fillForm(['hero_slides' => [$this->slide(['image' => UploadedFile::fake()->image('hero.jpg', 3000, 2000), 'image_alt' => 'Resepsi di taman'])], 'hero_interval' => 5])
             ->call('save')
-            ->assertHasNoFormErrors();
+            ->assertHasNoErrors()->assertNotified('Konten beranda disimpan');
+        $undo();
 
-        $path = Setting::value('home.hero_image');
+        $path = $this->slides()[0]['image'];
         $this->assertMatchesRegularExpression('#^content/beranda-hero-[0-9a-f]{10}\.webp$#', $path);
         $this->assertSame(1600, getimagesizefromstring(Storage::disk('public')->get($path))[0]);
         $this->assertSame([$path], Storage::disk('public')->allFiles('content'), 'upload asli dihapus');
-        $this->get('/')->assertSee('/storage/'.$path)->assertSee('Resepsi di taman')->assertDontSee('foto acara');
+        $this->get('/')->assertSee('/storage/'.$path)->assertSee('Resepsi di taman')->assertDontSee('foto acara')
+            ->assertDontSee('heroCarousel')->assertDontSee('hero-dots');   // satu foto: tanpa carousel
     }
 
     public function test_hero_from_link_and_bad_link(): void
@@ -74,13 +92,56 @@ class HomeContentTest extends TestCase
             'img.example.test/*' => Http::response($this->png(1200, 800), 200, ['Content-Type' => 'image/png']),
             'bad.example.test/*' => Http::response('<html>bukan gambar</html>', 200),
         ]);
+        $undo = Repeater::fake();
 
-        Livewire::test(HomeContent::class)->fillForm(['hero.image_url' => 'https://bad.example.test/x'])->call('save')->assertNotified('Foto tidak tersimpan');
+        Livewire::test(HomeContent::class)->fillForm(['hero_slides' => [$this->slide(['image_url' => 'https://bad.example.test/x'])]])->call('save')->assertNotified('Foto tidak tersimpan');
+        $this->assertSame([], $this->slides());
+
+        Livewire::test(HomeContent::class)->fillForm(['hero_slides' => [$this->slide(['image_url' => 'https://img.example.test/a.png'])]])->call('save')
+            ->assertNotified('Konten beranda disimpan');
+        $undo();
+        Storage::disk('public')->assertExists($this->slides()[0]['image']);
+    }
+
+    public function test_hero_carousel_with_several_photos_dots_arrows_and_interval(): void
+    {
+        $disk = Storage::disk('public');
+        foreach (['a', 'b', 'c'] as $n) {
+            $disk->put("content/beranda-hero-$n.webp", 'x');
+        }
+        // Situs lama: satu foto di home.hero_image, jadi foto pertama di form.
+        Setting::put('home.hero_image', 'content/beranda-hero-a.webp');
+        Setting::put('home.hero_alt', 'Foto lama');
+        Setting::put('home.hero_slides', null);
+        $this->get('/')->assertSee('/storage/content/beranda-hero-a.webp');
+
+        $undo = Repeater::fake();
+        $lw = Livewire::test(HomeContent::class);
+        $this->assertSame('Foto lama', array_values($lw->get('data.hero_slides'))[0]['image_alt']);
+        $undo();
+
+        // Tiga foto tersimpan; admin menghapus c, menukar urutan, dan mengganti selang waktu.
+        Setting::put('home.hero_slides', json_encode([['image' => 'content/beranda-hero-a.webp', 'alt' => 'Foto lama'], ['image' => 'content/beranda-hero-b.webp', 'alt' => ''], ['image' => 'content/beranda-hero-c.webp', 'alt' => '']]));
+        $undo = Repeater::fake();
+        $lw = Livewire::test(HomeContent::class)
+            ->set('data.hero_slides', [
+                'x' => $this->slide(['image' => 'content/beranda-hero-b.webp', 'image_alt' => 'Kedua']),
+                'y' => $this->slide(['image' => 'content/beranda-hero-a.webp', 'image_alt' => 'Foto lama']),
+            ])
+            ->fillForm(['hero_interval' => 7]);
+        $lw->call('save')->assertHasNoErrors()->assertNotified('Konten beranda disimpan');
+        $undo();
+
+        $this->assertSame([['image' => 'content/beranda-hero-b.webp', 'alt' => 'Kedua'], ['image' => 'content/beranda-hero-a.webp', 'alt' => 'Foto lama']], $this->slides());
         $this->assertNull(Setting::value('home.hero_image'));
+        $disk->assertMissing('content/beranda-hero-c.webp');   // dikeluarkan dari carousel → filenya dihapus
+        $disk->assertExists('content/beranda-hero-a.webp');
 
-        Livewire::test(HomeContent::class)->fillForm(['hero.image_url' => 'https://img.example.test/a.png'])->call('save')
-            ->assertNotified('Konten beranda disimpan')->assertFormSet(['hero.image_url' => null]);
-        Storage::disk('public')->assertExists(Setting::value('home.hero_image'));
+        $this->get('/')->assertOk()
+            ->assertSee('heroCarousel(2, 7)', false)
+            ->assertSeeInOrder(['beranda-hero-b.webp', 'fetchpriority="high"', 'beranda-hero-a.webp', 'loading="lazy"'], false)
+            ->assertSee('aria-label="Foto berikutnya"', false)
+            ->assertSee('aria-label="Foto 2 dari 2"', false);
     }
 
     public function test_new_occasion_with_cover_goes_live(): void

@@ -2,6 +2,7 @@
 
 namespace App\Catalog;
 
+use App\Support\HeroSlides;
 use App\Support\ImageStore;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -247,7 +248,10 @@ final class Catalog
         $photo = fn ($row) => ($row->image ?? null) ? ['url' => ImageStore::url($row->image), 'alt' => (string) $row->image_alt] : null;
         $settings = Schema::hasTable('settings') ? DB::table('settings')->pluck('value', 'key') : collect();
         $images = [
-            'hero' => ($settings['home.hero_image'] ?? null) ? ['url' => ImageStore::url($settings['home.hero_image']), 'alt' => (string) ($settings['home.hero_alt'] ?? '')] : null,
+            // Carousel hero: [{url, alt}, …]; 'hero' = foto pertama.
+            'heroSlides' => $heroSlides = array_map(fn ($s) => ['url' => ImageStore::url($s['image']), 'alt' => $s['alt']], HeroSlides::fromSettings($settings)),
+            'heroInterval' => HeroSlides::interval($settings),
+            'hero' => $heroSlides[0] ?? null,
             'occasions' => array_filter($occasions->mapWithKeys(fn ($o) => [$o->slug => $photo($o)])->all()),
             'categories' => array_filter($categories->mapWithKeys(fn ($c) => [$c->slug => $photo($c)])->all()),
         ];

@@ -154,6 +154,42 @@ Alpine.data('occasionPage', (cfg) => ({
     },
 }));
 
+// Beranda: carousel foto hero. Berhenti saat kursor/fokus di atasnya dan saat tab tidak terlihat;
+// tanpa pergantian otomatis kalau pengunjung meminta animasi dikurangi.
+Alpine.data('heroCarousel', (count, seconds) => ({
+    i: 0,
+    tx: null,
+    held: false,
+    timer: null,
+    init() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        this.timer = setInterval(() => {
+            if (!this.held && !document.hidden) this.i = (this.i + 1) % count;
+        }, seconds * 1000);
+    },
+    destroy() {
+        clearInterval(this.timer);
+    },
+    pause(on) {
+        this.held = on;
+    },
+    go(n) {
+        this.i = (n + count) % count;
+    },
+    prev() {
+        this.go(this.i - 1);
+    },
+    next() {
+        this.go(this.i + 1);
+    },
+    swipe(x) {
+        if (this.tx === null) return;
+        const dx = x - this.tx;
+        this.tx = null;
+        if (Math.abs(dx) > 40) dx < 0 ? this.next() : this.prev();
+    },
+}));
+
 // Halaman vendor: foto layar penuh. <dialog> menangani Esc dan fokus; panah kiri/kanan dan geser di HP.
 Alpine.data('gallery', (items) => ({
     items,

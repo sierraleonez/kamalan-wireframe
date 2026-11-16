@@ -198,7 +198,17 @@ a.chip:hover,button.chip:hover{border-color:var(--text-3);color:var(--text)}
 .hero-art{position:relative;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3;background:linear-gradient(145deg,#0b3a72,#1d6fae 48%,#8EC9F2)}
 @media(min-width:940px){.hero-art{aspect-ratio:11/9}}
 .hero-art .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.72);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
-.hero-art .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-art .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease}
+.hero-art .hero-img.on{opacity:1}
+@media (prefers-reduced-motion: reduce){.hero-art .hero-img{transition:none}}
+.hero-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.88);color:var(--navy);font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center;opacity:.85;transition:opacity .2s}
+.hero-nav:hover,.hero-nav:focus-visible{opacity:1}
+.hero-nav.prev{left:14px}.hero-nav.next{right:14px}
+.hero-dots{position:absolute;left:0;right:0;bottom:16px;z-index:2;display:flex;justify-content:center;gap:4px}
+.hero-dots button{width:24px;height:24px;border:0;padding:0;background:none;cursor:pointer;display:grid;place-items:center}
+.hero-dots button::before{content:"";width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55);transition:width .25s,background .25s}
+.hero-dots button[aria-current="true"]::before{width:22px;border-radius:4px;background:#fff}
+.hero-nav:focus-visible,.hero-dots button:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
 .hero-art.has-img::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(2,42,91,.5),rgba(2,42,91,0) 42%,rgba(2,42,91,0) 58%,rgba(2,42,91,.55))}
 .hero-art .script,.hero-art .vals{z-index:1}
 .hero-art .script{position:absolute;left:26px;top:26px;color:#fff;font-size:clamp(24px,3vw,34px);text-shadow:0 2px 18px rgba(2,42,91,.35)}

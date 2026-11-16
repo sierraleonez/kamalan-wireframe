@@ -86,6 +86,7 @@ final class ImageStore
     public static function usedPaths(): Collection
     {
         return collect([Setting::value('home.hero_image')])
+            ->merge(array_column(HeroSlides::stored(), 'image'))
             ->merge(Occasion::pluck('image'))
             ->merge(Category::pluck('image'))
             ->merge(VendorPhoto::all()->flatMap->files())
