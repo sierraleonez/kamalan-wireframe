@@ -13,7 +13,11 @@
 @if ($cat && ($c['cat'] ?? null))
     <div class="ct">{{ $c['cat'] }}</div>
 @endif
+@if (! empty($c['verified']))
+    <div class="nm-row"><a class="nm card-link" href="{{ $c['href'] }}" wire:navigate>{{ $c['name'] }}</a><x-verified-tick :name="$c['name']" :month="$c['verifiedMonth'] ?? null" /></div>
+@else
     <a class="nm card-link" href="{{ $c['href'] }}" wire:navigate>{{ $c['name'] }}</a>
+@endif
     <div class="mt">{{ $chip ? $c['meta'] : $c['metaNoChip'] }}</div>
     <div class="pr">{{ $c['price'] }}</div>
   </div>

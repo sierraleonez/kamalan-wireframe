@@ -1,4 +1,4 @@
-# Plan 2 of 3: "Verified" vendor badge
+# Plan 2 of 3: "Verified" vendor badge — built (model B on card and vendor page)
 
 **Effort:** about half a day to a day. Wireframe and flow: Kamalan: verified badge wireframe (claude.ai artifact).
 

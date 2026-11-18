@@ -67,7 +67,12 @@
 
       <section class="blk">
         <p class="eyebrow">{{ $p['eyebrow'] }}</p>
+@if ($p['verifiedMonth'])
+        <h1 class="display vtitle">{{ $p['name'] }} <x-verified-tick :name="$p['name']" :month="$p['verifiedMonth']" size="lg" /></h1>
+        <p class="vline">Terverifikasi Kamalan · dicek {{ $p['verifiedMonth'] }} · <button type="button" class="linkish" x-data @click="$dispatch('verified-info', { name: @js($p['name']), month: @js($p['verifiedMonth']) })">Apa artinya?</button></p>
+@else
         <h1 class="display">{{ $p['name'] }}</h1>
+@endif
         @if ($p['tags'])
           <div class="tags">@foreach ($p['tags'] as $t)<span class="tag">{{ $t }}</span>@endforeach</div>
         @endif

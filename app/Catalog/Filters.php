@@ -11,7 +11,7 @@ use Closure;
 final class Filters
 {
     /** Semua kunci query yang mungkin dipakai filter. */
-    public const KEYS = ['kapasitas', 'harga', 'tipe', 'catering-bebas', 'ruang-transit', 'parkir-100', 'halal', 'av', 'bus', 'pkp'];
+    public const KEYS = ['kapasitas', 'harga', 'tipe', 'catering-bebas', 'ruang-transit', 'parkir-100', 'halal', 'av', 'bus', 'pkp', 'terverifikasi'];
 
     public const CAP_BANDS = [
         ['id' => 'lt150', 'label' => 'di bawah 150', 'min' => 0, 'max' => 149],
@@ -122,6 +122,9 @@ final class Filters
             }
             $f[] = self::flag('pkp', 'Faktur pajak (PKP)', 'Syarat', fn ($v) => (bool) $v['pkp']);
         }
+
+        // Semua halaman listing: hanya vendor dengan badge Verified yang masih berlaku.
+        $f[] = self::flag('terverifikasi', 'Hanya terverifikasi', 'Kamalan', fn ($v) => Present::verified($v));
 
         return $f;
     }

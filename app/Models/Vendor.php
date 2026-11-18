@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\FlushesCatalog;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,6 +19,11 @@ class Vendor extends Model
     {
         return [
             'promoted' => 'boolean',
+            'verify_visit' => 'boolean',
+            'verify_price' => 'boolean',
+            'verify_nib' => 'boolean',
+            'verify_wa' => 'boolean',
+            'verified_on' => 'date',
             'rooftop' => 'boolean',
             'catering_bebas' => 'boolean',
             'transit' => 'boolean',
@@ -64,5 +70,19 @@ class Vendor extends Model
     public function occasions(): BelongsToMany
     {
         return $this->belongsToMany(Occasion::class)->orderBy('occasions.sort');
+    }
+
+    /** Badge Verified berlaku sampai (null kalau cek belum lengkap). */
+    public function verifiedUntil(): ?\Illuminate\Support\Carbon
+    {
+        $all = $this->verify_visit && $this->verify_price && $this->verify_nib && $this->verify_wa;
+
+        return $all && $this->verified_on ? $this->verified_on->copy()->addMonths(\App\Catalog\Present::VERIFIED_MONTHS) : null;
+    }
+
+    /** Vendor dengan keempat cek lengkap (masih berlaku atau tidak). */
+    public function scopeFullyChecked(Builder $q): Builder
+    {
+        return $q->where(['verify_visit' => true, 'verify_price' => true, 'verify_nib' => true, 'verify_wa' => true])->whereNotNull('verified_on');
     }
 }

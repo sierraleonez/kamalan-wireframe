@@ -159,7 +159,7 @@ final class Catalog
             usort($vt, fn ($a, $b) => $a->sort <=> $b->sort);
             $slugOf[$v->id] = $v->slug;
             $vendors[$v->slug] = [
-                'name' => $v->name,
+                'name' => trim($v->name),
                 'cat' => $categories[$v->category_id]->slug,
                 'area' => $areaRows[$v->area_id]->slug,
                 'hood' => $v->hood,
@@ -184,6 +184,8 @@ final class Catalog
                 'ig' => $v->ig,
                 'web' => $v->web,
                 'photos' => (int) $v->photos,
+                // Badge Verified: tanggal cek kalau keempat cek dicentang (kedaluwarsa dihitung saat tampil).
+                'verifiedOn' => ($v->verify_visit ?? false) && $v->verify_price && $v->verify_nib && $v->verify_wa && $v->verified_on ? substr((string) $v->verified_on, 0, 10) : null,
                 'writeup' => $v->writeup,
                 'images' => array_map(fn ($ph) => array_combine($sizes, array_map(fn ($sz) => ImageStore::url($ph->path.'-'.$sz.'.webp'), $sizes))
                     + ['caption' => (string) $ph->caption, 'width' => (int) $ph->width, 'height' => (int) $ph->height], ($photosOf[$v->id] ?? collect())->all()),

@@ -2,6 +2,8 @@
 
 namespace App\Catalog;
 
+use Illuminate\Support\Carbon;
+
 /**
  * Format tampilan dan model kartu. Semua teks siap-tampil dibentuk di sini,
  * view Blade hanya merender.
@@ -175,6 +177,21 @@ final class Present
         return $kind.':'.$type.':'.$slug;
     }
 
+    /** Masa berlaku badge Verified sejak tanggal cek. */
+    public const VERIFIED_MONTHS = 12;
+
+    /** Badge Verified masih berlaku hari ini? */
+    public static function verified(array $v): bool
+    {
+        return ! empty($v['verifiedOn']) && Carbon::parse($v['verifiedOn'])->addMonths(self::VERIFIED_MONTHS)->isFuture();
+    }
+
+    /** "Oktober 2026" untuk "dicek …"; null kalau tidak Verified. */
+    public static function verifiedMonth(array $v): ?string
+    {
+        return self::verified($v) ? Carbon::parse($v['verifiedOn'])->locale('id')->translatedFormat('F Y') : null;
+    }
+
     /** URL foto sampul vendor (foto pertama) di ukuran card/gallery/full; null = belum ada foto. */
     public static function cover(array $v, string $size = 'card'): ?string
     {
@@ -201,6 +218,8 @@ final class Present
             'href' => self::vendorPath($v, $type),
             'tone' => self::tone($v['slug']),
             'img' => self::cover($v),
+            'verified' => self::verified($v),
+            'verifiedMonth' => self::verifiedMonth($v),
             'cat' => Catalog::category($v['cat'])['name'],
             'chip' => $v['cat'] === 'venue' ? self::settingText($v['setting']) : Catalog::category($v['cat'])['name'],
             'meta' => implode(' · ', array_filter(array_merge([$v['hood'], self::capText($v, $type)], self::extras($v, $type)))),

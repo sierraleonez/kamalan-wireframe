@@ -98,6 +98,20 @@ Alpine.store('saved', {
     },
 });
 
+// "Apa artinya Verified?": dibuka dari centang di kartu / judul vendor.
+Alpine.data('verifiedInfo', () => ({
+    name: null,
+    month: null,
+    show(d) {
+        this.name = d.name || null;
+        this.month = d.month || null;
+        this.$refs.dlg.showModal();
+    },
+    close() {
+        this.$refs.dlg.close();
+    },
+}));
+
 // Ajakan masuk untuk tamu yang menekan ♡ (bottom sheet di HP, kotak di tengah di desktop).
 // Setelah masuk, pengunjung kembali ke halaman ini dan vendornya langsung tersimpan.
 Alpine.data('loginPrompt', () => ({

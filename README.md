@@ -93,6 +93,15 @@ yang bisa membuka /admin; admin baru: `php artisan make:filament-user` lalu
 `php artisan user:admin email@…`. Daftar pengunjung ada di Admin → Pengunjung → Akun pengunjung
 (hapus akun = permintaan hapus data). Kebijakan privasi: /privasi.
 
+### Badge Verified
+
+Admin → Vendor → ubah → **Verifikasi**: empat cek (dikunjungi tim, harga dari pengelola, NIB, WhatsApp
+resmi) + tanggal cek. Kalau keempatnya dicentang, centang biru tampil setelah nama di kartu dan judul
+halaman vendor ("Terverifikasi Kamalan · dicek …"), selama 12 bulan sejak tanggal cek; lewat dari itu
+badge hilang sendiri. Ketuk centang → penjelasan. Listing punya filter "Hanya terverifikasi"; daftar
+vendor di admin punya filter Verifikasi (termasuk "Perlu dicek ulang", habis ≤ 30 hari). NIB dan
+catatan tidak tampil di situs.
+
 ### Server (kamalan.eventaries.cloud)
 
 Caddy (HTTPS, file statis dari `public/`) → PHP-FPM pool `kamalan` (`/etc/php/8.4/fpm/pool.d/kamalan.conf`,

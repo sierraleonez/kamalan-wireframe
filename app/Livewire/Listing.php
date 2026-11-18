@@ -56,6 +56,9 @@ class Listing extends Component
     public string $pkp = '';
 
     #[Url(except: '')]
+    public string $terverifikasi = '';
+
+    #[Url(except: '')]
     public string $urut = '';
 
     public int $shown = Pages::PER_PAGE;
@@ -71,7 +74,7 @@ class Listing extends Component
     public const PROPS = [
         'kapasitas' => 'kapasitas', 'harga' => 'harga', 'tipe' => 'tipe',
         'catering-bebas' => 'cateringBebas', 'ruang-transit' => 'ruangTransit', 'parkir-100' => 'parkir100',
-        'halal' => 'halal', 'av' => 'av', 'bus' => 'bus', 'pkp' => 'pkp',
+        'halal' => 'halal', 'av' => 'av', 'bus' => 'bus', 'pkp' => 'pkp', 'terverifikasi' => 'terverifikasi',
     ];
 
     private function query(): array

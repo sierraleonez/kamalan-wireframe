@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Vendors;
 
+use App\Catalog\Present;
 use App\Catalog\Specs;
 use App\Filament\Resources\Vendors\Pages\CreateVendor;
 use App\Filament\Resources\Vendors\Pages\EditVendor;
@@ -14,6 +15,7 @@ use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -37,6 +39,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class VendorResource extends Resource
@@ -233,6 +236,34 @@ class VendorResource extends Resource
                 TextInput::make('photos')->label('Jumlah foto')->numeric()->default(0)->minValue(0),
             ]),
 
+            Section::make('Verifikasi')
+                ->description('Badge Verified (centang setelah nama) tampil otomatis kalau keempat cek dicentang, berlaku 12 bulan sejak tanggal cek. NIB dan catatan tidak tampil di situs.')
+                ->collapsible()
+                ->columns(2)
+                ->components([
+                    Toggle::make('verify_visit')->label('Dikunjungi tim')->live(),
+                    Toggle::make('verify_price')->label('Harga dikonfirmasi pengelola')->live(),
+                    Toggle::make('verify_nib')->label('Usaha terdaftar (NIB dicek)')->live(),
+                    Toggle::make('verify_wa')->label('WhatsApp resmi milik pengelola')->live(),
+                    DatePicker::make('verified_on')->label('Tanggal cek')->native(false)->displayFormat('j M Y')->maxDate(now())->live()
+                        ->required(fn (Get $get) => $get('verify_visit') && $get('verify_price') && $get('verify_nib') && $get('verify_wa'))
+                        ->helperText(function (Get $get) {
+                            $all = $get('verify_visit') && $get('verify_price') && $get('verify_nib') && $get('verify_wa');
+                            if (! $all) {
+                                return 'Belum Verified: centang keempat cek.';
+                            }
+                            if (! $get('verified_on')) {
+                                return 'Isi tanggal cek untuk menyalakan badge.';
+                            }
+                            $until = Carbon::parse($get('verified_on'))->addMonths(Present::VERIFIED_MONTHS);
+
+                            return ($until->isFuture() ? 'Verified, berlaku sampai ' : 'Kedaluwarsa sejak ').$until->locale('id')->translatedFormat('j F Y').'.';
+                        }),
+                    TextInput::make('verified_by')->label('Dicek oleh')->maxLength(80),
+                    TextInput::make('nib')->label('NIB')->maxLength(40),
+                    Textarea::make('verify_note')->label('Catatan internal')->rows(2)->columnSpanFull(),
+                ]),
+
             Section::make('Kontak')->columns(3)->components([
                 TextInput::make('wa')->label('WhatsApp')->required()->regex('/^62\d{8,13}$/')->helperText('Format 628…, tanpa + atau spasi.'),
                 TextInput::make('ig')->label('Instagram')->dehydrateStateUsing(fn (?string $state) => (string) $state)->maxLength(60)->placeholder('@nama'),
@@ -295,6 +326,11 @@ class VendorResource extends Resource
                 TextColumn::make('rank')->label('Urutan')->sortable()->toggleable(),
                 TextColumn::make('vendor_photos_count')->label('Foto')->sortable()->formatStateUsing(fn ($state) => $state ? $state.' foto' : '—'),
                 IconColumn::make('promoted')->label('Promo')->boolean(),
+                TextColumn::make('verified_on')->label('Verified')->sortable()
+                    ->state(fn (Vendor $record) => $record->verifiedUntil())
+                    ->formatStateUsing(fn ($state) => ($state->isFuture() ? 's/d ' : 'habis ').$state->locale('id')->translatedFormat('j M Y'))
+                    ->color(fn ($state) => $state && $state->isFuture() && $state->gt(now()->addDays(30)) ? 'success' : 'warning')
+                    ->placeholder('—'),
                 TextColumn::make('ref')->searchable()->toggleable(),
                 TextColumn::make('updated_at')->label('Diubah')->since()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -303,6 +339,18 @@ class VendorResource extends Resource
                 SelectFilter::make('area')->label('Area')->relationship('area', 'name'),
                 SelectFilter::make('occasions')->label('Jenis acara')->relationship('occasions', 'name'),
                 TernaryFilter::make('promoted')->label('Dipromosikan'),
+                SelectFilter::make('verification')->label('Verifikasi')
+                    ->options(['active' => 'Verified', 'recheck' => 'Perlu dicek ulang (habis ≤ 30 hari)', 'none' => 'Belum Verified'])
+                    ->query(function (Builder $query, array $data) {
+                        $cut = now()->subMonths(Present::VERIFIED_MONTHS);
+
+                        return match ($data['value'] ?? null) {
+                            'active' => $query->fullyChecked()->where('verified_on', '>', $cut),
+                            'recheck' => $query->fullyChecked()->where('verified_on', '<=', $cut->copy()->addDays(30)),
+                            'none' => $query->where(fn (Builder $q) => $q->whereNot(fn (Builder $w) => $w->fullyChecked())->orWhere('verified_on', '<=', $cut)),
+                            default => $query,
+                        };
+                    }),
                 TernaryFilter::make('has_photos')->label('Foto')
                     ->trueLabel('Ada foto')->falseLabel('Belum ada foto')
                     ->queries(

@@ -609,3 +609,17 @@ html:has(.viewer[open]){overflow:hidden}
   .login-prompt[open]{margin:auto 0 0;width:100%}
   .lp-in{width:100%;border-radius:20px 20px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom))}
 }
+
+/* ---------- badge Verified (model B: centang setelah nama) ---------- */
+.nm-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.vtick{flex:none;border:0;padding:0;border-radius:50%;background:var(--navy);color:#fff;display:inline-grid;place-items:center;cursor:pointer;vertical-align:middle}
+.vtick svg{width:62%;height:62%}
+.vtick-sm{width:18px;height:18px;position:relative}
+.vtick-sm::after{content:"";position:absolute;inset:-13px}  /* sasaran sentuh 44px */
+.vtick-lg{width:.6em;height:.6em;min-width:26px;min-height:26px}
+.vtick:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+:root[data-theme="dark"] .vtick,:root:not([data-theme="light"]) .vtick{@media (prefers-color-scheme: dark){background:var(--sky);color:var(--navy)}}
+.vtitle{display:flex;align-items:center;gap:.25em;flex-wrap:wrap}
+.vline{margin:-6px 0 14px;font-size:14.5px;color:var(--navy)}
+:root:not([data-theme="light"]) .vline{@media (prefers-color-scheme: dark){color:var(--sky)}}
+.vi-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:14.5px;line-height:1.45}

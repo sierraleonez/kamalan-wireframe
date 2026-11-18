@@ -253,5 +253,26 @@
   </div>
 </footer>
 
+<div x-data="verifiedInfo" @verified-info.window="show($event.detail)">
+  <dialog class="login-prompt" x-ref="dlg" aria-labelledby="vi-h" @click.self="close()">
+    <div class="lp-in">
+      <div class="lp-head">
+        <span class="vtick vtick-lg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
+        <div>
+          <h2 id="vi-h" class="display">Apa artinya Verified?</h2>
+          <p x-text="'Tim Kamalan sudah mengecek empat hal ini' + (name ? ' untuk ' + name : '') + (month ? ', terakhir ' + month : '') + '.'">Tim Kamalan sudah mengecek empat hal ini.</p>
+        </div>
+        <button type="button" class="lp-x" @click="close()" aria-label="Tutup">×</button>
+      </div>
+      <ol class="vi-list">
+        <li><b>Dikunjungi langsung.</b> Tim datang ke lokasi dan melihat ruangannya.</li>
+        <li><b>Harga dikonfirmasi.</b> Harga "mulai dari" berasal dari pengelola, bukan perkiraan.</li>
+        <li><b>Usaha terdaftar.</b> Nomor Induk Berusaha (NIB) sudah dicek.</li>
+        <li><b>WhatsApp resmi.</b> Nomor di tombol WhatsApp memang milik pengelola.</li>
+      </ol>
+      <p class="acct-note">Dicek ulang setiap 12 bulan. Verified bukan iklan: vendor tidak bisa membelinya, dan tetap ditulis apa adanya, termasuk kekurangannya.</p>
+    </div>
+  </dialog>
+</div>
 </body>
 </html>

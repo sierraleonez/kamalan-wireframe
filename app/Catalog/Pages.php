@@ -460,6 +460,7 @@ final class Pages
             'crumb' => P::crumb([['Beranda', '/'], [Catalog::type($type)['name'], '/'.$type], [$cat['name'], '/'.$type.'/'.$v['cat']], [$area['name'], P::listingPath($type, $v['cat'], $v['area'])], [$v['name']]]),
             'eyebrow' => $cat['name'].' · '.$v['hood'].', '.$area['name'],
             'name' => $v['name'],
+            'verifiedMonth' => P::verifiedMonth($v),
             'photos' => $v['photos'],
             'gallery' => $v['images'],
             'tones' => ['s1', 's2', 's3', 's4'],
