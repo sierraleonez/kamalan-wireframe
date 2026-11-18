@@ -86,7 +86,7 @@
   <dialog class="login-prompt" x-ref="dlg" aria-labelledby="vi-h" @click.self="close()">
     <div class="lp-in">
       <div class="lp-head">
-        <span class="vtick vtick-lg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
+        <span class="vi-mark"><x-verified-mark /></span>
         <div>
           <h2 id="vi-h" class="display">Apa artinya Verified?</h2>
           <p x-text="'Tim Kamalan sudah mengecek empat hal ini' + (name ? ' untuk ' + name : '') + (month ? ', terakhir ' + month : '') + '.'">Tim Kamalan sudah mengecek empat hal ini.</p>

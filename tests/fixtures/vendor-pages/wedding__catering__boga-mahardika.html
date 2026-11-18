@@ -290,7 +290,8 @@
   <dialog class="login-prompt" x-ref="dlg" aria-labelledby="vi-h" @click.self="close()">
     <div class="lp-in">
       <div class="lp-head">
-        <span class="vtick vtick-lg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
+        <span class="vi-mark"><svg class="vmark" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12.00,1.00 14.41,3.02 17.50,2.47 18.58,5.42 21.53,6.50 20.98,9.59 23.00,12.00 20.98,14.41 21.53,17.50 18.58,18.58 17.50,21.53 14.41,20.98 12.00,23.00 9.59,20.98 6.50,21.53 5.42,18.58 2.47,17.50 3.02,14.41 1.00,12.00 3.02,9.59 2.47,6.50 5.42,5.42 6.50,2.47 9.59,3.02" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.6 12.4l3 3 5.8-6.4" fill="none" stroke="var(--vmark-check, #fff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
         <div>
           <h2 id="vi-h" class="display">Apa artinya Verified?</h2>
           <p x-text="'Tim Kamalan sudah mengecek empat hal ini' + (name ? ' untuk ' + name : '') + (month ? ', terakhir ' + month : '') + '.'">Tim Kamalan sudah mengecek empat hal ini.</p>

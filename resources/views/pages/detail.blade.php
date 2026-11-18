@@ -68,7 +68,10 @@
       <section class="blk">
         <p class="eyebrow">{{ $p['eyebrow'] }}</p>
 @if ($p['verifiedMonth'])
-        <h1 class="display vtitle">{{ $p['name'] }} <x-verified-tick :name="$p['name']" :month="$p['verifiedMonth']" size="lg" /></h1>
+        @php($words = explode(' ', $p['name']))
+        @php($last = array_pop($words))
+        {{-- Kata terakhir + segel tidak dipisah ke baris berbeda. --}}
+        <h1 class="display vtitle">{{ $words ? implode(' ', $words).' ' : '' }}<span style="white-space:nowrap">{{ $last }}<x-verified-tick :name="$p['name']" :month="$p['verifiedMonth']" /></span></h1>
         <p class="vline">Terverifikasi Kamalan · dicek {{ $p['verifiedMonth'] }} · <button type="button" class="linkish" x-data @click="$dispatch('verified-info', { name: @js($p['name']), month: @js($p['verifiedMonth']) })">Apa artinya?</button></p>
 @else
         <h1 class="display">{{ $p['name'] }}</h1>
