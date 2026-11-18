@@ -7,7 +7,8 @@ Wireframe and flow: Kamalan: user accounts wireframe (claude.ai artifact).
 - "Masuk" in the header; once logged in, their initial and a menu (Tersimpan, Keluar).
 - Two ways in, both without a password: **Lanjut dengan Google** (one tap), or **email + one-time
   code**: type the email, get a 6-digit code (valid 10 minutes), enter it. That also proves the email
-  is theirs. Signing up and logging in are the same page; a new account only adds a name.
+  is theirs. Signing up and logging in are the same page. A new account then gets its own
+  short page asking for a name (shown on reviews, changeable later); returning visitors skip it.
   No passwords, so no "lupa kata sandi" flow.
 - A guest who taps ♡ gets a short sheet ("Masuk untuk menyimpan"), logs in, and comes back to the
   same page with that vendor already saved. /tersimpan shows the same ask to guests.
