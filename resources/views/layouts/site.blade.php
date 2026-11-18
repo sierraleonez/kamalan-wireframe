@@ -34,6 +34,9 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400&display=swap" rel="stylesheet">
 {{-- Fraunces hanya untuk kata "Kamalan" di logo, jadi cukup hurufnya saja. --}}
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600&text=Kamalan&display=swap" rel="stylesheet">
+@if (\App\Support\Account::enabled())
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endif
 @livewireStyles
 @livewireScriptConfig
 @vite(['resources/css/site.css', 'resources/js/blade.js'])
@@ -55,6 +58,21 @@
     </nav>
     <div class="nav-right">
       <a class="wishlist" href="/tersimpan" wire:navigate @if($path === '/tersimpan') aria-current="page" @endif>Tersimpan <b x-data x-text="$store.saved.count">0</b></a>
+@if (\App\Support\Account::enabled())
+@auth
+      <details class="acct-menu">
+        <summary aria-label="Menu akun {{ auth()->user()->name ?: auth()->user()->email }}"><span class="av" aria-hidden="true">{{ auth()->user()->initial() }}</span><span class="nm">{{ auth()->user()->name ?: 'Akun' }}</span></summary>
+        <div class="acct-pop">
+          <p>{{ auth()->user()->email }}</p>
+          <a href="/tersimpan" wire:navigate>Tersimpan</a>
+          @if (auth()->user()->name)<a href="/masuk/nama?next={{ rawurlencode($path) }}">Ubah nama</a>@endif
+          <form method="post" action="/keluar">@csrf<button type="submit">Keluar</button></form>
+        </div>
+      </details>
+@else
+      <a class="btn btn-navy acct-in" href="/masuk?next={{ rawurlencode($path) }}">Masuk</a>
+@endauth
+@endif
     </div>
   </div>
 </header>
@@ -64,5 +82,26 @@
 <x-footer :home="$p['page'] === 'home'" />
 
 @yield('mbar')
+@if (\App\Support\Account::enabled())
+<script type="application/json" id="account-state">@json(\App\Support\Account::state(auth()->user()))</script>
+@guest
+<div x-data="loginPrompt" @login-prompt.window="show($event.detail)">
+  <dialog class="login-prompt" x-ref="dlg" aria-labelledby="lp-h" @click.self="close()">
+    <div class="lp-in">
+      <div class="lp-head">
+        <div>
+          <h2 id="lp-h" class="display">Masuk untuk menyimpan</h2>
+          <p>Simpan vendor ini dan bandingkan di Tersimpan, dari HP atau laptop mana saja.</p>
+        </div>
+        <button type="button" class="lp-x" @click="close()" aria-label="Tutup">×</button>
+      </div>
+      @if (\App\Support\Account::googleReady())<a class="btn btn-line btn-block" :href="href('/auth/google')" href="/auth/google">Lanjut dengan Google</a>@endif
+      @if (\App\Support\Account::emailReady())<a class="btn btn-navy btn-block" :href="href('/masuk')" href="/masuk">Masuk dengan email</a>@endif
+      <p class="lp-fine">Tanpa kata sandi. Belum punya akun? Langsung dibuat. Setelah masuk kamu kembali ke halaman ini dan vendornya tersimpan.</p>
+    </div>
+  </dialog>
+</div>
+@endguest
+@endif
 </body>
 </html>

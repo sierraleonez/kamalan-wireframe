@@ -72,6 +72,27 @@ full 2048 px). Di situs: halaman vendor memakai galeri (sampul + empat kecil, "+
 layar penuh dengan panah/geser); kartu vendor, isi paket, koleksi, dan Tersimpan memakai sampul;
 paket memakai foto vendor anggota pertama yang punya foto; pratinjau link (WhatsApp) memakai sampul.
 
+### Akun pengunjung
+
+Pengunjung masuk tanpa kata sandi: **Google**, atau **email + kode 6 digit** (berlaku 10 menit, sekali
+pakai, disimpan sebagai hash; maks. 5 percobaan per kode dan 5 kode per email per jam). Daftar dan masuk
+satu alur; akun baru lalu mengisi nama di halaman terpisah. Dengan akun aktif, ♡ dan catatan Tersimpan
+disimpan di akun (tabel `saves`); tamu yang menekan ♡ diajak masuk lalu kembali dengan vendornya
+tersimpan. Simpanan lama di browser pindah ke akun saat pertama masuk.
+
+Diatur di `.env`:
+
+```sh
+ACCOUNTS=true                       # tanpa ini situs berjalan seperti dulu (♡ di browser saja)
+GOOGLE_CLIENT_ID=… GOOGLE_CLIENT_SECRET=…   # tombol Google tampil kalau keduanya diisi
+LOGIN_EMAIL=true                    # setelah MAIL_* menunjuk ke layanan pengirim email
+```
+
+Redirect URI Google: `https://kamalan.eventaries.cloud/auth/google/callback`. Hanya akun `is_admin`
+yang bisa membuka /admin; admin baru: `php artisan make:filament-user` lalu
+`php artisan user:admin email@…`. Daftar pengunjung ada di Admin → Pengunjung → Akun pengunjung
+(hapus akun = permintaan hapus data). Kebijakan privasi: /privasi.
+
 ### Server (kamalan.eventaries.cloud)
 
 Caddy (HTTPS, file statis dari `public/`) → PHP-FPM pool `kamalan` (`/etc/php/8.4/fpm/pool.d/kamalan.conf`,

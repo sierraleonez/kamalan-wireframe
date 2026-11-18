@@ -7,10 +7,14 @@ use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-/** Akun tim. Situs publik tidak punya pendaftaran; setiap akun dibuat dengan make:filament-user. */
+/**
+ * Akun tim (is_admin, masuk /admin dengan kata sandi) dan pengunjung (masuk tanpa kata sandi lewat Google
+ * atau kode email; hanya untuk Tersimpan dan ulasan). Admin baru: make:filament-user lalu user:admin.
+ */
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
@@ -25,6 +29,9 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'google_id',
+        'joined_via',
+        'email_verified_at',
     ];
 
     /**
@@ -47,11 +54,23 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return $this->is_admin;
+    }
+
+    public function saves(): HasMany
+    {
+        return $this->hasMany(Save::class);
+    }
+
+    /** Huruf pertama nama (atau email) untuk lingkaran di header. */
+    public function initial(): string
+    {
+        return mb_strtoupper(mb_substr($this->name ?: $this->email, 0, 1));
     }
 }

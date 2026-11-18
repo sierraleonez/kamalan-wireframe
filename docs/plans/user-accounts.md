@@ -1,4 +1,4 @@
-# Plan 1 of 3: visitor accounts (save only after logging in)
+# Plan 1 of 3: visitor accounts (save only after logging in) — built, waiting for Google + email setup
 
 **Effort:** about 1–1.5 days, plus your Google and email setup (below).
 Wireframe and flow: Kamalan: user accounts wireframe (claude.ai artifact).

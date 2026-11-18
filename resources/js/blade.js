@@ -18,33 +18,108 @@ function write(key, value) {
 }
 
 // ♡ Tersimpan: kunci "v:<jenis>:<slug>" atau "b:<jenis>:<slug>", sama dengan prototipe.
+// Dengan akun (ACCOUNTS=true, ada #account-state di halaman): simpanan & catatan di server, tamu yang
+// menekan ♡ diajak masuk. Tanpa akun: seperti dulu, di localStorage browser ini.
+const accountEl = document.getElementById('account-state');
+const account = accountEl ? JSON.parse(accountEl.textContent) : null;
+const csrf = () => document.querySelector('meta[name="csrf-token"]')?.content;
+async function api(path, body) {
+    const res = await fetch(path, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': csrf() },
+        body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(res.status);
+    return res.json();
+}
+
 Alpine.store('saved', {
-    keys: read('eh_saved', []),
+    accounts: !!account,
+    signedIn: !!(account && account.in),
+    keys: account ? (account.keys || []) : read('eh_saved', []),
+    notes: account ? (account.notes || {}) : read('eh_item_notes', {}),
+    imported: 0,
+    init() {
+        if (!this.signedIn) return;
+        // Simpanan lama di browser (sebelum ada akun) pindah ke akun sekali, lalu dihapus dari browser.
+        const old = read('eh_saved', []);
+        if (old.length) {
+            api('/akun/impor', { keys: old, notes: read('eh_item_notes', {}) })
+                .then((st) => {
+                    this.imported = st.keys.length - this.keys.length;
+                    this.keys = st.keys;
+                    this.notes = st.notes;
+                    write('eh_saved', []);
+                    write('eh_item_notes', {});
+                    try { sessionStorage.setItem('eh_imported', String(this.imported)); } catch (e) { /* tanpa pemberitahuan */ }
+                })
+                .catch(() => {});
+        }
+    },
     has(key) {
         return this.keys.includes(key);
     },
+    sync(key, on) {
+        if (!this.accounts) return write('eh_saved', this.keys);
+        api('/akun/simpan', { key, on }).then((st) => (this.keys = st.keys)).catch(() => {
+            this.keys = on ? this.keys.filter((k) => k !== key) : [...this.keys, key];   // kembalikan kalau gagal
+        });
+    },
     toggle(key) {
-        this.keys = this.has(key) ? this.keys.filter((k) => k !== key) : [...this.keys, key];
-        write('eh_saved', this.keys);
+        if (this.accounts && !this.signedIn) {
+            window.dispatchEvent(new CustomEvent('login-prompt', { detail: { key } }));
+            return;
+        }
+        const on = !this.has(key);
+        this.keys = on ? [...this.keys, key] : this.keys.filter((k) => k !== key);
+        this.sync(key, on);
     },
     remove(key) {
+        if (!this.has(key)) return;
         this.keys = this.keys.filter((k) => k !== key);
-        write('eh_saved', this.keys);
+        this.sync(key, false);
     },
     clear() {
         this.keys = [];
-        write('eh_saved', []);
+        if (this.accounts) api('/akun/hapus-semua', {}).catch(() => {});
+        else write('eh_saved', []);
+    },
+    note(key) {
+        return this.notes[key] || '';
+    },
+    setNote(key, value) {
+        this.notes[key] = value;
+        if (!this.accounts) return write('eh_item_notes', this.notes);
+        clearTimeout(this._noteTimers?.[key]);
+        this._noteTimers = { ...(this._noteTimers || {}), [key]: setTimeout(() => api('/akun/catatan', { key, note: value }).catch(() => {}), 600) };
     },
     get count() {
         return this.keys.length;
     },
 });
 
+// Ajakan masuk untuk tamu yang menekan ♡ (bottom sheet di HP, kotak di tengah di desktop).
+// Setelah masuk, pengunjung kembali ke halaman ini dan vendornya langsung tersimpan.
+Alpine.data('loginPrompt', () => ({
+    key: null,
+    show(detail) {
+        this.key = detail.key;
+        this.$refs.dlg.showModal();
+    },
+    close() {
+        this.$refs.dlg.close();
+    },
+    href(base) {
+        const q = new URLSearchParams({ next: location.pathname + location.search });
+        if (this.key) q.set('save', this.key);
+        return base + '?' + q.toString();
+    },
+}));
+
 // Halaman tersimpan: tabel banding dari /tersimpan/data, catatan pribadi, antrean kontak.
 Alpine.data('savedPage', () => ({
     items: [],
     loading: true,
-    notes: read('eh_item_notes', {}),
     queue: null,
     confirming: false,
     init() {
@@ -66,12 +141,14 @@ Alpine.data('savedPage', () => ({
         }
         this.loading = false;
     },
+    get imported() {
+        try { return Number(sessionStorage.getItem('eh_imported')) || Alpine.store('saved').imported; } catch (e) { return Alpine.store('saved').imported; }
+    },
     note(key) {
-        return this.notes[key] || '';
+        return Alpine.store('saved').note(key);
     },
     setNote(key, value) {
-        this.notes[key] = value;
-        write('eh_item_notes', this.notes);
+        Alpine.store('saved').setNote(key, value);
     },
     remove(key) {
         Alpine.store('saved').remove(key);

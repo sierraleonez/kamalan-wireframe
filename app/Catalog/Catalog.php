@@ -22,6 +22,7 @@ final class Catalog
     public const RESERVED = [
         'admin', 'livewire', 'filament', 'storage', 'build', 'brand', 'css', 'js', 'fonts', 'up',
         'go', 'bundle', 'koleksi', 'tersimpan', 'kasih-tau-kami', 'daftarkan-usaha',
+        'masuk', 'keluar', 'akun', 'auth', 'privasi',
     ];
 
     /** Pola rute untuk {type}: slug, kecuali kata di RESERVED. */

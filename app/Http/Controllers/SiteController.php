@@ -83,6 +83,11 @@ class SiteController extends Controller
         return $this->page('saved', Pages::saved());
     }
 
+    public function privacy(): Response
+    {
+        return $this->page('privacy', ['title' => 'Kebijakan privasi', 'page' => 'plain']);
+    }
+
     public function savedData(Request $request): JsonResponse
     {
         $keys = array_filter(explode(',', (string) $request->query('keys', '')));

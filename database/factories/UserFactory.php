@@ -30,7 +30,14 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'is_admin' => true,   // akun tim; pengunjung: ->visitor()
         ];
+    }
+
+    /** Pengunjung situs: tanpa kata sandi, bukan admin. */
+    public function visitor(string $via = 'email'): static
+    {
+        return $this->state(fn () => ['password' => null, 'is_admin' => false, 'joined_via' => $via]);
     }
 
     /**

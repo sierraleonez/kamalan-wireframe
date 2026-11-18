@@ -1,11 +1,29 @@
 @extends('layouts.site')
 @section('content')
-<div class="shell" x-data="savedPage">
+{{-- Dengan akun pengunjung: tamu melihat ajakan masuk; yang sudah masuk melihat simpanan akunnya. --}}
+@php($wall = \App\Support\Account::enabled() && auth()->guest())
+<div class="shell" @unless ($wall) x-data="savedPage" @endunless>
   <div class="list-head" style="padding-top:28px">
     <p class="eyebrow">Tersimpan</p>
     <h1 class="display">Yang kamu simpan</h1>
+@if (! \App\Support\Account::enabled())
     <p class="lead" style="max-width:56ch">Tersimpan di browser ini. Tidak perlu akun — tapi daftarnya tidak ikut kalau kamu buka dari HP atau browser lain.</p>
+@elseif ($wall)
+    <p class="lead" style="max-width:56ch">Masuk untuk menyimpan vendor dan membandingkannya di sini, dari HP maupun laptop.</p>
+@else
+    <p class="lead" style="max-width:56ch">Tersimpan di akun {{ auth()->user()->email }}. Terbuka juga di HP dan laptopmu.</p>
+    <p class="acct-ok" role="status" x-show="imported > 0" x-cloak x-text="imported + ' vendor dari browser ini sudah dipindah ke akunmu.'"></p>
+@endif
   </div>
+
+@if ($wall)
+  <div class="empty" style="margin-top:12px">
+    <div class="heart" aria-hidden="true">♡</div>
+    <h2 class="display">Masuk dulu, ya</h2>
+    <p>Tanpa kata sandi: masuk dengan Google atau kode yang kami kirim ke emailmu. Belum punya akun? Langsung dibuat.</p>
+    <div class="chips"><a class="chip on" href="/masuk?next=%2Ftersimpan">Masuk atau daftar</a></div>
+  </div>
+@else
 
   <div class="empty" x-show="!$store.saved.count" x-cloak style="margin-top:12px">
     <div class="heart" aria-hidden="true">♡</div>
@@ -41,5 +59,6 @@
       <button type="button" class="linkish" x-show="confirming" @click="confirming = false">Batal</button>
     </div>
   </div>
+@endif
 </div>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Catalog\Catalog;
+use App\Http\Controllers\AccountController as A;
 use App\Http\Controllers\SiteController as S;
 use App\Http\Controllers\VendorSignupController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,26 @@ Route::get('/kasih-tau-kami/terkirim', [S::class, 'success']);
 Route::get('/daftarkan-usaha', [VendorSignupController::class, 'form']);
 Route::post('/daftarkan-usaha', [VendorSignupController::class, 'submit']);
 Route::get('/daftarkan-usaha/terkirim', [VendorSignupController::class, 'done']);
+// Akun pengunjung (ACCOUNTS=true): masuk tanpa kata sandi, ♡ dan catatan Tersimpan per akun.
+Route::middleware(App\Http\Middleware\AccountsEnabled::class)->group(function () {
+    Route::get('/masuk', [A::class, 'show']);
+    Route::post('/masuk', [A::class, 'send'])->middleware('throttle:30,1');
+    Route::get('/masuk/kode', [A::class, 'code']);
+    Route::post('/masuk/kode', [A::class, 'verify'])->middleware('throttle:30,1');
+    Route::post('/masuk/kirim-ulang', [A::class, 'resend'])->middleware('throttle:10,1');
+    Route::get('/auth/google', [A::class, 'google']);
+    Route::get('/auth/google/callback', [A::class, 'googleCallback']);
+    Route::middleware('auth')->group(function () {
+        Route::get('/masuk/nama', [A::class, 'name']);
+        Route::post('/masuk/nama', [A::class, 'saveName']);
+        Route::post('/keluar', [A::class, 'logout']);
+        Route::post('/akun/simpan', [A::class, 'toggle']);
+        Route::post('/akun/catatan', [A::class, 'note']);
+        Route::post('/akun/impor', [A::class, 'import']);
+        Route::post('/akun/hapus-semua', [A::class, 'clear']);
+    });
+});
+Route::get('/privasi', [S::class, 'privacy']);
 Route::get('/go/{ref}', [S::class, 'go'])->where('ref', '[A-Z]{3}-[0-9]{4}');
 
 Route::get('/{type}', [S::class, 'branch'])->where('type', $type);

@@ -13,6 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Caddy di depan (localhost) meneruskan HTTPS; tanpa ini sebagian URL aset jadi http://.
         $middleware->trustProxies(at: '127.0.0.1');
+        // Halaman akun pengunjung yang butuh masuk mengarah ke /masuk (admin punya login sendiri).
+        $middleware->redirectGuestsTo('/masuk');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // 404 memakai tata letak situs.
