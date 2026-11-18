@@ -76,6 +76,10 @@
 @else
         <h1 class="display">{{ $p['name'] }}</h1>
 @endif
+@php($rv = \App\Support\Reviews::forVendor($p['vendorRef'], auth()->user()))
+@if ($rv['summary'])
+        <p class="rline"><a href="#ulasan">@if ($rv['summary']['showAvg'])<x-star /><b>{{ $rv['summary']['avg'] }}</b> · @endif{{ $rv['summary']['count'] }} ulasan</a></p>
+@endif
         @if ($p['tags'])
           <div class="tags">@foreach ($p['tags'] as $t)<span class="tag">{{ $t }}</span>@endforeach</div>
         @endif
@@ -136,6 +140,8 @@
           </details>
         @endforeach
       </section>
+
+      @include('pages.partials.reviews', ['rv' => $rv, 'slug' => $p['vendorRef']['slug'], 'type' => $p['type']])
 
     </main>
 

@@ -18,7 +18,11 @@
 @else
     <a class="nm card-link" href="{{ $c['href'] }}" wire:navigate>{{ $c['name'] }}</a>
 @endif
+@if (! empty($c['rating']))
+    <div class="mt"><span class="rate" aria-label="Rating {{ $c['rating']['avg'] }} dari 5, {{ $c['rating']['count'] }} ulasan"><x-star /><b>{{ $c['rating']['avg'] }}</b> ({{ $c['rating']['count'] }})</span> · {{ $chip ? $c['meta'] : $c['metaNoChip'] }}</div>
+@else
     <div class="mt">{{ $chip ? $c['meta'] : $c['metaNoChip'] }}</div>
+@endif
     <div class="pr">{{ $c['price'] }}</div>
   </div>
   <a class="go{{ $cta === 'orange' ? ' wa' : '' }}" href="{{ $c['wa'] }}" target="_blank" rel="noopener">{{ $c['cta'] }}</a>

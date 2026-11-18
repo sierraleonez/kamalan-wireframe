@@ -34,7 +34,10 @@ class AccountController extends Controller
     public function show(Request $request): Response|RedirectResponse
     {
         if ($request->hasAny(['next', 'save']) || ! session()->has('account.next')) {
-            Account::remember($request->query('next'), $request->query('save'));
+            // Dari halaman yang butuh masuk (mis. /ulasan/…): kembali ke sana setelah masuk.
+            $intended = session()->pull('url.intended');
+            $next = $request->query('next') ?? ($intended ? (parse_url($intended, PHP_URL_PATH) ?: '/').(($q = parse_url($intended, PHP_URL_QUERY)) ? '?'.$q : '') : null);
+            Account::remember($next, $request->query('save'));
         }
         if ($user = $request->user()) {
             return redirect(Account::login($user));

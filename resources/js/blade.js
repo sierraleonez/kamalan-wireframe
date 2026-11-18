@@ -98,6 +98,22 @@ Alpine.store('saved', {
     },
 });
 
+// Halaman vendor: daftar ulasan, disaring per jenis acara dan diurutkan di browser.
+Alpine.data('reviewList', (items) => ({
+    items,
+    occ: '',
+    sort: 'new',
+    limit: 3,
+    get filtered() {
+        const list = this.items.filter((r) => !this.occ || r.occ === this.occ);
+        const by = { new: (a, b) => b.at - a.at, high: (a, b) => b.rating - a.rating || b.at - a.at, low: (a, b) => a.rating - b.rating || b.at - a.at };
+        return [...list].sort(by[this.sort]);
+    },
+    get visible() {
+        return this.filtered.slice(0, this.limit);
+    },
+}));
+
 // "Apa artinya Verified?": dibuka dari centang di kartu / judul vendor.
 Alpine.data('verifiedInfo', () => ({
     name: null,

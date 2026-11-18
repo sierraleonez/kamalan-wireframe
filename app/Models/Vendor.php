@@ -72,6 +72,11 @@ class Vendor extends Model
         return $this->belongsToMany(Occasion::class)->orderBy('occasions.sort');
     }
 
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
     /** Badge Verified berlaku sampai (null kalau cek belum lengkap). */
     public function verifiedUntil(): ?\Illuminate\Support\Carbon
     {

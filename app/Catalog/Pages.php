@@ -461,6 +461,7 @@ final class Pages
             'eyebrow' => $cat['name'].' · '.$v['hood'].', '.$area['name'],
             'name' => $v['name'],
             'verifiedMonth' => P::verifiedMonth($v),
+            'vendorRef' => ['id' => $v['id'], 'slug' => $v['slug'], 'rating' => $v['rating'] ?? null],
             'photos' => $v['photos'],
             'gallery' => $v['images'],
             'tones' => ['s1', 's2', 's3', 's4'],

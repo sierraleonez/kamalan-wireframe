@@ -39,6 +39,9 @@ Route::middleware(App\Http\Middleware\AccountsEnabled::class)->group(function ()
         Route::post('/akun/catatan', [A::class, 'note']);
         Route::post('/akun/impor', [A::class, 'import']);
         Route::post('/akun/hapus-semua', [A::class, 'clear']);
+        Route::get('/ulasan/{slug}', [App\Http\Controllers\ReviewController::class, 'form'])->where('slug', '[a-z0-9-]+');
+        Route::post('/ulasan/{slug}', [App\Http\Controllers\ReviewController::class, 'save'])->where('slug', '[a-z0-9-]+')->middleware('throttle:10,1');
+        Route::post('/ulasan/{slug}/hapus', [App\Http\Controllers\ReviewController::class, 'destroy'])->where('slug', '[a-z0-9-]+');
     });
 });
 Route::get('/privasi', [S::class, 'privacy']);

@@ -192,6 +192,23 @@ final class Present
         return self::verified($v) ? Carbon::parse($v['verifiedOn'])->locale('id')->translatedFormat('F Y') : null;
     }
 
+    /** Rata-rata di kartu tampil mulai dari sekian ulasan yang sudah dicek. */
+    public const RATING_MIN = 3;
+
+    /** "4,8" (koma desimal). */
+    public static function ratingText(float $avg): string
+    {
+        return number_format($avg, 1, ',', '');
+    }
+
+    /** Rating untuk kartu: ['avg' => '4,8', 'count' => 12] kalau sudah ≥ RATING_MIN ulasan, selain itu null. */
+    public static function cardRating(array $v): ?array
+    {
+        $r = $v['rating'] ?? null;
+
+        return $r && $r['count'] >= self::RATING_MIN ? ['avg' => self::ratingText($r['avg']), 'count' => $r['count']] : null;
+    }
+
     /** URL foto sampul vendor (foto pertama) di ukuran card/gallery/full; null = belum ada foto. */
     public static function cover(array $v, string $size = 'card'): ?string
     {
@@ -220,6 +237,7 @@ final class Present
             'img' => self::cover($v),
             'verified' => self::verified($v),
             'verifiedMonth' => self::verifiedMonth($v),
+            'rating' => self::cardRating($v),
             'cat' => Catalog::category($v['cat'])['name'],
             'chip' => $v['cat'] === 'venue' ? self::settingText($v['setting']) : Catalog::category($v['cat'])['name'],
             'meta' => implode(' · ', array_filter(array_merge([$v['hood'], self::capText($v, $type)], self::extras($v, $type)))),

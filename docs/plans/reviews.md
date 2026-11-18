@@ -1,4 +1,4 @@
-# Plan 3 of 3: visitor reviews and ratings
+# Plan 3 of 3: visitor reviews and ratings — built (card option A, checked by the team, average from 3)
 
 **Effort:** about 1–1.5 days. Wireframe and flow: Kamalan: reviews and ratings wireframe (claude.ai artifact).
 

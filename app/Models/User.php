@@ -63,6 +63,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->is_admin;
     }
 
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function saves(): HasMany
     {
         return $this->hasMany(Save::class);

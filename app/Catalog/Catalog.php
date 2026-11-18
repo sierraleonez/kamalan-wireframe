@@ -22,7 +22,7 @@ final class Catalog
     public const RESERVED = [
         'admin', 'livewire', 'filament', 'storage', 'build', 'brand', 'css', 'js', 'fonts', 'up',
         'go', 'bundle', 'koleksi', 'tersimpan', 'kasih-tau-kami', 'daftarkan-usaha',
-        'masuk', 'keluar', 'akun', 'auth', 'privasi',
+        'masuk', 'keluar', 'akun', 'auth', 'privasi', 'ulasan',
     ];
 
     /** Pola rute untuk {type}: slug, kecuali kata di RESERVED. */
@@ -154,6 +154,17 @@ final class Catalog
         $vendors = [];
         $slugOf = [];
         $refs = [];
+        $ratings = [];
+        if (Schema::hasTable('reviews')) {
+            foreach (DB::table('reviews')->where('status', 'approved')->selectRaw('vendor_id, rating, count(*) as n')->groupBy('vendor_id', 'rating')->get() as $r) {
+                $ratings[$r->vendor_id]['dist'][(int) $r->rating] = (int) $r->n;
+            }
+            foreach ($ratings as $id => $x) {
+                $count = array_sum($x['dist']);
+                $sum = array_sum(array_map(fn ($star, $n) => $star * $n, array_keys($x['dist']), $x['dist']));
+                $ratings[$id] = ['avg' => round($sum / $count, 1), 'count' => $count, 'dist' => $x['dist'] + array_fill_keys([5, 4, 3, 2, 1], 0)];
+            }
+        }
         foreach (DB::table('vendors')->orderBy('id')->get() as $v) {
             $vt = $occOf[$v->id] ?? [];
             usort($vt, fn ($a, $b) => $a->sort <=> $b->sort);
@@ -184,6 +195,8 @@ final class Catalog
                 'ig' => $v->ig,
                 'web' => $v->web,
                 'photos' => (int) $v->photos,
+                // Ulasan yang sudah dicek: rata-rata, jumlah, dan sebaran 5→1 bintang.
+                'rating' => $ratings[$v->id] ?? null,
                 // Badge Verified: tanggal cek kalau keempat cek dicentang (kedaluwarsa dihitung saat tampil).
                 'verifiedOn' => ($v->verify_visit ?? false) && $v->verify_price && $v->verify_nib && $v->verify_wa && $v->verified_on ? substr((string) $v->verified_on, 0, 10) : null,
                 'writeup' => $v->writeup,

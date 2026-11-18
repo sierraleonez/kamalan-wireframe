@@ -146,6 +146,33 @@
           </details>
               </section>
 
+      <section class="blk reviews" id="ulasan" aria-labelledby="ulasan-h" x-data="reviewList([])">
+  <h2 class="display" id="ulasan-h">Ulasan pengunjung</h2>
+      <div class="rv-grid">
+    <div class="rv-sum">
+              <p class="muted" style="margin:0">Belum ada ulasan. Pernah memakai vendor ini? Ceritakan pengalamanmu.</p>
+                  <p class="acct-fine">Dari pengunjung yang masuk dengan akun. Setiap ulasan dicek tim sebelum tampil; vendor tidak bisa menghapus ulasan.</p>
+    </div>
+
+    <div class="rv-list">
+            <template x-if="items.length > 3">
+        <div class="rv-tools">
+          <button type="button" class="chip" :class="occ === '' && 'on'" @click="occ = ''; limit = 3">Semua</button>
+                    <label class="rv-sort">Urutkan <select x-model="sort"><option value="new">Terbaru</option><option value="high">Rating tertinggi</option><option value="low">Rating terendah</option></select></label>
+        </div>
+      </template>
+      <template x-for="r in visible" :key="r.id">
+        <article class="rv-item">
+          <div class="rv-head"><span class="av" aria-hidden="true" x-text="r.initial"></span><span class="who"><b x-text="r.name"></b><small x-text="r.meta"></small></span><span class="rv-score" :aria-label="r.rating + ' dari 5'"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"/></svg>
+<span x-text="r.rating"></span></span></div>
+          <p class="rv-body" x-text="r.body"></p>
+                  </article>
+      </template>
+      <button type="button" class="btn btn-line btn-block" x-show="filtered.length > limit" x-cloak @click="limit += 10" x-text="'Tampilkan ' + Math.min(10, filtered.length - limit) + ' ulasan lagi'"></button>
+    </div>
+  </div>
+</section>
+
     </main>
 
     <aside>

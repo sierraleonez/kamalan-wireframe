@@ -102,6 +102,16 @@ badge hilang sendiri. Ketuk centang → penjelasan. Listing punya filter "Hanya 
 vendor di admin punya filter Verifikasi (termasuk "Perlu dicek ulang", habis ≤ 30 hari). NIB dan
 catatan tidak tampil di situs.
 
+### Ulasan pengunjung
+
+Pengunjung yang masuk menulis satu ulasan per vendor (1–5 bintang, jenis dan bulan acara, cerita
+min. 30 karakter tanpa nomor HP/link) di /ulasan/{vendor}. Setiap ulasan baru atau yang diubah
+menunggu di Admin → Pengunjung → **Ulasan**: Tampilkan, atau Tolak dengan alasan (dikirim ke email
+penulis; ulasan yang tampil bisa disembunyikan lagi). Hanya ulasan yang tampil masuk rata-rata.
+Kartu vendor menampilkan "★ 4,8 (12)" mulai dari 3 ulasan; halaman vendor punya bagian "Ulasan
+pengunjung" (rata-rata, sebaran bintang, saring per jenis acara, urutkan). Nama tampil sebagai
+"Rina P.", email tidak pernah tampil.
+
 ### Server (kamalan.eventaries.cloud)
 
 Caddy (HTTPS, file statis dari `public/`) → PHP-FPM pool `kamalan` (`/etc/php/8.4/fpm/pool.d/kamalan.conf`,
