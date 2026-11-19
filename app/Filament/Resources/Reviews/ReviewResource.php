@@ -8,7 +8,10 @@ use App\Models\Review;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\ImageColumn;
+use App\Models\ReviewPhoto;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Icons\Heroicon;
@@ -50,7 +53,7 @@ class ReviewResource extends Resource
     {
         return $table
             ->defaultSort('created_at', 'desc')
-            ->modifyQueryUsing(fn ($query) => $query->with(['vendor:id,name,slug', 'user:id,name,email,created_at', 'occasion:id,name']))
+            ->modifyQueryUsing(fn ($query) => $query->with(['vendor:id,name,slug', 'user:id,name,email,created_at', 'occasion:id,name', 'photos']))
             ->columns([
                 TextColumn::make('status')->badge()->formatStateUsing(fn ($state) => self::STATUS[$state] ?? $state)
                     ->color(fn ($state) => match ($state) { Review::PENDING => 'warning', Review::APPROVED => 'success', default => 'gray' }),
@@ -58,6 +61,9 @@ class ReviewResource extends Resource
                 TextColumn::make('rating')->label('★')->sortable(),
                 TextColumn::make('body')->label('Ulasan')->wrap()->limit(220)
                     ->description(fn (Review $r) => implode(' · ', array_filter([$r->occasion?->name, $r->event_month?->locale('id')->translatedFormat('M Y')]))),
+                ImageColumn::make('photo_thumbs')->label('Foto')
+                    ->state(fn (Review $r) => $r->photos->map(fn (ReviewPhoto $p) => $p->url('thumb'))->all())
+                    ->imageHeight(72)->imageWidth(72)->square()->wrap()->limit(5),
                 TextColumn::make('user.name')->label('Penulis')
                     ->formatStateUsing(fn ($state, Review $r) => Review::displayName($r->user?->name))
                     ->description(fn (Review $r) => $r->user?->email.' · '.Review::where('user_id', $r->user_id)->count().' ulasan'),
@@ -88,6 +94,18 @@ class ReviewResource extends Resource
                             Mail::to($r->user->email)->send(new ReviewRejectedMail($r->vendor->name, $data['reason'], url('/ulasan/'.$r->vendor->slug)));
                         }
                         Notification::make()->title('Ulasan tidak ditampilkan; alasan dikirim ke penulis')->send();
+                    }),
+                Action::make('photos')->label('Hapus foto')->icon(Heroicon::OutlinedPhoto)->color('gray')
+                    ->visible(fn (Review $r) => $r->photos->isNotEmpty())
+                    ->modalDescription('Foto yang dicentang dihapus; ulasan dan foto lainnya tetap.')
+                    ->schema(fn (Review $r) => [
+                        CheckboxList::make('ids')->label('Foto')->required()->columns(5)
+                            ->options($r->photos->mapWithKeys(fn (ReviewPhoto $p, $i) => [$p->id => 'Foto '.($i + 1)])->all())
+                            ->descriptions($r->photos->mapWithKeys(fn (ReviewPhoto $p) => [$p->id => new \Illuminate\Support\HtmlString('<img src="'.e($p->url('thumb')).'" alt="" style="width:96px;height:96px;object-fit:cover;border-radius:8px;margin-top:6px">')])->all()),
+                    ])
+                    ->action(function (Review $r, array $data) {
+                        $r->photos()->whereIn('id', $data['ids'])->get()->each->delete();
+                        Notification::make()->title(count($data['ids']).' foto dihapus')->success()->send();
                     }),
                 DeleteAction::make(),
             ]);

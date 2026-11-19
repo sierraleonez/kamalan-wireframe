@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\FlushesCatalog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /** Ulasan pengunjung untuk satu vendor. Hanya yang 'approved' tampil dan masuk rata-rata. */
 class Review extends Model
@@ -18,6 +19,17 @@ class Review extends Model
     public const REJECTED = 'rejected';
 
     protected $guarded = ['id'];
+
+    protected static function booted(): void
+    {
+        // Lewat model supaya file fotonya ikut terhapus (foreign key saja tidak menghapus file).
+        static::deleting(fn (Review $r) => $r->photos->each->delete());
+    }
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany(ReviewPhoto::class)->orderBy('sort')->orderBy('id');
+    }
 
     protected function casts(): array
     {

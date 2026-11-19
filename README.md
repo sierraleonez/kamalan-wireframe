@@ -110,7 +110,9 @@ menunggu di Admin → Pengunjung → **Ulasan**: Tampilkan, atau Tolak dengan al
 penulis; ulasan yang tampil bisa disembunyikan lagi). Hanya ulasan yang tampil masuk rata-rata.
 Kartu vendor menampilkan "★ 4,8 (12)" mulai dari 3 ulasan; halaman vendor punya bagian "Ulasan
 pengunjung" (rata-rata, sebaran bintang, saring per jenis acara, urutkan). Nama tampil sebagai
-"Rina P.", email tidak pernah tampil.
+"Rina P.", email tidak pernah tampil. Ulasan bisa membawa sampai 5 foto (dikecilkan di browser lalu disimpan
+sebagai WebP di penyimpanan media, tanpa metadata/GPS); foto dicek bersama ulasannya, tampil di bawah
+ulasan dan di strip "Foto dari pengunjung", dan bisa dihapus satu per satu oleh admin.
 
 ### Server (kamalan.eventaries.cloud)
 

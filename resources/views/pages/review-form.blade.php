@@ -9,7 +9,7 @@
     <p class="lead">untuk <b>{{ $p['vendor'] }}</b></p>
     @if ($own && $own->status === 'rejected' && $own->reject_reason)<p class="form-error" role="alert">Ulasan sebelumnya tidak ditampilkan: {{ $own->reject_reason }}</p>@endif
     @if ($errors->any())<p class="form-error" role="alert">Belum bisa dikirim: {{ implode(' ', $errors->all()) }}</p>@endif
-    <form method="post" action="/ulasan/{{ $p['slug'] }}" class="acct-form" novalidate x-data="{ r: {{ (int) old('rating', $own?->rating ?? 0) }} }">
+    <form method="post" action="/ulasan/{{ $p['slug'] }}" enctype="multipart/form-data" class="acct-form" novalidate x-data="{ r: {{ (int) old('rating', $own?->rating ?? 0) }} }">
       @csrf
       <input type="hidden" name="jenis" value="{{ $p['jenis'] }}">
       <fieldset class="rv-pick">
@@ -35,6 +35,29 @@
         <textarea name="body" rows="6" maxlength="2000" required placeholder="Apa yang berjalan baik? Apa yang perlu diantisipasi pengunjung lain?">{{ old('body', $own?->body) }}</textarea>
       </label>
       <p class="acct-fine" style="margin-top:-6px">Minimal 30 karakter. Tanpa nomor HP atau link.</p>
+      <fieldset class="rv-photo-pick" x-data="reviewPhotos(@js($p['ownPhotos']), {{ $p['maxPhotos'] }})">
+        <legend>Foto (opsional) <span x-text="count + ' dari {{ $p['maxPhotos'] }}'">{{ count($p['ownPhotos']) }} dari {{ $p['maxPhotos'] }}</span></legend>
+        <div class="rv-photo-grid">
+          <template x-for="ph in existing" :key="'e' + ph.id">
+            <div class="rv-photo" x-show="!ph.removed">
+              <img :src="ph.thumb" alt="">
+              <button type="button" class="rv-photo-x" @click="ph.removed = true" aria-label="Hapus foto">×</button>
+              <template x-if="ph.removed"><input type="hidden" name="remove[]" :value="ph.id"></template>
+            </div>
+          </template>
+          <template x-for="(a, i) in added" :key="a.url">
+            <div class="rv-photo"><img :src="a.url" alt=""><button type="button" class="rv-photo-x" @click="drop(i)" aria-label="Hapus foto">×</button></div>
+          </template>
+          <template x-for="n in busy" :key="'b' + n"><div class="rv-photo rv-photo-busy">Memproses…</div></template>
+          <label class="rv-photo-add" x-show="count < {{ $p['maxPhotos'] }}">
+            <input type="file" class="sr" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple @change="pick($event)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Tambah foto
+          </label>
+        </div>
+        <input type="file" name="photos[]" multiple x-ref="files" hidden>
+        <p class="form-error" role="alert" x-show="error" x-text="error" x-cloak></p>
+        <p class="acct-fine">Foto dari acaramu di vendor ini: ruangan, dekorasi, makanan. JPG, PNG, WebP, atau foto langsung dari HP. Lokasi GPS di foto otomatis dihapus. Foto ikut dicek tim bersama ulasannya.</p>
+      </fieldset>
       <label class="rv-check"><input type="checkbox" name="used" value="1" @checked(old('used', $own ? 1 : 0))> Saya benar-benar memakai vendor ini untuk acara saya.</label>
       <button type="submit" class="btn btn-navy btn-block">{{ $own ? 'Kirim perubahan' : 'Kirim ulasan' }}</button>
     </form>

@@ -98,14 +98,70 @@ Alpine.store('saved', {
     },
 });
 
+// Foto ulasan dikecilkan di browser sebelum dikirim (maks. 2000 px, JPEG): unggahan dari HP jadi
+// cepat, dan metadata seperti lokasi GPS ikut terbuang. Server mengubahnya lagi jadi WebP.
+async function shrinkPhoto(file, max = 2000) {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * scale);
+    c.height = Math.round(bmp.height * scale);
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+    bmp.close?.();
+    const blob = await new Promise((ok) => c.toBlob(ok, 'image/jpeg', 0.86));
+    if (!blob) throw new Error('encode');
+    return new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' });
+}
+
+// Form ulasan: foto yang sudah ada (bisa dihapus) + foto baru (pratinjau, dikirim lewat input tersembunyi).
+Alpine.data('reviewPhotos', (existing, max) => ({
+    existing: existing.map((p) => ({ ...p, removed: false })),
+    added: [],
+    busy: 0,
+    error: '',
+    get count() {
+        return this.existing.filter((p) => !p.removed).length + this.added.length + this.busy;
+    },
+    async pick(e) {
+        this.error = '';
+        for (const file of [...e.target.files]) {
+            if (this.count >= max) {
+                this.error = 'Maksimal ' + max + ' foto per ulasan.';
+                break;
+            }
+            this.busy++;
+            try {
+                const small = await shrinkPhoto(file);
+                this.added.push({ url: URL.createObjectURL(small), file: small });
+            } catch (err) {
+                this.error = 'Foto "' + file.name + '" tidak bisa dibaca. Pakai JPG, PNG, atau WebP.';
+            }
+            this.busy--;
+        }
+        e.target.value = '';
+        this.sync();
+    },
+    drop(i) {
+        URL.revokeObjectURL(this.added[i].url);
+        this.added.splice(i, 1);
+        this.sync();
+    },
+    sync() {
+        const dt = new DataTransfer();
+        this.added.forEach((a) => dt.items.add(a.file));
+        this.$refs.files.files = dt.files;
+    },
+}));
+
 // Halaman vendor: daftar ulasan, disaring per jenis acara dan diurutkan di browser.
 Alpine.data('reviewList', (items) => ({
     items,
     occ: '',
+    withPhotos: false,
     sort: 'new',
     limit: 3,
     get filtered() {
-        const list = this.items.filter((r) => !this.occ || r.occ === this.occ);
+        const list = this.items.filter((r) => (!this.occ || r.occ === this.occ) && (!this.withPhotos || r.photos.length));
         const by = { new: (a, b) => b.at - a.at, high: (a, b) => b.rating - a.rating || b.at - a.at, low: (a, b) => a.rating - b.rating || b.at - a.at };
         return [...list].sort(by[this.sort]);
     },

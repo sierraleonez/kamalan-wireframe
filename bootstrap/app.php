@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo('/masuk');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Kiriman terlalu besar (mis. foto ulasan yang tidak sempat dikecilkan browser): kembali dengan pesan.
+        $exceptions->render(function (Illuminate\Http\Exceptions\PostTooLargeException $e, Illuminate\Http\Request $request) {
+            return back()->withErrors(['photos' => 'Fotonya terlalu besar. Coba kirim lebih sedikit foto sekaligus.']);
+        });
         // 404 memakai tata letak situs.
         $exceptions->render(function (Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, Illuminate\Http\Request $request) {
             if ($request->expectsJson() || $request->is('livewire/*')) {

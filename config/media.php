@@ -9,4 +9,9 @@ return [
     'vendor_sizes' => ['card' => 640, 'gallery' => 1280, 'full' => 2048],
 
     'vendor_max_photos' => 30,
+
+    // Foto di ulasan pengunjung: kecil untuk daftar, besar untuk penampil layar penuh.
+    'review_sizes' => ['thumb' => 400, 'full' => 1600],
+
+    'review_max_photos' => 5,
 ];

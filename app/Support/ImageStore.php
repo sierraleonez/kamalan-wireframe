@@ -90,6 +90,7 @@ final class ImageStore
             ->merge(Occasion::pluck('image'))
             ->merge(Category::pluck('image'))
             ->merge(VendorPhoto::all()->flatMap->files())
+            ->merge(\App\Models\ReviewPhoto::all()->flatMap->files())
             ->filter()->unique()->values();
     }
 

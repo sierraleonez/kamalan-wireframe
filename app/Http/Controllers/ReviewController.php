@@ -6,6 +6,11 @@ use App\Catalog\Catalog;
 use App\Catalog\Present as P;
 use App\Models\Occasion;
 use App\Models\Review;
+use App\Models\ReviewPhoto;
+use App\Support\ImageStore;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use RuntimeException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -47,6 +52,8 @@ class ReviewController extends Controller
             'occasions' => array_map(fn ($t) => ['slug' => $t, 'name' => Catalog::type($t)['name']], $v['types']),
             'months' => $months,
             'own' => $own,
+            'ownPhotos' => $own ? $own->photos->map(fn (ReviewPhoto $ph) => ['id' => $ph->id, 'thumb' => $ph->url('thumb')])->values()->all() : [],
+            'maxPhotos' => config('media.review_max_photos'),
             'name' => Review::displayName($request->user()->name),
         ]]);
     }
@@ -64,7 +71,14 @@ class ReviewController extends Controller
                 }
             }],
             'used' => ['accepted'],
+            'photos' => ['array'],
+            'photos.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:15360'],
+            'remove' => ['array'],
+            'remove.*' => ['integer'],
         ], [
+            'photos.*.image' => 'Salah satu file bukan foto.',
+            'photos.*.mimes' => 'Foto harus JPG, PNG, atau WebP.',
+            'photos.*.max' => 'Foto maksimal 15 MB.',
             'rating.required' => 'Pilih jumlah bintang.',
             'body.required' => 'Ceritakan pengalamanmu.',
             'body.min' => 'Ceritakan sedikit lebih banyak (minimal 30 karakter).',
@@ -75,7 +89,14 @@ class ReviewController extends Controller
             $month = null;
         }
 
-        Review::updateOrCreate(['vendor_id' => $v['id'], 'user_id' => $request->user()->id], [
+        $own = Review::where(['vendor_id' => $v['id'], 'user_id' => $request->user()->id])->first();
+        $keep = $own ? $own->photos->reject(fn ($p) => in_array($p->id, array_map('intval', $data['remove'] ?? []), true)) : collect();
+        $new = $request->file('photos', []);
+        if ($keep->count() + count($new) > config('media.review_max_photos')) {
+            throw ValidationException::withMessages(['photos' => 'Maksimal '.config('media.review_max_photos').' foto per ulasan.']);
+        }
+
+        $review = Review::updateOrCreate(['vendor_id' => $v['id'], 'user_id' => $request->user()->id], [
             'rating' => (int) $data['rating'],
             'occasion_id' => ! empty($data['occasion']) ? Occasion::where('slug', $data['occasion'])->value('id') : null,
             'event_month' => $month,
@@ -84,6 +105,21 @@ class ReviewController extends Controller
             'reject_reason' => null,
             'reviewed_at' => null,
         ]);
+
+        // Foto: yang dicentang hapus dibuang, yang baru dikecilkan jadi WebP (metadata/GPS ikut hilang).
+        if ($own) {
+            $own->photos->diff($keep)->each->delete();
+        }
+        $sort = (int) $keep->max('sort');
+        foreach ($new as $file) {
+            try {
+                $path = ImageStore::DIR.'/reviews/'.$review->id.'/'.Str::lower(Str::random(12));
+                $size = ImageStore::storeVariants($file->get(), $path, config('media.review_sizes'));
+                $review->photos()->create(['path' => $path, 'width' => $size['width'], 'height' => $size['height'], 'sort' => ++$sort]);
+            } catch (RuntimeException $e) {
+                return redirect('/ulasan/'.$v['slug'])->withErrors(['photos' => $e->getMessage()]);
+            }
+        }
 
         return redirect($this->back($v, $data['occasion'] ?? $request->input('jenis')))->with('review_sent', true);
     }

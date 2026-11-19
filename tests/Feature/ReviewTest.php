@@ -9,7 +9,9 @@ use App\Models\Review;
 use App\Models\User;
 use App\Models\Vendor;
 use Filament\Actions\Testing\TestAction;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -84,7 +86,7 @@ class ReviewTest extends TestCase
         $this->review(5, name: 'Dewi Lestari');
         $this->review(4);
         Catalog::flush();
-        $this->get(self::PAGE)->assertSee('2 ulasan')->assertSee('Rata-rata tampil setelah ada 3 ulasan')->assertSee('Dewi L.')->assertDontSee('Lestari');
+        $this->get(self::PAGE)->assertSee('2 ulasan')->assertSee('Rata-rata bintang tampil setelah ada 3 ulasan')->assertSee('Dewi L.')->assertDontSee('Lestari');
         $this->get('/wedding/venue')->assertDontSee('class="rate"', false);
 
         $this->review(4);
@@ -113,5 +115,72 @@ class ReviewTest extends TestCase
         $this->actingAs($other->user)->get(self::PAGE)->assertSee('tidak ditampilkan')->assertSee('Alasan: Berisi promosi.');
         // Visitor tidak bisa membuka admin ulasan.
         $this->get('/admin/ulasan')->assertForbidden();
+    }
+
+    public function test_reviews_take_up_to_five_photos_shown_only_after_approval(): void
+    {
+        Storage::fake('public');
+        $rina = User::factory()->visitor()->create(['name' => 'Rina Putri']);
+        $this->actingAs($rina)->get('/ulasan/ballroom-kebayoran')->assertSee('Tambah foto')->assertSee('enctype="multipart/form-data"', false);
+
+        $six = array_map(fn ($n) => UploadedFile::fake()->image("p$n.jpg", 1200, 900), range(1, 6));
+        $this->post('/ulasan/ballroom-kebayoran', ['rating' => 5, 'body' => self::BODY, 'used' => 1, 'photos' => $six])->assertSessionHasErrors('photos');
+        $this->post('/ulasan/ballroom-kebayoran', ['rating' => 5, 'body' => self::BODY, 'used' => 1, 'photos' => [UploadedFile::fake()->create('cv.pdf', 10, 'application/pdf')]])->assertSessionHasErrors('photos.0');
+
+        $this->post('/ulasan/ballroom-kebayoran', ['rating' => 5, 'body' => self::BODY, 'used' => 1, 'photos' => array_slice($six, 0, 3)])->assertRedirect();
+        $review = Review::first();
+        $this->assertCount(3, $review->photos);
+        $disk = Storage::disk('public');
+        foreach ($review->photos as $ph) {
+            $disk->assertExists($ph->files());
+            $this->assertSame(400, getimagesizefromstring($disk->get($ph->file('thumb')))[0]);
+        }
+
+        // Sebelum disetujui: hanya penulis yang melihat fotonya.
+        $this->get(self::PAGE)->assertSee($review->photos[0]->url('thumb'), false);
+        auth()->logout();
+        $this->get(self::PAGE)->assertDontSee($review->photos[0]->url('thumb'), false)->assertDontSee('Foto dari pengunjung');
+
+        $review->update(['status' => Review::APPROVED]);
+        Catalog::flush();
+        $this->get(self::PAGE)->assertSee('Foto dari pengunjung')->assertSee('3 foto dari 1 ulasan')
+            ->assertSee(basename($review->photos[0]->url('full')), false)->assertSee('aria-label="Foto dari pengunjung"', false);
+
+        // Mengubah: hapus satu, tambah tiga → maks. 5; lalu hapus ulasan → semua file hilang.
+        $first = $review->photos[0];
+        $this->actingAs($rina)->post('/ulasan/ballroom-kebayoran', ['rating' => 4, 'body' => self::BODY, 'used' => 1, 'remove' => [$first->id], 'photos' => array_slice($six, 3, 3)])->assertRedirect();
+        $review->refresh();
+        $this->assertCount(5, $review->photos);
+        $this->assertSame(Review::PENDING, $review->status);
+        $disk->assertMissing($first->files());
+        $this->artisan('media:prune')->expectsOutputToContain('0 file tidak dipakai')->assertSuccessful();
+
+        $files = $review->photos->flatMap->files()->all();
+        $this->post('/ulasan/ballroom-kebayoran/hapus');
+        $disk->assertMissing($files);
+    }
+
+    public function test_empty_state_invites_the_first_review(): void
+    {
+        $this->get(self::PAGE)->assertSee('Belum ada ulasan')->assertSee('Tulis ulasan pertama')
+            ->assertDontSee('rv-grid', false)->assertDontSee('class="rline"', false);
+    }
+
+    public function test_admin_sees_photos_and_removes_a_single_one(): void
+    {
+        Storage::fake('public');
+        $r = $this->review(5, Review::PENDING);
+        foreach ([1, 2] as $n) {
+            $path = 'content/reviews/'.$r->id.'/p'.$n;
+            \App\Support\ImageStore::storeVariants(UploadedFile::fake()->image("p$n.jpg", 800, 600)->get(), $path, config('media.review_sizes'));
+            $r->photos()->create(['path' => $path, 'width' => 800, 'height' => 600, 'sort' => $n]);
+        }
+        [$keep, $drop] = $r->photos;
+        $this->actingAs(User::factory()->create());
+        Livewire::test(ManageReviews::class)->assertCanSeeTableRecords([$r])
+            ->callAction(TestAction::make('photos')->table($r), ['ids' => [$drop->id]])->assertHasNoActionErrors();
+        $this->assertSame([$keep->id], $r->fresh()->photos->pluck('id')->all());
+        Storage::disk('public')->assertMissing($drop->files());
+        Storage::disk('public')->assertExists($keep->files());
     }
 }

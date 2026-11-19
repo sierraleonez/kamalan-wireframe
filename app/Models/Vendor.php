@@ -40,7 +40,10 @@ class Vendor extends Model
     protected static function booted(): void
     {
         // Hapus file foto di penyimpanan; baris DB-nya ikut terhapus lewat cascade.
-        static::deleting(fn (Vendor $v) => $v->vendorPhotos->each->delete());
+        static::deleting(function (Vendor $v) {
+            $v->vendorPhotos->each->delete();
+            $v->reviews->each->delete();   // foto ulasan ikut terhapus
+        });
 
         // Kode referral dibentuk dari kode kategori + id, sama seperti di prototipe (VNU-0104).
         static::created(function (Vendor $v) {

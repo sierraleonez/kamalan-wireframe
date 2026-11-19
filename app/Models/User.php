@@ -58,6 +58,12 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
+    protected static function booted(): void
+    {
+        // Hapus akun → ulasan (dan file fotonya) ikut terhapus lewat model.
+        static::deleting(fn (User $u) => $u->reviews->each->delete());
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->is_admin;

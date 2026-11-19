@@ -673,3 +673,38 @@ html:has(.viewer[open]){overflow:hidden}
 .rv-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .rv-check{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.45}
 .rv-check input{width:20px;height:20px;margin:0;flex:none}
+
+/* ulasan: foto, strip, dan keadaan kosong */
+.rv-empty{display:flex;flex-wrap:wrap;align-items:center;gap:20px 24px;margin-top:14px;padding:28px;border:1px dashed var(--line);border-radius:var(--r-xl);background:var(--band)}
+.rv-empty-ic{width:60px;height:60px;border-radius:50%;background:rgba(255,122,61,.12);display:grid;place-items:center;font-size:30px;flex:none}
+.rv-empty-tx{flex:999 1 320px}
+.rv-empty-tx h3{margin:0 0 6px;font-family:var(--serif);font-weight:400;font-size:22px}
+.rv-empty-tx p{margin:0;color:var(--text-2);max-width:60ch}
+.rv-empty-btn{flex:1 1 200px;max-width:280px;justify-content:center}
+@media(max-width:640px){.rv-empty{flex-direction:column;text-align:center;padding:24px 18px}.rv-empty-tx{flex:none}.rv-empty-btn{flex:none;align-self:stretch;max-width:none}}
+.rv-few{padding:14px;border-radius:var(--r-md);background:var(--tint);display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--text-2)}
+.rv-few b{font-size:15px;color:var(--text)}
+.rv-few-bar{display:flex;gap:6px;margin-top:4px}
+.rv-few-bar i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.rv-few-bar i.on{background:var(--orange)}
+.rv-strip{margin-top:14px}
+.rv-strip h3{margin:0 0 10px;font-size:15px;font-weight:600}
+.rv-strip h3 small{font-weight:400;color:var(--text-3);margin-left:6px}
+.rv-strip-row{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;max-width:640px}
+.rv-thumb{position:relative;display:block;aspect-ratio:1;border:0;padding:0;border-radius:10px;overflow:hidden;background:var(--tint);cursor:zoom-in}
+.rv-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.rv-thumb:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.rv-more{position:absolute;inset:0;background:rgba(2,16,36,.6);color:#fff;display:grid;place-items:center;font-weight:600}
+.rv-photos{display:flex;flex-wrap:wrap;gap:8px}
+.rv-photos .rv-thumb{width:88px}
+.rv-photo-pick{border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.rv-photo-pick legend{display:flex;width:100%;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);padding:0;margin-bottom:8px}
+.rv-photo-pick legend span{margin-left:auto;letter-spacing:0;text-transform:none}
+.rv-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.rv-photo{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--tint)}
+.rv-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.rv-photo-busy{display:grid;place-items:center;font-size:12px;color:var(--text-3)}
+.rv-photo-x{position:absolute;top:4px;right:4px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(9,9,11,.65);color:#fff;font-size:17px;cursor:pointer}
+.rv-photo-add{aspect-ratio:1;border:2px dashed var(--line);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px;color:var(--text-2);cursor:pointer;background:var(--band)}
+.rv-photo-add svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
+.rv-photo-add:has(input:focus-visible){outline:3px solid var(--navy);outline-offset:2px}
