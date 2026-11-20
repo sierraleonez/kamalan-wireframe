@@ -708,3 +708,24 @@ html:has(.viewer[open]){overflow:hidden}
 .rv-photo-add{aspect-ratio:1;border:2px dashed var(--line);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px;color:var(--text-2);cursor:pointer;background:var(--band)}
 .rv-photo-add svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
 .rv-photo-add:has(input:focus-visible){outline:3px solid var(--navy);outline-offset:2px}
+
+/* ---------- mode Segera hadir ---------- */
+.page-soon{min-height:100vh;display:flex;flex-direction:column}
+.soon-preview{margin:0;padding:10px 16px;background:var(--lime,#C9D63C);color:#022A5B;font-size:14px;text-align:center}
+.soon-preview a{text-decoration:underline}
+.soon{flex:1;display:grid;grid-template-columns:1fr;max-width:1180px;width:100%;margin:0 auto;padding:clamp(28px,6vw,72px) var(--pad);gap:clamp(28px,5vw,56px);align-items:center;box-sizing:border-box}
+@media(min-width:900px){.soon.has-photo{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}}
+.soon-copy{display:flex;flex-direction:column;gap:18px;max-width:560px}
+.soon-logo img{width:170px;height:auto}
+.soon h1{margin:8px 0 0;font-size:clamp(44px,7vw,76px);line-height:1}
+.soon .lead{margin:0;font-size:18px}
+.soon-launch{margin:0;display:flex;flex-direction:column;gap:2px;font-family:var(--serif);font-size:24px;color:var(--navy)}
+.soon-launch span{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3)}
+.soon-contact{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.soon-addr{flex-basis:100%;font-size:14px;color:var(--text-3);white-space:pre-line}
+.soon-art{border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3}
+@media(min-width:900px){.soon-art{aspect-ratio:11/10}}
+.soon-art img{width:100%;height:100%;object-fit:cover;display:block}
+/* Pita untuk admin: situs sedang tertutup untuk pengunjung. */
+.soon-admin-bar{margin:0;padding:8px 16px;background:var(--lime,#C9D63C);color:#022A5B;font-size:13.5px;text-align:center}
+.soon-admin-bar a{text-decoration:underline}

@@ -114,6 +114,13 @@ pengunjung" (rata-rata, sebaran bintang, saring per jenis acara, urutkan). Nama 
 sebagai WebP di penyimpanan media, tanpa metadata/GPS); foto dicek bersama ulasannya, tampil di bawah
 ulasan dan di strip "Foto dari pengunjung", dan bisa dihapus satu per satu oleh admin.
 
+### Mode Segera hadir
+
+Admin → Konten → **Segera hadir**: kalau aktif, semua halaman (juga alamat yang tidak ada) menampilkan
+satu layar pengumuman (judul, pesan, rencana buka, tombol kontak, foto hero) dengan `noindex`. Admin
+yang masuk tetap melihat situs biasa dengan pita pengingat, dan bisa melihat layarnya lewat
+`/?segera-hadir=1`. /admin selalu terbuka supaya mode ini bisa dimatikan lagi.
+
 ### Server (kamalan.eventaries.cloud)
 
 Caddy (HTTPS, file statis dari `public/`) → PHP-FPM pool `kamalan` (`/etc/php/8.4/fpm/pool.d/kamalan.conf`,

@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '127.0.0.1');
         // Halaman akun pengunjung yang butuh masuk mengarah ke /masuk (admin punya login sendiri).
         $middleware->redirectGuestsTo('/masuk');
+        // Mode Segera hadir (admin → Konten → Segera hadir).
+        $middleware->web(append: [App\Http\Middleware\ComingSoonGate::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Kiriman terlalu besar (mis. foto ulasan yang tidak sempat dikecilkan browser): kembali dengan pesan.
@@ -27,6 +29,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 return null;
             }
 
-            return response()->view('pages.not-found', ['p' => App\Catalog\Pages::notFound()], 404);
+            // Mode Segera hadir: alamat yang tidak ada juga menampilkan layar Segera hadir.
+            return App\Http\Middleware\ComingSoonGate::screenFor($request)
+                ?? response()->view('pages.not-found', ['p' => App\Catalog\Pages::notFound()], 404);
         });
     })->create();

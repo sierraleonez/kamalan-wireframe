@@ -43,6 +43,9 @@
 </head>
 <body class="page-{{ $p['page'] }}{{ !empty($p['mbar']) ? ' has-mbar' : '' }}">
 @php($path = '/'.ltrim(request()->path(), '/'))
+@if (\App\Support\ComingSoon::active() && auth()->user()?->is_admin)
+<p class="soon-admin-bar">Mode <b>Segera hadir</b> aktif: pengunjung hanya melihat layar pengumuman. <a href="?segera-hadir=1">Lihat layarnya</a> · <a href="/admin/segera-hadir">Atur</a></p>
+@endif
 <header class="nav">
   <div class="shell nav-in">
     <a class="brand brand-logo" href="/" wire:navigate aria-label="Kamalan Event Hub — beranda">

@@ -286,6 +286,7 @@ final class Catalog
             'home' => $home,
             'texts' => json_decode($settings['home.texts'] ?? '[]', true) ?: [],
             'contact' => SiteContact::fromSettings($settings),
+            'comingSoon' => \App\Support\ComingSoon::fromSettings($settings),
             'areas' => $areas,
             'types' => $types,
             'categories' => $cats,
